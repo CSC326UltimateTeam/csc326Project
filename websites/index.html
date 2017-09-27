@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MouZhiA</title>
+<!-- Load bootstrap and mouzhia style -->
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+     <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+     <link rel="stylesheet" href="../assets/css/MouZhiAStyle.css">
+
+  </head>
+  <body>
+    <div class="container-narrow">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+           <li><a href="index.php" class="lang" key="about">About</a></li>
+           <li><a href="manage.php" class="lang" key="account">Account</a></li>
+        </ul>
+        <h3 class="muted lang" key="productName">MouZhiA</h3>
+      </div>
+      <div class="jumbotron">
+        <img class="engineIcon" src="../assets/images/google.png" alt="">
+        <form class="" action="index.html" method="get">
+        <input type="text" name="keywords" value=""   class="searchBar">
+        </form>
+        <button class="btn btn-small btn-info lang" name="button" key="searchButton" onclick="queryHandler">Search</button>
+        <!--  <a class="btn btn-large btn-success lang" href="addques.php" key="addNewQuestion">Search</a>-->
+      </div>
+
+    </div>
+<hr>
+<div class="footer">
+  <p>&copy;
+    <span class="lang" key="copyRight">2017 CSC326UltimateTeam</span>
+  <span class="langsetting">
+    <span class="lang" key="languageText"> Language:</span>
+    <select id="changeLang" onchange="languageChange();">
+       <option  class="lang" value="en" key="langEnglish" >English</option>
+       <option class="lang" value="zh" key="langChinese">中文</option>
+    </select>
+  </span>
+  </p>
+</div>
+
+<!-- load all javascript from here -->
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/bootstrap-transition.js"></script>
+<script src="../assets/js/bootstrap-alert.js"></script>
+<script src="../assets/js/bootstrap-modal.js"></script>
+<script src="../assets/js/bootstrap-dropdown.js"></script>
+<script src="../assets/js/bootstrap-scrollspy.js"></script>
+<script src="../assets/js/bootstrap-tab.js"></script>
+<script src="../assets/js/bootstrap-tooltip.js"></script>
+<script src="../assets/js/bootstrap-popover.js"></script>
+<script src="../assets/js/bootstrap-button.js"></script>
+<script src="../assets/js/bootstrap-collapse.js"></script>
+<script src="../assets/js/bootstrap-carousel.js"></script>
+<script src="../assets/js/bootstrap-typeahead.js"></script>
+<script type="text/javascript" src="../assets/js/languageHandler.js"?v=1></script>
+<script type="text/javascript" src="../assets/js/cookieHandler.js"></script>
+
+  </body>
+</html>

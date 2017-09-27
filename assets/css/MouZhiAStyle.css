@@ -1,0 +1,88 @@
+ body {
+       padding-top: 20px;
+       padding-bottom: 40px;
+       }
+       /* Custom container */
+       .container-narrow {
+       margin: 0 auto;
+       max-width: 100%;
+       }
+       .container-narrow > hr {
+       margin: 30px 0;
+       }
+       /* Main marketing message and sign up button */
+       .jumbotron {
+       margin: 60px 0;
+       text-align: center;
+       }
+       .jumbotron h1 {
+       font-size: 72px;
+       line-height: 0.5;
+       }
+
+
+       .jumbotron .btn {
+       font-size: 21px;
+       padding: 14px 24px;
+       }
+       /* Supporting marketing content */
+       .marketing {
+       margin: 60px 0;
+       }
+       .marketing p + h4 {
+       margin-top: 28px;
+       }
+       .masthead {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eeeeee ;
+  display:block;
+  position:fixed;
+  background:#fff;
+  width:100%;
+  top:0;
+}
+
+.muted{
+  color: #999999;
+  margin-left: 10%;
+  margin-top: 23px;
+}
+ul.nav.nav-pills.pull-right {
+  margin-right: 10%;
+  margin-top: 29px;
+  margin-bottom: 0;
+}
+.jumbotron img.engineIcon {
+  margin-top: 120px;
+  margin-bottom: 30px;
+  width: 35%;
+}
+
+.marketing {
+  margin: 60px 0;
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+}
+.lead {
+  margin-bottom: 30px;
+}
+.footer {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+span.langsetting {
+  float: right;
+}
+
+.jumbotron .searchBar {
+  font-size: 30px;
+  font-weight: lighter;
+  font-family: Georgia;
+  margin-top: 20px;
+  margin-left:  32%;
+margin-right: 50%;
+  text-align: left;
+  width: 35%;
+  height: 30%;
+}
