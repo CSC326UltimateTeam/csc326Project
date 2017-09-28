@@ -24,14 +24,14 @@ var arrLang = {
 		'account': 'Account',
    'productName' : 'MouZhiA',
 	 'copyRight' : '2017 CSC326UltimateTeam',
-	 'languageText' : 'Language：'
+	 'languageText' : 'Language:'
 	},
 	'zh': {
 		'about': '关于',
 		'account': '账户',
 		'productName' : '冇知啊',
 		'copyRight' : '2017 CSC326终极小队',
-		 'languageText' : '语言：'
+		 'languageText' : '语言:'
 	}
 };
 
