@@ -17,7 +17,7 @@ def index() :
 def search() :
   inputString = request.query.get('keywords')
   return inputString
-  
+
 
 
 

@@ -23,13 +23,15 @@ var arrLang = {
 		'about': 'About',
 		'account': 'Account',
    'productName' : 'MouZhiA',
-	 'copyRight' : '2017 CSC326UltimateTeam'
+	 'copyRight' : '2017 CSC326UltimateTeam',
+	 'languageText' : 'Language：'
 	},
 	'zh': {
 		'about': '关于',
 		'account': '账户',
 		'productName' : '冇知啊',
-		'copyRight' : '2017 CSC326终极小队'
+		'copyRight' : '2017 CSC326终极小队',
+		 'languageText' : '语言：'
 	}
 };
 
@@ -59,7 +61,7 @@ function applyLanguage() {
 						.attr( 'value', '搜索' );
 				}
 			} );
-			
+
 		}
 /**
 if(document.getElementsByName("searchBar")[0] != undefined){
