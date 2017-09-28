@@ -1,4 +1,5 @@
 from bottle import route, run, template, static_file, request, redirect
+import operator
 searchHistory = {}
 
 @route('/static/<filename:path>')
@@ -16,24 +17,28 @@ def index() :
 
 @route('/searchAction' , method = 'GET')
 def search() :
-  dictionary = {}
-  inputString = request.query.get('keywords')
-  splitString = inputString.split()
-  #get search results
-  for word in splitString:
-      if word in dictionary:
-          dictionary[word] += 1
-      else:
-          dictionary[word] = 1
-#store keywords
-  for row in dictionary:
-        if row in searchHistory:
-            searchHistory[row] += dictionary[row]
+    dictionary = {}
+    inputString = request.query.get('keywords')
+    splitString = inputString.split()
+    #get search results
+    for word in splitString:
+        if word in dictionary:
+            dictionary[word] += 1
         else:
-            searchHistory[row] = 1
-  print(searchHistory)
-  return template('searchResult.tpl', dictionary = dictionary, keywords = inputString)
-
+            dictionary[word] = 1
+  #store keywords
+    for row in dictionary:
+          if row in searchHistory:
+              searchHistory[row] += dictionary[row]
+          else:
+              searchHistory[row] = 1
+    historyLen = len(searchHistory)
+    if(historyLen < 20):
+        sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
+    else:
+        sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
+    print sortedHistory
+    return template('searchResult.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory)
 
 
 
