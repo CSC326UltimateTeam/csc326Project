@@ -23,14 +23,12 @@ var arrLang = {
 		'about': 'About',
 		'account': 'Account',
    'productName' : 'MouZhiA',
-	 'searchButton' : 'Search',
 	 'copyRight' : '2017 CSC326UltimateTeam'
 	},
 	'zh': {
 		'about': '关于',
 		'account': '账户',
 		'productName' : '冇知啊',
-		'searchButton' : '搜索',
 		'copyRight' : '2017 CSC326终极小队'
 	}
 };
@@ -50,6 +48,19 @@ function applyLanguage() {
 				.text( arrLang[ language ][ $( this )
 					.attr( 'key' ) ] );
 		} );
+		if (document.getElementsByName("searchButton")[0]!=undefined) {
+			$('.searchButton')
+			.each( function() {
+				if ( language == 'en' ) {
+					$( this )
+						.attr( 'value', 'Search' );
+				} else {
+					$( this )
+						.attr( 'value', '搜索' );
+				}
+			} );
+			
+		}
 /**
 if(document.getElementsByName("searchBar")[0] != undefined){
 	$('.searchBar')
