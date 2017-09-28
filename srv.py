@@ -1,4 +1,4 @@
-from bottle import route, run, template, static_file
+from bottle import route, run, template, static_file, request
 
 @route('/static/<filename:path>')
 def send_static(filename) :
@@ -12,6 +12,13 @@ def index() :
 def index() :
     output = '<b> it works</b> !'
     return output
+
+@route('/searchAction' , method = 'GET')
+def search() :
+  inputString = request.query.get('keywords')
+  return inputString
+  
+
 
 
 run(host='localhost', port = 8080,  debug=True)

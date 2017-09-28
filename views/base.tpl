@@ -20,7 +20,7 @@
       </div>
       <div class="jumbotron">
         <img class="engineIcon" src="static/images/google.png" alt="">
-        <form class="" action="" method="get">
+        <form class="" action="/searchAction" method="GET">
         <input type="text" name="keywords" value=""   class="searchBar">
         <input type="submit" name="searchButton" value="Search" class="btn btn-primary searchButton">
         </form>
