@@ -20,6 +20,9 @@ def search() :
     dictionary = {}
     inputString = request.query.get('keywords')
     splitString = inputString.split()
+    if not splitString:
+        redirect('/')
+        pass
     #get search results
     for word in splitString:
         if word in dictionary:

@@ -20,7 +20,6 @@
        line-height: 0.5;
        }
 
-
        .jumbotron .btn {
        font-size: 21px;
        padding: 14px 24px;
@@ -85,4 +84,18 @@ margin-right: 50%;
   text-align: left;
   width: 35%;
   height: 30%;
+}
+
+.resultTables{
+  padding-top: 100px;
+
+}
+
+.searchResultSearchBar{
+  padding-left: 20%;
+margin-top: -3%;
+}
+
+.btnInSearchResultSearch{
+  padding-top: -5%;
 }
