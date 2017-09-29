@@ -43,6 +43,8 @@ def search() :
     print sortedHistory
     return template('searchResult.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory)
 
-
+@route('/about')
+def about( ):
+      template('about.tpl')
 
 run(host='localhost', port = 8080,  debug=True, reloader=True)
