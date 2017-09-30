@@ -45,6 +45,6 @@ def search() :
 
 @route('/about')
 def about( ):
-      template('about.tpl')
+      return template('about.tpl')
 
 run(host='localhost', port = 8080,  debug=True, reloader=True)
