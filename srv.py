@@ -1,5 +1,6 @@
 from bottle import route, run, template, static_file, request, redirect
 import operator
+from collections import OrderedDict
 searchHistory = {}
 
 @route('/static/<filename:path>')
@@ -17,30 +18,33 @@ def index() :
 
 @route('/searchAction' , method = 'GET')
 def search() :
-    dictionary = {}
+    dictionary = OrderedDict()
     inputString = request.query.get('keywords')
-    splitString = inputString.split()
+    tempString = inputString.lower()
+    splitString = tempString.split()
     if not splitString:
         redirect('/')
         pass
     #get search results
     for word in splitString:
+        print word
         if word in dictionary:
             dictionary[word] += 1
         else:
             dictionary[word] = 1
+    print dictionary
   #store keywords
     for row in dictionary:
           if row in searchHistory:
               searchHistory[row] += dictionary[row]
           else:
               searchHistory[row] = 1
+
     historyLen = len(searchHistory)
     if(historyLen < 20):
         sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
     else:
         sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
-    print sortedHistory
     return template('searchResult.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory)
 
 @route('/about')
