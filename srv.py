@@ -41,10 +41,13 @@ def search() :
               searchHistory[row] = 1
 
     historyLen = len(searchHistory)
+    temp = sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)
+    print temp
     if(historyLen < 20):
-        sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
+        sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
     else:
-        sortedHistory = dict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
+        sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
+    print sortedHistory
     return template('searchResult.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory)
 
 @route('/about')
