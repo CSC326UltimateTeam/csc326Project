@@ -14,7 +14,7 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
            <li><a href="/about" class="lang" key="about" >About</a></li>
-           <li><a href="manage.php" class="lang" key="account">Account</a></li>
+           <li><a href="" class="lang" key="account">Account</a></li>
         </ul>
         <h3 class="muted lang" key="productName">MouZhiA</h3>
       </div>
