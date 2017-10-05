@@ -44,13 +44,9 @@ class crawler(object):
     This crawler keeps track of font sizes and makes it simpler to manage word
     ids and document ids."""
 
-<<<<<<< HEAD
     def __init__(self, db_conn, url_file, verbose=True):
 
         self.verbose=verbose
-=======
-    def __init__(self, db_conn, url_file):
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
         """Initialize the crawler with a connection to the database to populate
         and with the file containing the list of seed URLs to begin indexing."""
         self._url_queue = []
@@ -128,7 +124,6 @@ class crawler(object):
             with open(url_file, 'r') as f:
                 for line in f:
                     self._url_queue.append((self._fix_url(line.strip(), ""), 0))
-<<<<<<< HEAD
         except IOError as er:
             print er
             pass
@@ -137,11 +132,6 @@ class crawler(object):
 
 
 
-=======
-        except IOError:
-            pass
-
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
     # TODO remove me in real version
     def _mock_insert_document(self, url):
         """A function that pretends to insert a url into a document db table
@@ -157,10 +147,7 @@ class crawler(object):
         ret_id = self._mock_next_word_id
         self._mock_next_word_id += 1
         return ret_id
-<<<<<<< HEAD
 
-=======
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
     def get_inverted_index(self):
 
         return self._word_id_mapped_to_doc_id
@@ -177,10 +164,7 @@ class crawler(object):
         else:
             self._word_mapped_to_url[word]=set()
             self._word_mapped_to_url[word].add(self._curr_url)
-<<<<<<< HEAD
 
-=======
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
         """Get the word id of some specific word."""
         if word in self._word_id_cache:
             return self._word_id_cache[word]
@@ -230,12 +214,8 @@ class crawler(object):
     def _visit_title(self, elem):
         """Called when visiting the <title> tag."""
         title_text = self._text_of(elem).strip()
-<<<<<<< HEAD
         if self.verbose:
             print "document title=" + repr(title_text)
-=======
-        print "document title=" + repr(title_text)
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
 
         # TODO update document title for document id self._curr_doc_id
 
@@ -265,7 +245,6 @@ class crawler(object):
 
         for word in self._curr_words:
             if word[0] in self._word_id_mapped_to_doc_id:
-<<<<<<< HEAD
 
                 self._word_id_mapped_to_doc_id[word[0]].add(self._curr_doc_id)
 
@@ -276,24 +255,6 @@ class crawler(object):
 
         if self.verbose:
             print "    num words=" + str(len(self._curr_words))
-=======
-                print "inserting: "
-                print word[0]
-                print self._curr_doc_id
-                print self._curr_url
-                self._word_id_mapped_to_doc_id[word[0]].add(self._curr_doc_id)
-
-            else:
-                print "creating: "
-                print word[0]
-                print self._curr_doc_id
-                print self._curr_url
-                self._word_id_mapped_to_doc_id[word[0]] = set()
-                self._word_id_mapped_to_doc_id[word[0]].add(self._curr_doc_id)
-
-
-        print "    num words=" + str(len(self._curr_words))
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
 
     def _increase_font_factor(self, factor):
         """Increade/decrease the current font size."""
@@ -407,19 +368,12 @@ class crawler(object):
                 self._curr_words = []
                 self._index_document(soup)
                 self._add_words_to_document()
-<<<<<<< HEAD
                 if self.verbose:
                     print "    url=" + repr(self._curr_url)
 
             except Exception as e:
                 if self.verbose:
                     print e
-=======
-                print "    url=" + repr(self._curr_url)
-
-            except Exception as e:
-                print e
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
                 pass
             finally:
                 if socket:
@@ -427,7 +381,6 @@ class crawler(object):
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     print "traversing all urls, the datagenerated will bw printed later"
     bot = crawler(None, "urls.txt", verbose=True)
     bot.crawl(depth=1)
@@ -442,36 +395,3 @@ if __name__ == "__main__":
     b=bot.get_resovled_inverted_index()
     print "resolved inverted index:\n"
     print b
-=======
-    bot = crawler(None, "urls.txt")
-    bot.crawl(depth=1)
-    a= bot.get_inverted_index()
-    output = list(a[1])
-    output.sort()
-
-
-    print "the websites following google:"
-    print str(output) + " with size: " + str(len(a[1]))
-
-    print "the lins following google"
-    b = bot.get_resovled_inverted_index()
-    print str(b['google']) + " with size: " + str(len(b['google' ]))
-
-
-    print "the id's retrived from these urls: "
-    result = list()
-    for i in b['google']:
-        print str(bot._doc_id_cache[unicode(i)] ) + ' ',
-        result.append(bot._doc_id_cache[unicode(i)])
-    result.sort()
-    print "\nresult sorted:"
-    print result
-
-
-
-
-    #print bot.get_resovled_inverted_index()['google']
-
-    #print bot._word_id_cache
-    #print bot._doc_id_cache
->>>>>>> 84bab0db80b899cc774b3e427df39343efab9b38
