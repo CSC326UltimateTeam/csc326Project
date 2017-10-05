@@ -14,6 +14,16 @@ Then initialize the server with
 
 python srv.py
 
+after server is successfully run, open any browser at localhost:8080 to visit site
+
+
 To test the functionality of the backend, run
 
 python2.7 test_backend.py
+
+options can be imposed on testing, to enable verbose, test with
+
+from test_backend import backend_test
+backend_test('you-test-urls-txt', verbose=True)
+
+review the messages to examin the test results
