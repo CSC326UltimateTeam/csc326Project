@@ -19,7 +19,7 @@
   <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
   <form class="searchResultSearchBar " action="/" method="GET">
     <input type="text" name="keywords" value="{{keywords}}">
-    <input type="submit" name="searchButton" value="Search" class="searchButton btn btn-primary btnInSearchResultSearch ">
+    <input type="submit" id="searchButton"  value="Search" class="searchButton btn btn-primary btnInSearchResultSearch ">
   </form>
 </div>
 </div>
