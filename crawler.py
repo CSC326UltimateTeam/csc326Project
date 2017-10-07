@@ -25,6 +25,8 @@ from collections import defaultdict
 import re
 
 
+#This is the modified verion of the crawler done by 3 students from csc326
+
 def attr(elem, attr):
     """An html attribute from an html element. E.g. <a href="">, then
     attr(elem, "href") will get the href or an empty string."""
@@ -36,6 +38,36 @@ def attr(elem, attr):
 
 WORD_SEPARATORS = re.compile(r'\s|\n|\r|\t|[^a-zA-Z0-9\-_]')
 
+#this object stores all the information that may be useful for further development
+
+class webpage (object):
+
+	def __init__(self):
+		self.url=None
+		self.doc_id=None
+		self.webtitle=''
+		self.description=''
+		self.from_list=set()
+		self.to_list=set()
+
+	def __init__ (self, id, url, title, description, parent, children):
+		self.url=url
+		self.doc_id=id
+		self.webtitle=title
+		self.description=description
+		self.from_list=set([parent,])
+		self.to_list=set([children,])
+
+	def insert_children(self, child):
+		self.to_list.add(child)
+
+	def insert_parent(self, parent):
+		self.from_list.add(parent)
+
+	def calc_rank(self):
+		raise NotImplementedError
+
+
 
 class crawler(object):
     """Represents 'Googlebot'. Populates a database by crawling and indexing
@@ -44,6 +76,7 @@ class crawler(object):
     This crawler keeps track of font sizes and makes it simpler to manage word
     ids and document ids."""
 
+    #added the option of verbose, the print statements are sometimes to annoying
     def __init__(self, db_conn, url_file, verbose=True):
 
         self.verbose=verbose
@@ -52,8 +85,12 @@ class crawler(object):
         self._url_queue = []
         self._doc_id_cache = {}
         self._word_id_cache = {}
+       
+        #these are the dictionaries for get_inverted_index()
+        #and get_resolved_inverted_index()
         self._word_id_mapped_to_doc_id = {}
         self._word_mapped_to_url = {}
+        self.webpage_dict={}
 
 
         # functions to call when entering and exiting specific tags
@@ -148,6 +185,7 @@ class crawler(object):
         self._mock_next_word_id += 1
         return ret_id
 
+       #newly added funtion to return the new hash tables 
     def get_inverted_index(self):
 
         return self._word_id_mapped_to_doc_id
@@ -158,6 +196,9 @@ class crawler(object):
 
 
     def word_id(self, word):
+
+    	#when the crawler is going thrugh the words and iding them, also push the words and urls to 
+    	#a dictionary 
 
         if word in self._word_mapped_to_url:
             self._word_mapped_to_url[word].add(self._curr_url)
@@ -190,6 +231,9 @@ class crawler(object):
         #       the rest to their defaults.
 
         doc_id = self._mock_insert_document(url)
+
+        self.webpage_dict[doc_id]=webpage(doc_id,url, '','',None,None)
+
         self._doc_id_cache[url] = doc_id
         return doc_id
 
@@ -214,6 +258,7 @@ class crawler(object):
     def _visit_title(self, elem):
         """Called when visiting the <title> tag."""
         title_text = self._text_of(elem).strip()
+        self.webpage_dict[self._curr_doc_id].webtitle=title_text
         if self.verbose:
             print "document title=" + repr(title_text)
 
@@ -242,6 +287,11 @@ class crawler(object):
         # TODO: knowing self._curr_doc_id and the list of all words and their
         #       font sizes (in self._curr_words), add all the words into the
         #       database for this document
+        
+
+        #in cur_words, each element is the word_id and the font size, 
+        #the font size is not of particular interest in this lab, 
+        #so only word[0] is used to created the dictionary 
 
         for word in self._curr_words:
             if word[0] in self._word_id_mapped_to_doc_id:
