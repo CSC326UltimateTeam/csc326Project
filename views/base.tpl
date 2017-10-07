@@ -22,7 +22,7 @@
         <img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">
         <form class="" action="/" method="GET">
         <input type="text" name="keywords" value=""   class="searchBar">
-        <input type="submit" name="searchButton" value="Search" class="btn btn-primary searchButton">
+        <input type="submit" id="searchButton" value="Search" class="btn btn-primary searchButton">
         </form>
         <!--<button class="btn btn-small btn-info lang" name="button" key="searchButton" onclick="queryHandler">Search</button>-->
         <!--  <a class="btn btn-large btn-success lang" href="addques.php" key="addNewQuestion">Search</a>-->
@@ -55,7 +55,7 @@
 <script src="/static/js/bootstrap-popover.js"></script>
 <script src="/static/js/bootstrap-button.js"></script>
 <script src="/static/js/bootstrap-collapse.js"></script>
-<script src="/static/js/bootstrap-carousel.jss"></script>
+<script src="/static/js/bootstrap-carousel.js"></script>
 <script src="/static/js/bootstrap-typeahead.js"></script>
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>

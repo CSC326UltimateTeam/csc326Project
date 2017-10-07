@@ -99,7 +99,7 @@
 <div class="contact-main">
       <blockquote class="pull-right lang" name="demonstration">
         Constantly strive for perfection.<br>
-      --Producer: CSC326UltimateTeam
+      --CSC326UltimateTeam
       </blockquote>
 
 <a  href="mailto:feirantonyfigo.hu@gmail.com"><button class="btn btn-large btn-block btn-primary lang" type="button" key="email">email us</button></a>
@@ -133,7 +133,7 @@
 <script src="/static/js/bootstrap-popover.js"></script>
 <script src="/static/js/bootstrap-button.js"></script>
 <script src="/static/js/bootstrap-collapse.js"></script>
-<script src="/static/js/bootstrap-carousel.jss"></script>
+<script src="/static/js/bootstrap-carousel.js"></script>
 <script src="/static/js/bootstrap-typeahead.js"></script>
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>

@@ -55,19 +55,17 @@ function applyLanguage() {
 					.attr( 'key' ) ] );
 		} );
 		//change value of search button (english or chinese)
-		if (document.getElementsByName("searchButton")[0]!=undefined) {
-			$('.searchButton')
-			.each( function() {
-				if ( language == 'en' ) {
-					$( this )
-						.attr( 'value', 'Search' );
-				} else {
-					$( this )
-						.attr( 'value', '搜索' );
-				}
-			} );
+ $('.searchButton')
+ .each( function() {
+	 if ( language == 'en' ) {
+		 $( this )
+			 .attr( 'value', 'Search' );
+	 } else {
+		 $( this )
+			 .attr( 'value', '搜索' );
+	 }
+ } );
 
-		}
 }
 
 //function to change language in language select box
