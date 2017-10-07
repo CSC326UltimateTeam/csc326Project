@@ -1,23 +1,26 @@
-var language;
 
+var language;
+//load language from cookie
 function loadLanguage() {
 	language = getLanguage();
-	console.log( language );
+	//if language not set, set it to english
 	if ( language != 'en' && language != "zh" ) {
 		language = 'en';
 	}
-	console.log( language );
+	//apply language
 	applyLanguage();
 }
 
+//use cookie to save language
 function saveLanguage( language ) {
 	eraseCookie( "language" );
 	createCookie( "language", language, 180 );
 }
-
+//read language from cookie
 function getLanguage() {
 	return readCookie( "language" );
 }
+//dictionary for language replacement
 var arrLang = {
 	'en': {
 		'about': 'About',
@@ -34,9 +37,9 @@ var arrLang = {
 		 'languageText' : '语言:'
 	}
 };
-
+//function to apply language
 function applyLanguage() {
-	//change select box
+	//change language select box option
 	if ( language == "en" ) {
 		document.getElementById( "changeLang" )
 			.selectedIndex = 0;
@@ -44,12 +47,14 @@ function applyLanguage() {
 		document.getElementById( "changeLang" )
 			.selectedIndex = 1;
 	}
+	//jquery to replace words corresponding to arrLang regarding current language
 	$( '.lang' )
 		.each( function() {
 			$( this )
 				.text( arrLang[ language ][ $( this )
 					.attr( 'key' ) ] );
 		} );
+		//change value of search button (english or chinese)
 		if (document.getElementsByName("searchButton")[0]!=undefined) {
 			$('.searchButton')
 			.each( function() {
@@ -63,27 +68,17 @@ function applyLanguage() {
 			} );
 
 		}
-/**
-if(document.getElementsByName("searchBar")[0] != undefined){
-	$('.searchBar')
-	.each( function() {
-		if ( language == 'en' ) {
-			$( this )
-				.attr( 'placeholder', 'Enter Keywords' );
-		} else {
-			$( this )
-				.attr( 'placeholder', '请输入关键词' );
-		}
-	} );
-}**/
 }
 
-
+//function to change language in language select box
 function languageChange() {
+//get selected value from selection box
 	var selected_value = document.getElementById( 'changeLang' )
 		.value;
 	language = selected_value;
+	//save language
 	saveLanguage( language );
 	console.log( language );
+	//apply language
 	applyLanguage();
 }

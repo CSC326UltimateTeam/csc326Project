@@ -1,4 +1,4 @@
-%#template to generate about page
+%#about page
 
 <!DOCTYPE html>
 <html>
