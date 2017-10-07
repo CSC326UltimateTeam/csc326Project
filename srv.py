@@ -51,49 +51,12 @@ def index() :
 
 
 
-
 #route for testing
 @route('/test')
 def index() :
     output = '<b> it works</b> !'
     return output
-#route to display query result
-@route('/searchAction' , method = 'GET')
-def search() :
-    #dictionary used to record keywords and number of appearance
-    dictionary = OrderedDict()
-    inputString = request.query.get('keywords')
-    tempString = inputString.lower()
-    #get rid of space
-    splitString = tempString.split()
-    #if splitString is empty (i.e. input string only consists of space or is empty), redirect route to root
-    if not splitString:
-        redirect('/')
-        pass
-    #parse query string
-    for word in splitString:
-        #if word already exits in dictionary, add one to its appearance
-        if word in dictionary:
-            dictionary[word] += 1
-        else:
-        #if word doesn't exist in dictionary, set one as its appearance
-            dictionary[word] = 1
-    print dictionary
-  #store keywords in search history
-    for row in dictionary:
-          if row in searchHistory:
-              searchHistory[row] += dictionary[row]
-          else:
-              searchHistory[row] = 1
-#get length of history
-    historyLen = len(searchHistory)
-#if history length is less than 20, display all result in greatest first order
-    if(historyLen < 20):
-        sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
-    else:
-    #else display top 20 keywords in greatest first order
-        sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
-    return template('searchResult.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory)
+
 
 #route for about page
 @route('/about')
