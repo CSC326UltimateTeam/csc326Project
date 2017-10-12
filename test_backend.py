@@ -6,7 +6,7 @@ import time
 
 class backend_test (object):
 
-    #initialization requries a file to be inputed, if there are exceptions throw in 
+    #initialization requries a file to be inputed, if there are exceptions throw in
     #creating the class, the initialization will fail as well
     def __init__(self, urlfile, verbose=True):
 
@@ -23,7 +23,7 @@ class backend_test (object):
 
         #this class tests the proper funtionality of the crawler's "crawl" function
         #if the data stored in the database have inconsistent lengths, the crawler test
-        #will fail, since there are data missing or repeated 
+        #will fail, since there are data missing or repeated
 
     def test_crawl(self, depth=1):
         print "testing crawler"
@@ -51,9 +51,9 @@ class backend_test (object):
         print "test: crawler passed\n"
 
 
-        #tests the validity of the data, see if the data at different dictionaries 
+        #tests the validity of the data, see if the data at different dictionaries
         #match with each other
-        #this is assuming the data in word_id_cache and doc_id_cache are correct, 
+        #this is assuming the data in word_id_cache and doc_id_cache are correct,
         #and other dictionaries are tested against the 2 above
 
     def test_inverted_index_validity(self):
@@ -83,10 +83,10 @@ class backend_test (object):
 
                     #get the id of the corresponding wword
                     id=self.test_crawler._word_id_cache[actual_word]
-                    
+
                     if self.verbose:
                         print "running validity test on word: " + str(actual_word)+ " with ID: " +str(id)
-                    
+
                     #from the id provided, get the list of url ids corrsponding to that id, from the dict (inverted index) we generated
                     url_ids = list(inverted_index[id])
                     url_ids.sort()
@@ -94,7 +94,7 @@ class backend_test (object):
                     #similarly, for each word strong, get the list of unicode urls from the dict (resolved inverted index) we generated
                     url_strings = inverted_words[actual_word]
 
-                    
+
                     num_urlId=len(url_ids)
                     num_urlString=len(url_strings)
 
@@ -111,7 +111,7 @@ class backend_test (object):
                         numtests+=1
                         continue
 
-                    #aquires the list of url id's from the doc id cache, by providing the actual urls we got from the 
+                    #aquires the list of url id's from the doc id cache, by providing the actual urls we got from the
                     #resolved inverted index
                     retrived_url_ids_from_cache = [self.test_crawler._doc_id_cache[url] for url in url_strings]
                     retrived_url_ids_from_cache.sort()
@@ -159,7 +159,3 @@ class backend_test (object):
 if __name__ == '__main__':
     a=backend_test('/Users/Nix/Desktop/CSC326/csc326Project/urls.txt', verbose=False)
     a.test_all()
-
-
-
-

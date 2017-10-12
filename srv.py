@@ -1,6 +1,10 @@
 from bottle import route, run, template, static_file, request, redirect
 import operator
 from collections import OrderedDict
+from oauth2client.client import OAuth2WebServerFlow
+from oauth2client.client import flow_from_clientsecrets
+from googleapiclient.errors import HttpError
+from googleapiclient.discovery import build
 searchHistory = {}
 
 #this lab has implemented bootstrap api (i.e. bootstrap css and bottstrap js) and jquery
@@ -12,6 +16,13 @@ def send_static(filename) :
 #root route "/"
 @route('/', method = 'GET' )
 def index() :
+    #google sign in
+    flow = flow_from_clientsecrets("client_secret_768721561947-cda1s6rph24pem3t6h4pa3e4016ua9rk.apps.googleusercontent.com.json",
+    scope= 'https://www.googleapis.com/auth/plus.mehttps://www.googleapis.com/auth/userinfo.email',
+    redirect_uri="http://localhost:8080/")
+    uri = flow.step1_get_authorize_url()
+    redirect(str(uri))
+    ####
     #dictionary used to record keywords and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
