@@ -18,7 +18,7 @@ def send_static(filename) :
 def index() :
     #google sign in
     flow = flow_from_clientsecrets("client_secret_768721561947-cda1s6rph24pem3t6h4pa3e4016ua9rk.apps.googleusercontent.com.json",
-    scope= 'https://www.googleapis.com/auth/plus.mehttps://www.googleapis.com/auth/userinfo.email',
+    scope= 'https://www.googleapis.com/auth/userinfo.email',
     redirect_uri="http://localhost:8080/")
     uri = flow.step1_get_authorize_url()
     redirect(str(uri))
