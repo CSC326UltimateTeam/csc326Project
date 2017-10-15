@@ -8,8 +8,11 @@ from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from beaker.middleware import SessionMiddleware
 import httplib2
+import os
 searchHistory = {}
 lastCode = ""
+category = 0
+lastRouteTrack = ""
 
 session_opts = {
     'session.type': 'file',
@@ -56,9 +59,9 @@ def index() :
     #print s
     logInStatus =  s.get('logInStatus',0)
     LogInOffHtml= ''
-    userInforHtml = ''
-    userInfoHtml = ''
-
+    changePhotoHtml = ''
+    userInfoHtml = '<div class="userInfo"><li style="font-size: 20px; font-weight: bold;"> Hi Stranger!</li></div>'
+    userImage = "static/images/anonymous.png"
     #s['']
 
     #if not logged in
@@ -67,13 +70,17 @@ def index() :
         accountName = 'Sign In'
         mode = 'Anonymous'
         s['mode'] = mode
-        LogInOffHtml = '<li><a href="/account" class="lang btn-default btn btn-default" key="account"> Log In With Google </a></li>'
+        LogInOffHtml = '<li class="divider"></li><li><a href="/account" class="lang btn-default btn btn-default" key="account"> Log In With Google </a></li>'
         s.save()
     else:
         user_document = s['userDocument']
         accountName = user_document['name']
         accountEmail = user_document['email']
-        userInfoHtml = '<li>' + accountEmail + '</li> <li class="divider"></li>'
+        userImage = user_document['picture']
+        print "user document photo is "
+        print user_document['picture']
+        changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
+        userInfoHtml = '<li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li>'
         LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
 
   #process google login in
@@ -103,21 +110,23 @@ def index() :
         mode = 'Signed-In'
         s['mode'] = mode
         s['userDocument'] = user_document
+        userImage = user_document['picture']
+        changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
         LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
-        userInfoHtml = '<li >' + accountEmail + '</li> <li class="divider"></li>'
+        userInfoHtml = '<li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li>'
         s.save()
 
     #dictionary used to record keywordsS and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
     if not inputString:
-        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
+        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
     tempString = inputString.lower()
     #get rid of space
     splitString = tempString.split()
     #if splitString is empty (i.e. input string only consists of space or is empty), redirect route to root
     if not splitString:
-       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
+       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
        pass
     #parse query string
     for word in splitString:
@@ -143,9 +152,9 @@ def index() :
     #else display top 20 keywords in greatest first order
         sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
     if s['mode'] == 'Signed-In':
-        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
+        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml )
     else:
-        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
+        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
 
 @route('/signOut')
 def signOut( ):
@@ -156,6 +165,27 @@ def signOut( ):
     redirect('/')
 
 
+#route for profilePhoto
+@route('/changeProfilePhoto', method='POST')
+def changeProfilePhoto( ):
+    global category
+    upload = request.files.get("profilePhoto")
+    name, ext = os.path.splitext(upload.filename)
+    save_path = "static/tmp"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    print upload.filename
+    file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
+    upload.save(file_path, overwrite = True)
+    print "path is "
+    print file_path
+    s = bottle.request.environ.get('beaker.session')
+    user_document = s['userDocument']
+    user_document["picture"] = file_path
+    print "picture after change phto"
+    s.save()
+    redirect('/')
+
 
 
 #route for about page
@@ -164,20 +194,24 @@ def about( ):
     #check whether logged in
     s = bottle.request.environ.get('beaker.session')
     LogInOffHtml = ""
-    userInforHtml = ''
+    changePhotoHtml = ''
+    userInfoHtml ='<div class="userInfo"><li style="font-size: 20px; font-weight: bold;"> Hi Stranger!</li></div>'
+    userImage = "static/images/anonymous.png"
     logInStatus =  s.get('logInStatus',0)
     if logInStatus != 'loggedIn':
         accountName = 'Sign In'
         s['mode'] = 'Anonymous'
-        LogInOffHtml = '<li><a href="/account" class="lang btn btn-default" key="account"> Log In With Google </a></li>'
+        LogInOffHtml = '<li class="divider"></li><li><a href="/account" class="lang btn btn-default" key="account"> Log In With Google </a></li>'
         s.save()
     else:
         user_document = s['userDocument']
         accountName = user_document['name']
         accountEmail = user_document['email']
-        userInfoHtml = '<li>' + accountEmail + '</li> <li class="divider"></li>'
+        userInfoHtml = '<div class="userInfo"><li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li></div>'
         LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
-    return template('about.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml , userInfoHtml = userInfoHtml)
+        changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
+        userImage = user_document['picture']
+    return template('about.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml , userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml=changePhotoHtml)
 
 
 run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)

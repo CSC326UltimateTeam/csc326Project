@@ -106,3 +106,27 @@ margin-top: -3%;
 .btnInSearchResultSearch{
   padding-top: -5%;
 }
+
+.profilePhoto{
+  margin-top: 10%;
+  margin-bottom: 0px;
+  width: 40%;
+  height: 40%;
+}
+
+.rounded {
+    height: 100px;
+    width: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    background:center no-repeat;
+    background-size:cover;
+}
+
+.image-upload > input
+{
+    display: none;
+}

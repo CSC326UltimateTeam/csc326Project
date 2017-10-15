@@ -7,6 +7,7 @@
     <title>AboutUs</title>
     <link href="/static/css/bootstrap.css" rel="stylesheet">
      <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+     <link  rel="stylesheet" href="/static/css/MouZhiAStyle.css">
      <style type="text/css">
        body {
          padding-top: 20px;
@@ -91,7 +92,17 @@
        <li class="active"><a href="/about" class="lang" key="about">About</a></li>
        <li class="dropdown">
           <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
-          <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 250px; margin-left:-100px;">
+          <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; margin-left:-120px; text-align:center;font-size:13px;">
+            <div class="image-upload">
+            <label for="file-input">
+            <img class="profilePhoto rounded" src={{userImage}} alt="">
+             </label>
+             <form class="changeProfilePhoto" action="/changeProfilePhoto" method="POST" enctype="multipart/form-data">
+                  {{!changePhotoHtml}}
+             </form>
+
+              </div>
+            <br>
                {{!userInfoHtml}}
                {{!LogInOffHtml}}
               <!--li><a href="/account" class="lang" key="account"> Log In With Google </a></li>-->
