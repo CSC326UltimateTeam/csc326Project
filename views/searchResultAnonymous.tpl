@@ -13,8 +13,9 @@
 <div class="container-narrow">
 <div class="masthead">
   <ul class="nav nav-pills pull-right">
-     <li><a href="\about" class="lang" key="about">About</a></li>
-     <li><a href="" class="lang" key="account">Account</a></li>
+     <li><a href="/about" class="lang" key="about">About</a></li>
+     <li><a href="/account" class="lang" key="account">{{accountText}}</a></li>
+     {{!signOutHtml}}
   </ul>
   <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
   <form class="searchResultSearchBar " action="/" method="GET">
@@ -38,22 +39,6 @@
         </tr>
       %end
       </table>
-
-      <p>Top 20 Keywords in History</p>
-      <table id="history" class="table table-striped">
-        <tr>
-          <th>Word</th>
-          <th>Count</th>
-        </tr>
-      %for item in history:
-         <tr>
-           <td>{{item}}</td>
-           <td>{{history[item]}}</td>
-         </tr>
-      %end
-      </table>
-
-
       </div>
      <hr>
       <div class="footer">

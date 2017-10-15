@@ -14,7 +14,8 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
            <li><a href="/about" class="lang" key="about" >About</a></li>
-           <li><a href="" class="lang" key="account">Account</a></li>
+           <li><a href="/account" class="lang" key="account"> {{accountText}} </a></li>
+           {{!signOutHtml}}
         </ul>
         <h3 class="muted lang" key="productName">MouZhiA</h3>
       </div>
@@ -42,7 +43,6 @@
   </span>
   </p>
 </div>
-
 <!-- load all javascript from here -->
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/bootstrap-transition.js"></script>

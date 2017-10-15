@@ -89,7 +89,8 @@
   <div class="masthead">
     <ul class="nav nav-pills pull-right">
        <li class="active"><a href="/about" class="lang" key="about">About</a></li>
-       <li><a href="" class="lang" key="account">Account</a></li>
+       <li><a href="/account" class="lang" key="account">{{accountText}}</a></li>
+       {{!signOutHtml}}
     </ul>
     <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
   </div>

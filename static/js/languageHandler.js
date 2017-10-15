@@ -24,14 +24,12 @@ function getLanguage() {
 var arrLang = {
 	'en': {
 		'about': 'About',
-		'account': 'Account',
    'productName' : 'MouZhiA',
 	 'copyRight' : '2017 CSC326UltimateTeam',
 	 'languageText' : 'Language:'
 	},
 	'zh': {
 		'about': '关于',
-		'account': '账户',
 		'productName' : '冇知啊',
 		'copyRight' : '2017 CSC326终极小队',
 		 'languageText' : '语言:'
