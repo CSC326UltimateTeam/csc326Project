@@ -10,6 +10,7 @@ from beaker.middleware import SessionMiddleware
 import httplib2
 import os
 searchHistory = {}
+recentSearchList = []
 lastCode = ""
 category = 0
 lastRouteTrack = ""
@@ -130,6 +131,7 @@ def index() :
        pass
     #parse query string
     for word in splitString:
+        recentSearchList.append(word)
         #if word already exits in dictionary, add one to its appearance
         if word in dictionary:
             dictionary[word] += 1
@@ -137,6 +139,8 @@ def index() :
         #if word doesn't exist in dictionary, set one as its appearance
             dictionary[word] = 1
     print dictionary
+    print "recent search list:"
+    print recentSearchList
   #store keywords in search history
     for row in dictionary:
           if row in searchHistory:
@@ -151,8 +155,14 @@ def index() :
     else:
     #else display top 20 keywords in greatest first order
         sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
+    #now for recent search keywords
+    reversedRecentSearch = recentSearchList[::-1]
+    if len(reversedRecentSearch) < 15:
+        mostRecentSearch = reversedRecentSearch
+    else:
+        mostRecentSearch = reversedRecentSearch[:15]
     if s['mode'] == 'Signed-In':
-        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml )
+        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch )
     else:
         return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
 

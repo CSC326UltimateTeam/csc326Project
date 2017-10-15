@@ -59,7 +59,7 @@
 
 
       <p>Top 20 Keywords in History</p>
-      <table id="history" class="table table-striped" type='hidden'>
+      <table id="history" class="table table-striped">
         <tr>
           <th>Word</th>
           <th>Count</th>
@@ -72,6 +72,17 @@
       %end
       </table>
 
+      <p>Most Recent Search</p>
+      <table id="recent search" class="table table-striped" >
+        <tr>
+          <th>Word</th>
+        </tr>
+        %for item in mostRecentSearch:
+        <tr>
+          <td>{{item}}</td>
+        </tr>
+        %end
+      </table>
 
       </div>
      <hr>
