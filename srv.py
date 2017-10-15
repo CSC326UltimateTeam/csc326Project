@@ -55,7 +55,9 @@ def index() :
     s = bottle.request.environ.get('beaker.session')
     #print s
     logInStatus =  s.get('logInStatus',0)
-    signOutHtml= ""
+    LogInOffHtml= ''
+    userInforHtml = ''
+    userInfoHtml = ''
 
     #s['']
 
@@ -65,12 +67,14 @@ def index() :
         accountName = 'Sign In'
         mode = 'Anonymous'
         s['mode'] = mode
+        LogInOffHtml = '<li><a href="/account" class="lang btn-default btn btn-default" key="account"> Log In With Google </a></li>'
         s.save()
     else:
         user_document = s['userDocument']
         accountName = user_document['name']
         accountEmail = user_document['email']
-        signOutHtml = '<li><a href="/signOut" class="lang" key="account" > Sign Out </a></li>'
+        userInfoHtml = '<li>' + accountEmail + '</li> <li class="divider"></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
 
   #process google login in
     code = request.query.get('code', '')
@@ -89,6 +93,7 @@ def index() :
         # Get user email
         users_service = build('oauth2', 'v2', http=http)
         user_document = users_service.userinfo().get().execute()
+        print user_document
         #user_email = user_document['email']
         #print user_emailss
         accountName = user_document['name']
@@ -98,20 +103,21 @@ def index() :
         mode = 'Signed-In'
         s['mode'] = mode
         s['userDocument'] = user_document
-        signOutHtml = '<li><a href="/signOut" class="lang" key="account" > Sign Out </a></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
+        userInfoHtml = '<li >' + accountEmail + '</li> <li class="divider"></li>'
         s.save()
 
     #dictionary used to record keywordsS and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
     if not inputString:
-        return template('index.tpl', accountText = accountName, signOutHtml = signOutHtml)
+        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
     tempString = inputString.lower()
     #get rid of space
     splitString = tempString.split()
     #if splitString is empty (i.e. input string only consists of space or is empty), redirect route to root
     if not splitString:
-       return template('index.tpl', accountText = accountName, signOutHtml = signOutHtml)
+       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
        pass
     #parse query string
     for word in splitString:
@@ -137,9 +143,9 @@ def index() :
     #else display top 20 keywords in greatest first order
         sortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:20])
     if s['mode'] == 'Signed-In':
-        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName)
+        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
     else:
-        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName)
+        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml)
 
 @route('/signOut')
 def signOut( ):
@@ -157,18 +163,21 @@ def signOut( ):
 def about( ):
     #check whether logged in
     s = bottle.request.environ.get('beaker.session')
-    signOutHtml = ""
+    LogInOffHtml = ""
+    userInforHtml = ''
     logInStatus =  s.get('logInStatus',0)
     if logInStatus != 'loggedIn':
         accountName = 'Sign In'
         s['mode'] = 'Anonymous'
+        LogInOffHtml = '<li><a href="/account" class="lang btn btn-default" key="account"> Log In With Google </a></li>'
         s.save()
     else:
         user_document = s['userDocument']
         accountName = user_document['name']
         accountEmail = user_document['email']
-        signOutHtml = '<li><a href="/signOut" class="lang" key="account" > Sign Out </a></li>'
-    return template('about.tpl', accountText = accountName, signOutHtml = signOutHtml )
+        userInfoHtml = '<li>' + accountEmail + '</li> <li class="divider"></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
+    return template('about.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml , userInfoHtml = userInfoHtml)
 
 
 run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)

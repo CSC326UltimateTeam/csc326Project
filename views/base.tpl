@@ -14,9 +14,23 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
            <li><a href="/about" class="lang" key="about" >About</a></li>
-           <li><a href="/account" class="lang" key="account"> {{accountText}} </a></li>
-           {{!signOutHtml}}
+
+           <li class="dropdown">
+              <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
+              <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 300px; margin-left:-100px; text-align:center;font-size:15px;">
+                   {{!userInfoHtml}}
+                   {{!LogInOffHtml}}
+                  <!--li><a href="/account" class="lang" key="account"> Log In With Google </a></li>-->
+              </ul>
+           </li>
+
+
+           <!-- drop down feature -->
+
+
         </ul>
+
+
         <h3 class="muted lang" key="productName">MouZhiA</h3>
       </div>
       <div class="jumbotron">
@@ -59,6 +73,12 @@
 <script src="/static/js/bootstrap-typeahead.js"></script>
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
-
+<script>
+// When the user clicks on div, open the popup
+function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+}
+</script>
   </body>
 </html>

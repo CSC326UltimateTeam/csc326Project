@@ -14,8 +14,14 @@
 <div class="masthead">
   <ul class="nav nav-pills pull-right">
      <li><a href="/about" class="lang" key="about">About</a></li>
-     <li><a href="/account" class="lang" key="account">{{accountText}}</a></li>
-     {{!signOutHtml}}
+     <li class="dropdown">
+        <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
+      <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 250px; margin-left:-100px;>
+             {{!userInfoHtml}}
+             {{!LogInOffHtml}}
+            <!--li><a href="/account" class="lang" key="account"> Log In With Google </a></li>-->
+        </ul>
+     </li>
   </ul>
   <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
   <form class="searchResultSearchBar " action="/" method="GET">
