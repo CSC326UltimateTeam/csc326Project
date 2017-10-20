@@ -40,16 +40,16 @@ First ssh in to the amazon instance with the permission, if you are the TA and d
 
 Then make sure you have sysstat and dstat by typing
 
-'*sudo apt-get install sysstat dstat*'
+`*sudo apt-get install sysstat dstat*`
 
 run your server in a different screen
 
-'*screen
+`*screen
 cd /csc326/csc326Project/
-sudo python srv.py &*'
+sudo python srv.py &*`
 
 Use Control-A and Control-D to detach this screen, and you should be back in the previsou commandline
-Type '*dstat -c -m -d -n*' to start monitoring system information
+Type `*dstat -c -m -d -n*` to start monitoring system information
 
 #### On test bench machine
 
@@ -62,29 +62,29 @@ Test the server acpacity with your own options
 To run the project, first install bottle, beautifusoup, googleapiclient and bottle-beaker
 
 for beautifulsoup:
-'python2.7 -m pip install bottle beautifulsoup'
+`python2.7 -m pip install bottle beautifulsoup`
 
 for googleapiclient:
-'pip install --upgrade google-api-python-client'
+`pip install --upgrade google-api-python-client`
 
 for bottle-beaker:
-'pip install bottle-beaker'
+`pip install bottle-beaker`
 
 Then initialize the server with:
-'python srv.py'
+`python srv.py`
 
 after server is successfully run, open any browser at localhost:8080 to visit site
 
 
 To test the functionality of the backend, run
 
-'python2.7 test_backend.py'
+`python2.7 test_backend.py`
 
 options can be imposed on testing, to enable verbose, test with
 
-'from test_backend import backend_test'
+`from test_backend import backend_test`
 
-'backend_test('you-test-urls-txt', verbose=True)'
+`backend_test('you-test-urls-txt', verbose=True)`
 
-'review the messages to examin the test results'
+`review the messages to examin the test results`
 
