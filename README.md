@@ -40,16 +40,16 @@ First ssh in to the amazon instance with the permission, if you are the TA and d
 
 Then make sure you have sysstat and dstat by typing
 
-`*sudo apt-get install sysstat dstat*`
+`sudo apt-get install sysstat dstat`
 
 run your server in a different screen
 
-`*screen
+`screen
 cd /csc326/csc326Project/
-sudo python srv.py &*`
+sudo python srv.py &`
 
 Use Control-A and Control-D to detach this screen, and you should be back in the previsou commandline
-Type `*dstat -c -m -d -n*` to start monitoring system information
+Type `dstat -c -m -d -n` to start monitoring system information
 
 #### On test bench machine
 
