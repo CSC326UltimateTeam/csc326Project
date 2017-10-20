@@ -130,8 +130,10 @@ def index() :
        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
        pass
     #parse query string
+
     for word in splitString:
-        recentSearchList.append(word)
+        if logInStatus == 'loggedIn':
+            recentSearchList.append(word)
         #if word already exits in dictionary, add one to its appearance
         if word in dictionary:
             dictionary[word] += 1
@@ -142,11 +144,12 @@ def index() :
     print "recent search list:"
     print recentSearchList
   #store keywords in search history
-    for row in dictionary:
-          if row in searchHistory:
-              searchHistory[row] += dictionary[row]
-          else:
-              searchHistory[row] = 1
+    if logInStatus == 'loggedIn':
+        for row in dictionary:
+              if row in searchHistory:
+                  searchHistory[row] += dictionary[row]
+              else:
+                  searchHistory[row] = 1
 #get length of history
     historyLen = len(searchHistory)
 #if history length is less than 20, display all result in greatest first order
