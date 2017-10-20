@@ -1,12 +1,10 @@
-#Welcome to CSC326!
+# Welcome to CSC326!
 
-##This is a python project that mimics google search
+## This is a python project that mimics google search
 
-##The frontend handles all web requests, display, and parsing of the web interface
+## The frontend handles all web requests, display, and parsing of the web interface
 
-##The backend manages url database, page ranks, and interted indeces
-
-
+## The backend manages url database, page ranks, and interted indeces
 
 
 
@@ -16,7 +14,9 @@
 
 
 
-#From lab1:
+
+
+# From lab1:
 To run the project, first install bottle, beautifusoup, googleapiclient and bottle-beaker
 
 for beautifulsoup:
