@@ -27,6 +27,7 @@ For Signed-In Mode:
   User Information will be displayed in the pop window triggered by clicking the username button on top-right
    
   a.Sign-Out: Users can sign out by first clicking username and selecting "Sign Out" in the pop up window.
+  
   b.Profile Photo Modification: Users can modify his/her own profile photo by clicking the profile photo area in the account       pop up window.
   
   2)Search history count of the current user and Most recent searches of the current user will be displayed in the search         result page.
@@ -49,6 +50,7 @@ cd /csc326/csc326Project/
 sudo python srv.py &`
 
 Use Control-A and Control-D to detach this screen, and you should be back in the previsou commandline
+
 Type `dstat -c -m -d -n` to start monitoring system information
 
 #### On test bench machine
@@ -71,7 +73,7 @@ for bottle-beaker:
 `pip install bottle-beaker`
 
 Then initialize the server with:
-`python srv.py`
+`sudo python srv.py`
 
 after server is successfully run, open any browser at localhost:8080 to visit site
 
