@@ -20,6 +20,7 @@ There are two mods for the website:
 For Anonymous Mode:
 
   1)Sign-In: Users can sign in by first clicking the sign-in button and selecting "Log In with Google" in the pop up window. Users in anonymous mode are not able to modify profile photo.
+  
   2)Only word count table will be displayed after clicking the search button
 
 For Signed-In Mode:
