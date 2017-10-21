@@ -65,15 +65,15 @@ you could follow the sample benchmarking code in the RESULT file, or refer to ht
 
 Test the server acpacity with your own options
 
-Basially you just need to know the url or ip of the server location, and test it with apache benchmarking tool
+Basically you just need to know the url or ip of the server location, and test it with apache benchmarking tool
 
 example:
 `ab -n 1000 -c 30  -r -S http://ec2-34-233-27-14.compute-1.amazonaws.com/?keywords=foo+bar+csc326`
-This command sends 1000 get requests to the website under anonymous mode, searching for "foo bar csc326"
+This command sends 1000 get requests, and each time 30 request is sent simultaneously to the website under anonymous mode, searching for "foo bar csc326"
 
 If you want get more instructions of how to use the `ab` command, type `man ab` to get more detailed description
 
-Since people's requirement vary, the setup on the test machine is really up to you, as long as you have the server running on the other side
+Since people's requirements vary, the setup on the test machine is really up to you, as long as you have the server running on the other side
 
 
 ## From lab1:
