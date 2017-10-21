@@ -48,5 +48,7 @@ for instance in instances:
         #associate this address with the running instance
         elastic_addr.associate(instance.id)
         print ("instance: " + str(instance.id) +" successfully attached elastic ip address")
+        if instance.root_device_type != 'ebs':
+            raise TypeError("Instance root deivce type must be ebs")
         
   #now the instance is running with a elastic ip address, so next time you run it, it won't change the ip address
