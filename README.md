@@ -18,6 +18,7 @@ you could also use DNS **http://ec2-34-233-27-14.compute-1.amazonaws.com/** to a
 There are two mods for the website:
 
 For Anonymous Mode:
+
   1)Sign-In: Users can sign in by first clicking the sign-in button and selecting "Log In with Google" in the pop up window. Users in anonymous mode are not able to modify profile photo.
   2)Only word count table will be displayed after clicking the search button
 
@@ -26,9 +27,9 @@ For Signed-In Mode:
   1)Account:
   User Information will be displayed in the pop window triggered by clicking the username button on top-right
    
-  a.Sign-Out: Users can sign out by first clicking username and selecting "Sign Out" in the pop up window.
+   a.Sign-Out: Users can sign out by first clicking username and selecting "Sign Out" in the pop up window.
   
-  b.Profile Photo Modification: Users can modify his/her own profile photo by clicking the profile photo area in the account       pop up window.
+   b.Profile Photo Modification: Users can modify his/her own profile photo by clicking the profile photo area in the account       pop up window.
   
   2)Search history count of the current user and Most recent searches of the current user will be displayed in the search         result page.
 
