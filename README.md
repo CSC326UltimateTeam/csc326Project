@@ -41,6 +41,8 @@ It is advised that you use two different machines to do the benchmarking.
 #### SSH in to the instance
 First ssh in to the amazon instance with the permission, if you are the TA and do not have the permission, email nix.li@mail.utoronto.ca
 
+`ssh -i permission.pem ubuntu@34.233.27.14`
+
 Then make sure you have sysstat and dstat by typing
 
 `sudo apt-get install sysstat dstat`
@@ -56,10 +58,22 @@ Use Control-A and Control-D to detach this screen, and you should be back in the
 Type `dstat -c -m -d -n` to start monitoring system information
 
 #### On test bench machine
+get apache ab
+`sudo apt-get apache-utils2`
 
 you could follow the sample benchmarking code in the RESULT file, or refer to https://httpd.apache.org/docs/2.4/programs/ab.html
 
 Test the server acpacity with your own options
+
+Basially you just need to know the url or ip of the server location, and test it with apache benchmarking tool
+
+example:
+`ab -n 1000 -c 30  -r -S http://ec2-34-233-27-14.compute-1.amazonaws.com/?keywords=foo+bar+csc326`
+This command sends 1000 get requests to the website under anonymous mode, searching for "foo bar csc326"
+
+If you want get more instructions of how to use the `ab` command, type `man ab` to get more detailed description
+
+Since people's requirement vary, the setup on the test machine is really up to you, as long as you have the server running on the other side
 
 
 ## From lab1:
