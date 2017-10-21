@@ -88,7 +88,9 @@ options can be imposed on testing, to enable verbose, test with
 
 `from test_backend import backend_test`
 
-`backend_test('you-test-urls-txt', verbose=True)`
+`test = backend_test('you-test-urls-txt', verbose=True)`
+
+`test.test_all()`
 
 `review the messages to examin the test results`
 
