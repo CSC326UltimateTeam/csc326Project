@@ -157,5 +157,5 @@ class backend_test (object):
         print "all tests passed"
 
 if __name__ == '__main__':
-    a=backend_test('/Users/Nix/Desktop/CSC326/csc326Project/urls.txt', verbose=False)
+    a=backend_test('urls.txt', verbose=False)
     a.test_all()
