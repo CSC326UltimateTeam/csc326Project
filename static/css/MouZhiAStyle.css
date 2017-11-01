@@ -15,6 +15,12 @@
        margin: 60px 0;
        text-align: center;
        }
+
+       .errorContainer{
+         margin: 60px 0;
+         text-align: center;
+       }
+
        .jumbotron h1 {
        font-size: 72px;
        line-height: 0.5;
@@ -55,6 +61,28 @@ ul.nav.nav-pills.pull-right {
   margin-top: 50px;
   margin-bottom: 20px;
   width: 25%;
+}
+
+.errorContainer img.errorIcon{
+margin-top: -5%;
+margin-bottom:  100px;
+margin-left:  -50%;
+width:  11%;
+
+}
+
+.brokenRobot{
+ padding-top: 30px;
+  margin-right:  -800px;
+  margin-left: 300px;
+  width: 25%;
+}
+
+.errorMessage{
+  margin-top: -15%;
+  margin-left:  -40%;
+  margin-bottom :250px;
+  font-size: 18px;
 }
 
 .contact-main{

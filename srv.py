@@ -1,12 +1,14 @@
-from bottle import route, run, template, static_file, request, redirect
+from bottle import route, run, template, static_file, request, redirect, error, Bottle
 import operator
 import bottle
+import sqlite3
 from collections import OrderedDict
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.client import flow_from_clientsecrets
 from googleapiclient.errors import HttpError
 from googleapiclient.discovery import build
 from beaker.middleware import SessionMiddleware
+import serverHelper as sh
 import httplib2
 import os
 searchHistory = {}
@@ -14,6 +16,7 @@ recentSearchList = []
 lastCode = ""
 category = 0
 lastRouteTrack = ""
+app = Bottle()
 
 session_opts = {
     'session.type': 'file',
@@ -227,4 +230,10 @@ def about( ):
     return template('about.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml , userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml=changePhotoHtml)
 
 
-run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
+#route for error message
+@error(404)
+def errorHandler(error):
+      return template('errorPage.tpl')
+
+#run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
+run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)
