@@ -51,7 +51,7 @@ run your server in a different screen
 
 `screen
 cd /csc326/csc326Project/
-sudo python srv.py &`
+sudo python srv.py >output.txt 2>&1 &`
 
 Use Control-A and Control-D to detach this screen, and you should be back in the previsou commandline
 
