@@ -23,6 +23,7 @@ import urlparse
 from BeautifulSoup import *
 from collections import defaultdict
 import re
+import sqlite3
 
 
 #This is the modified verion of the crawler done by 3 students from csc326
@@ -76,9 +77,45 @@ class crawler(object):
     This crawler keeps track of font sizes and makes it simpler to manage word
     ids and document ids."""
 
-    #added the option of verbose, the print statements are sometimes to annoying
+    #added the option of verbose, the print statements are sometimes too annoying
     def __init__(self, db_conn, url_file, verbose=True):
+        self.conn = sqlite3.connect(db_conn)
+        self.databaseExe = self.conn.cursor()
 
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Webpages(\
+                                     ID int NOT NULL,\
+                                     url text NOT NULL,\
+                                     rank int not NULL,\
+                                     title text,\
+                                     description text,\
+                                     last_accessed date,\
+                                     visit_count int NOT NULL,\
+                                     PRIMARY KEY(url)\
+                                     UNIQUE (ID)\
+                                    );""")
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Directs(\
+                                    source int NOT NULL,\
+                                    destination int NOT NULL,\
+                                    times int,\
+                                    PRIMARY KEY (source, destination));""")
+
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Words(\
+                                             ID int NOT NULL,\
+                                             content text NOT NULL,\
+                                             PRIMARY KEY(content)\
+                                             UNIQUE (ID)\
+                                            );""")
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS WordExists(\
+                                                     content text NOT NULL,\
+                                                     inURL text not NULL,\
+                                                     times int, \
+                                                     PRIMARY KEY(content,inURL)\
+                                                    );""")
+
+        self.conn.commit()
         self.verbose=verbose
         """Initialize the crawler with a connection to the database to populate
         and with the file containing the list of seed URLs to begin indexing."""
@@ -145,9 +182,20 @@ class crawler(object):
             'u', 'v', 'w', 'x', 'y', 'z', 'and', 'or',
         ])
 
-        # TODO remove me in real version
-        self._mock_next_doc_id = 1
-        self._mock_next_word_id = 1
+        self.databaseExe.execute("""select max(ID) from Webpages;""")
+        result = self.databaseExe.fetchone()
+        if result is not None:
+            self._next_doc_id=result[0]
+        else: self._next_doc_id = 1
+
+        self.databaseExe.execute("""select max(ID) from Words;""")
+        result = self.databaseExe.fetchone()
+        if result is not None:
+            self._next_word_id=result[0]
+        else: self._next_word_id = 1
+
+        print (self._next_doc_id)
+        print (self._next_word_id)
 
         # keep track of some info about the page we are currently parsing
         self._curr_depth = 0
@@ -170,20 +218,54 @@ class crawler(object):
 
 
     # TODO remove me in real version
-    def _mock_insert_document(self, url):
+    def _insert_document(self, url):
         """A function that pretends to insert a url into a document db table
         and then returns that newly inserted document's id."""
-        ret_id = self._mock_next_doc_id
-        self._mock_next_doc_id += 1
-        return ret_id
 
-    # TODO remove me in real version
-    def _mock_insert_word(self, word):
-        """A function that pretends to inster a word into the lexicon db table
+        try:
+            sqlURL=(str(url),)
+            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?, ?, ?, ?, ?, ?);"""\
+                                     , (self._next_doc_id, url, -1,'','','',0))
+
+            inserted_id = self._next_doc_id
+            self._next_doc_id +=1
+            self.conn.commit()
+            if self.verbose:
+                print("insertion")
+            return inserted_id
+
+        except sqlite3.IntegrityError:
+
+            self.databaseExe.execute("""SELECT ID FROM Webpages WHERE url = ?;""" , (url,))
+            ret = self.databaseExe.fetchone()
+            if self.verbose:
+                print ("no insertion")
+            if ret is not None:
+                return ret[0]
+
+
+
+
+
+    def _insert_word(self, word):
+        """A function that  insterts a word into the lexicon db table
         and then returns that newly inserted word's id."""
-        ret_id = self._mock_next_word_id
-        self._mock_next_word_id += 1
-        return ret_id
+        try:
+            self.databaseExe.execute ("""INSERT into Words values (?, ?);""",(self._next_word_id, str(word)))
+            ret = self._next_word_id
+            self._next_word_id+=1
+            self.conn.commit()
+            return ret
+
+        except sqlite3.IntegrityError:
+
+            self.databaseExe.execute("""select ID from Words WHERE content = ?;""", (str(word),))
+
+            ret = self.databaseExe.fetchone()
+            if ret is not None:
+                return ret[0]
+
+
 
        #newly added funtion to return the new hash tables 
     def get_inverted_index(self):
@@ -197,7 +279,21 @@ class crawler(object):
 
     def word_id(self, word):
 
-    	#when the crawler is going thrugh the words and iding them, also push the words and urls to 
+        word_id= self._insert_word(word)
+
+        try:
+            self.databaseExe.execute( """INSERT into WordExists values (?, ?, 1);""" ,(word, self._curr_url))
+
+        except sqlite3.IntegrityError:
+
+            self.databaseExe.execute( """UPDATE WordExists\
+                                      SET times=times+1\
+                                      where content=? and inURL=?;""",(word,self._curr_url))
+
+        self.conn.commit()
+        return word_id
+
+    	''''#when the crawler is going thrugh the words and iding them, also push the words and urls to 
     	#a dictionary 
 
         if word in self._word_mapped_to_url:
@@ -217,9 +313,10 @@ class crawler(object):
 
 
 
-        word_id = self._mock_insert_word(word)
+        word_id = self._insert_word(word)
         self._word_id_cache[word] = word_id
         return word_id
+        '''
 
     def document_id(self, url):
         """Get the document id for some url."""
@@ -230,7 +327,7 @@ class crawler(object):
         #       doesn't exist in the db then only insert the url and leave
         #       the rest to their defaults.
 
-        doc_id = self._mock_insert_document(url)
+        doc_id = self._insert_document(url)
 
         self.webpage_dict[doc_id]=webpage(doc_id,url, '','',None,None)
 
@@ -256,9 +353,11 @@ class crawler(object):
         # TODO
 
     def _visit_title(self, elem):
+
         """Called when visiting the <title> tag."""
         title_text = self._text_of(elem).strip()
         self.webpage_dict[self._curr_doc_id].webtitle=title_text
+
         if self.verbose:
             print "document title=" + repr(title_text)
 
@@ -326,6 +425,7 @@ class crawler(object):
             word = word.strip()
             if word in self._ignored_words:
                 continue
+
             self._curr_words.append((self.word_id(word), self._font_size))
 
     def _text_of(self, elem):
@@ -431,17 +531,7 @@ class crawler(object):
 
 
 if __name__ == "__main__":
-    print "traversing all urls, the datagenerated will bw printed later"
-    bot = crawler(None, "urls.txt", verbose=True)
-    bot.crawl(depth=1)
-    print "word ID cache\n"
-    print bot._word_id_cache
-    print "url(docId) cache\n"
-    print bot._doc_id_cache
 
-    a= bot.get_inverted_index()
-    print "inverted index:\n"
-    print a
-    b=bot.get_resovled_inverted_index()
-    print "resolved inverted index:\n"
-    print b
+
+    a=crawler('urlData.db','urls.txt',verbose=True)
+    a.crawl(depth=2);
