@@ -123,6 +123,7 @@ def index() :
     #dictionary used to record keywordsS and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
+    page = reques.query.get('page')
     if not inputString:
         return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
     tempString = inputString.lower()
@@ -133,6 +134,10 @@ def index() :
        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
        pass
     #parse query string
+    firstKeyWord = inputString.split()[0]
+
+    urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString )
+    navUrl = sh.createPageNavs(resultNumber)
 
     for word in splitString:
         if logInStatus == 'loggedIn':
@@ -168,9 +173,9 @@ def index() :
     else:
         mostRecentSearch = reversedRecentSearch[:15]
     if s['mode'] == 'Signed-In':
-        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch )
+        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch, navUrl = navUrl )
     else:
-        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
+        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml , urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
 
 @route('/signOut')
 def signOut( ):

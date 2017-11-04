@@ -158,3 +158,36 @@ margin-top: -3%;
 {
     display: none;
 }
+
+
+.resultNote{
+  padding-top: 100px;
+
+
+}
+
+div.paging-nav{
+margin-top: 5%;
+margin-left: 12%;
+margin-bottom: 5%;
+}
+.paging-nav a.pagenav {
+padding: 10px;
+padding-left: 16px;
+padding-right: 16px;
+background: white;
+color: black;
+border: 1px solid #ccc;
+border-radius: 10px;
+text-decoration:none;
+}
+.paging-nav a.pagenav:hover {
+color: #fff;
+background-color: #337ab7;
+border-color: #2e6da4;
+}
+.paging-nav a.pagenav.page-active {
+color: #fff;
+background-color: #337ab7;
+border-color: #2e6da4;
+}

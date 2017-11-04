@@ -41,51 +41,22 @@
   </form>
 </div>
 </div>
-  <div class="resultTables">
-  <p style="color:grey; margin-left :10%; margin-top:-1%"> About {{resultNumber}} results </p>
-<!--
-  <div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">
-    <p>Your search - <strong>blablabla</strong> - did not match any documents</p>
-    <br>
-    <p>Suggestions:</p>
-    <li>Make sure that all words are spelled correcly</li>
-    <li>Try different keywords</li>
-    <li>Try more general keywords</li>
-    <li>Try fewer keywords</li>
-    <img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">
-  </div>
--->
-<!--
-  <div class="" style="margin-left:12%">
-    <h3><a href="#" style="color: #1C1BA8">Feiran is handsome</a></h3>
-    <p style="margin-top:-1.2%; "><a href="#" style=" color:green;">https://feiranishandsome.com</a></p>
-    <p style="margin-top:-0.5%;">blabablablalbalblalblalblablalbl</p>
-    <p></p>
-  </div>
-  <div class="" style="margin-left:12%">
-    <h3><a href="#" style="color: #1C1BA8">Feiran is handsome</a></h3>
-    <p style="margin-top:-1.2%; "><a href="#" style=" color:green;">https://feiranishandsome.com</a></p>
-    <p style="margin-top:-0.5%;">blabablablalbalblalblalblablalbl</p>
-    <p></p>
-  </div>
--->
-{{!urlHtml}}
-  </div>
 
-<!--
- <div class="paging-nav">
-
-      <a href="" class="pagenav">1</a>
-      <a href="" class="pagenav">2</a>
-      <a href="" class="pagenav">3</a>
-      <a href="" class="pagenav">4</a>
-      <a href="" class="pagenav">5</a>
-      <a href="" class="pagenav">6</a>
-      <a href="" class="pagenav">7</a>
-
-  </div>-->
-  {{!navUrl}}
-
+    <div class="row-fluid marketing resultTables">
+      <p>Search for {{keywords}}</p>
+      <table id="results" class="table table-striped">
+        <tr>
+        <td><b>Word</b></td>
+        <td><b>Count</b></td>
+      </tr>
+      %for row in dictionary:
+        <tr>
+          <td >{{row}} </td>
+          <td > {{dictionary[row]}}</td>
+        </tr>
+      %end
+      </table>
+      </div>
      <hr>
       <div class="footer">
         <p>&copy;
