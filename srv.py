@@ -123,7 +123,11 @@ def index() :
     #dictionary used to record keywordsS and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
-    page = request.query.get('page')
+    pageString = request.query.get('page')
+    if not pageString:
+        page = 1
+    else:
+        page = int(pageString)
     if not inputString:
         return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
     tempString = inputString.lower()
@@ -135,9 +139,13 @@ def index() :
        pass
     #parse query string
     firstKeyWord = inputString.split()[0]
-
-    urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString )
-    navUrl = sh.createPageNavs(resultNumber)
+    if not page or page == 1:
+        pageStart = 0
+        page = 1
+    else:
+        pageStart = (page - 1)*10
+    urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString,  pageStart)
+    navUrl = sh.createPageNavs(resultNumber,page,inputString)
 
     for word in splitString:
         if logInStatus == 'loggedIn':
