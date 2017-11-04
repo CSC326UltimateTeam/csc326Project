@@ -1,6 +1,7 @@
 from crawler import crawler
 import time
-
+import sqlite3
+import sys
 ''' this is a test class of the crawler '''
 
 
@@ -8,47 +9,55 @@ class backend_test (object):
 
     #initialization requries a file to be inputed, if there are exceptions throw in
     #creating the class, the initialization will fail as well
-    def __init__(self, urlfile, verbose=True):
+    def __init__(self,dbfile, urlfile, verbose=True, depth =1):
+        print (" \n\n\n############## This is a test class of the cralwer's PageRank functionality #############\n\n"+
+              "URLs specified will be crawled and inserted to the data base if not already done so.\n"+
+              "The page rank scores from 0 to 1 will be calculated from the pagerank algorithm.\n"+
+              "A higher score indicates a higher probability that a random browse to the internet\n"+
+              "will likely end at this page.\n\n\n")
 
         self.verbose=verbose
-        print "testing initilization"
+        print ("******************** testing initilization ********************\n\nURLs in file: %s, result stored in SQL db: %s\n"%(urlfile,dbfile))
+
+        self.urls=open(urlfile,'r')
+        self.db=sqlite3.connect(dbfile)
+        self.depth=depth
         try:
-            self.test_crawler = crawler(None, urlfile,verbose=verbose)
+
+            self.test_crawler = crawler(dbfile, urlfile,verbose=verbose)
+            print("******************** test: initilization passed ********************\n")
         except Exception:
-            print "initialization failed"
-            print "1 out of 1 test failed"
+            print ("******************** initialization failed ********************")
+            print ("1 out of 1 test failed")
             exit(-1)
-        print "test: initilization passed\n"
+
 
 
         #this class tests the proper funtionality of the crawler's "crawl" function
         #if the data stored in the database have inconsistent lengths, the crawler test
         #will fail, since there are data missing or repeated
 
-    def test_crawl(self, depth=1):
-        print "testing crawler"
-        print "crawing website with depth " + str(depth) +", this may take a while"
-
+    def test_crawl(self):
+        print ("******************** testing crawler ********************\n")
+        print ("crawing websites with depth " + str(self.depth) +", this may take a while...\n")
+        if self.verbose:
+            time.sleep(5)
         #crawl the web
-        self.test_crawler.crawl(depth=depth)
+        try:
+            self.test_crawler.crawl(depth=self.depth)
 
-        #after crawl, get the lengths of all interested data
-        num_words= len(self.test_crawler._word_id_cache)
+            #after crawl, get the lengths of all interested data
+            num_words= len(self.test_crawler._word_id_cache)
 
-        invterted_index_len = len(self.test_crawler.get_inverted_index())
-        resolved_inverted_index_len = len(self.test_crawler.get_resovled_inverted_index())
+            #invterted_index_len = len(self.test_crawler.get_inverted_index())
+            #resolved_inverted_index_len = len(self.test_crawler.get_resovled_inverted_index())
 
-        if  self.verbose:
-            print "number of word in cache: " + str(num_words)
-            print "number of inverted index int keys: " + str(invterted_index_len)
-            print "number of inverted index string keys: " + str(resolved_inverted_index_len)
 
-        #check consistent length
-        if (not (num_words==invterted_index_len==resolved_inverted_index_len)):
-            print "inconsistent lengths across dictionaries "
-            print "1 out of 1 test failed"
+            print ("******************** test: crawler passed ********************\n")
+        except Exception as er:
+            print ("******************** test failed with uncaught exceptions: ********************\n" +str(er))
+            print("1 out of 1 test failed")
             exit(-1)
-        print "test: crawler passed\n"
 
 
         #tests the validity of the data, see if the data at different dictionaries
@@ -56,7 +65,7 @@ class backend_test (object):
         #this is assuming the data in word_id_cache and doc_id_cache are correct,
         #and other dictionaries are tested against the 2 above
 
-    def test_inverted_index_validity(self):
+    '''def test_inverted_index_validity(self):
         print "running validity test on all cached words, this may take a while"
         #wait a little for user to read this message
         if self.verbose:
@@ -147,15 +156,55 @@ class backend_test (object):
 
 
     #tests all the test implemented
+    '''
+    def  test_pageRank(self):
+        print ("******************** testing the ranks of the website ********************\n\nunder the DFT of websites: \n" )
+        for url in self.urls:
+            print (url)
+        try:
+            self.test_crawler.calcRank()
+
+            pageRanks=self.db.cursor().execute("""SELECT url, rank FROM Webpages ORDER BY rank DESC;""").fetchall()
+
+            print("PageRank algorithm yeilds the following results of %d total websites" %len(pageRanks))
+
+            askFlag=False
+            for index,page in enumerate(pageRanks):
+                print ("")
+                print ("Rank: %d" % (index+1))
+                print ("URL: {}".format(page[0]))
+                print ("PageRank Coefficient: %.7f"% page[1])
+                if page[1] <=0.00000001 and not askFlag:
+
+                    userAnswer= raw_input("\n\nDo you want to display the webpages that do not have outgoing links(rank=0) given the current depth\nyes, no? >>")
+
+                    if str(userAnswer) != 'yes':
+                        break
+                    askFlag=True
+
+
+
+        except Exception as er:
+            print("******************** test failed ********************\nuncaught exceptions: " + str(er))
+            print("1 out of 1 test failed")
+            exit(-1)
 
     def test_all (self):
 
 
         self.test_crawl()
-        self.test_inverted_index_validity()
+        self.test_pageRank()
 
-        print "all tests passed"
+        print ("(3/3) tests passed")
 
 if __name__ == '__main__':
-    a=backend_test('urls.txt', verbose=False)
+    if len(sys.argv) <3:
+        print ("\ninsufficient argument supplied\nProvide arguments as follows:\npython run_backend_test.py [verbose (0 or 1)] [depth] ")
+        exit(-1)
+    if sys.argv[1]=='1':
+        verbose =True
+    else:
+        verbose=False
+    depth = int(sys.argv[2])
+    a=backend_test("Crawler.db", 'urls.txt', verbose=verbose, depth=depth)
     a.test_all()

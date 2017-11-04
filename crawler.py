@@ -25,7 +25,6 @@ from collections import defaultdict
 import re
 import sqlite3
 
-
 #This is the modified verion of the crawler done by 3 students from csc326
 
 def attr(elem, attr):
@@ -41,35 +40,6 @@ WORD_SEPARATORS = re.compile(r'\s|\n|\r|\t|[^a-zA-Z0-9\-_]')
 
 #this object stores all the information that may be useful for further development
 
-class webpage (object):
-
-	def __init__(self):
-		self.url=None
-		self.doc_id=None
-		self.webtitle=''
-		self.description=''
-		self.from_list=set()
-		self.to_list=set()
-
-	def __init__ (self, id, url, title, description, parent, children):
-		self.url=url
-		self.doc_id=id
-		self.webtitle=title
-		self.description=description
-		self.from_list=set([parent,])
-		self.to_list=set([children,])
-
-	def insert_children(self, child):
-		self.to_list.add(child)
-
-	def insert_parent(self, parent):
-		self.from_list.add(parent)
-
-	def calc_rank(self):
-		raise NotImplementedError
-
-
-
 class crawler(object):
     """Represents 'Googlebot'. Populates a database by crawling and indexing
     a subset of the Internet.
@@ -79,43 +49,12 @@ class crawler(object):
 
     #added the option of verbose, the print statements are sometimes too annoying
     def __init__(self, db_conn, url_file, verbose=True):
+
         self.conn = sqlite3.connect(db_conn)
+
         self.databaseExe = self.conn.cursor()
+        self.createSchema()
 
-        self.databaseExe.execute("""CREATE TABLE if not EXISTS Webpages(\
-                                     ID int NOT NULL,\
-                                     url text NOT NULL,\
-                                     rank int not NULL,\
-                                     title text,\
-                                     description text,\
-                                     last_accessed date,\
-                                     visit_count int NOT NULL,\
-                                     PRIMARY KEY(url)\
-                                     UNIQUE (ID)\
-                                    );""")
-
-        self.databaseExe.execute("""CREATE TABLE if not EXISTS Directs(\
-                                    source int NOT NULL,\
-                                    destination int NOT NULL,\
-                                    times int,\
-                                    PRIMARY KEY (source, destination));""")
-
-
-        self.databaseExe.execute("""CREATE TABLE if not EXISTS Words(\
-                                             ID int NOT NULL,\
-                                             content text NOT NULL,\
-                                             PRIMARY KEY(content)\
-                                             UNIQUE (ID)\
-                                            );""")
-
-        self.databaseExe.execute("""CREATE TABLE if not EXISTS WordExists(\
-                                                     content text NOT NULL,\
-                                                     inURL text not NULL,\
-                                                     times int, \
-                                                     PRIMARY KEY(content,inURL)\
-                                                    );""")
-
-        self.conn.commit()
         self.verbose=verbose
         """Initialize the crawler with a connection to the database to populate
         and with the file containing the list of seed URLs to begin indexing."""
@@ -126,9 +65,6 @@ class crawler(object):
         #these are the dictionaries for get_inverted_index()
         #and get_resolved_inverted_index()
         self._word_id_mapped_to_doc_id = {}
-        self._word_mapped_to_url = {}
-        self.webpage_dict={}
-
 
         # functions to call when entering and exiting specific tags
         self._enter = defaultdict(lambda *a, **ka: self._visit_ignore)
@@ -184,18 +120,21 @@ class crawler(object):
 
         self.databaseExe.execute("""select max(ID) from Webpages;""")
         result = self.databaseExe.fetchone()
-        if result is not None:
-            self._next_doc_id=result[0]
-        else: self._next_doc_id = 1
+        if result[0] is not None:
+            self._next_doc_id=result[0]+1
+
+        else:
+            self._next_doc_id = 1
 
         self.databaseExe.execute("""select max(ID) from Words;""")
         result = self.databaseExe.fetchone()
-        if result is not None:
-            self._next_word_id=result[0]
-        else: self._next_word_id = 1
 
-        print (self._next_doc_id)
-        print (self._next_word_id)
+
+        if result[0] is not None:
+            self._next_word_id=result[0] +1
+
+        else:
+            self._next_word_id = 1
 
         # keep track of some info about the page we are currently parsing
         self._curr_depth = 0
@@ -210,7 +149,7 @@ class crawler(object):
                 for line in f:
                     self._url_queue.append((self._fix_url(line.strip(), ""), 0))
         except IOError as er:
-            print er
+            print (er)
             pass
 
 
@@ -223,28 +162,62 @@ class crawler(object):
         and then returns that newly inserted document's id."""
 
         try:
-            sqlURL=(str(url),)
-            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?, ?, ?, ?, ?, ?);"""\
-                                     , (self._next_doc_id, url, -1,'','','',0))
+
+            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?,0.00000001, '', '', '', 0,0);"""\
+                                     , (self._next_doc_id, url))
 
             inserted_id = self._next_doc_id
             self._next_doc_id +=1
             self.conn.commit()
             if self.verbose:
-                print("insertion")
+                print("\nInsertion: %s"%url)
             return inserted_id
 
         except sqlite3.IntegrityError:
 
             self.databaseExe.execute("""SELECT ID FROM Webpages WHERE url = ?;""" , (url,))
             ret = self.databaseExe.fetchone()
-            if self.verbose:
-                print ("no insertion")
             if ret is not None:
                 return ret[0]
 
 
 
+    def createSchema (self):
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Webpages(\
+                                             ID int NOT NULL,\
+                                             url text NOT NULL,\
+                                             rank real not NULL,\
+                                             title text,\
+                                             description text,\
+                                             last_accessed date,\
+                                             visit_count int NOT NULL,\
+                                             updated int NOT NULL,\
+                                             PRIMARY KEY(url)\
+                                             UNIQUE (ID)\
+                                            );""")
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Directs(\
+                                            source int NOT NULL,\
+                                            destination int NOT NULL,\
+                                            times int,\
+                                            PRIMARY KEY (source, destination));""")
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS Words(\
+                                                     ID int NOT NULL,\
+                                                     content text NOT NULL,\
+                                                     PRIMARY KEY(content)\
+                                                     UNIQUE (ID)\
+                                                    );""")
+
+        self.databaseExe.execute("""CREATE TABLE if not EXISTS WordExists(\
+                                                             content text NOT NULL,\
+                                                             inURL text not NULL,\
+                                                             times int, \
+                                                             PRIMARY KEY(content,inURL)\
+                                                            );""")
+
+        self.conn.commit()
 
 
     def _insert_word(self, word):
@@ -282,7 +255,7 @@ class crawler(object):
         word_id= self._insert_word(word)
 
         try:
-            self.databaseExe.execute( """INSERT into WordExists values (?, ?, 1);""" ,(word, self._curr_url))
+            self.databaseExe.execute( """INSERT into WordExists values (?, ?, 1.);""" ,(word, self._curr_url))
 
         except sqlite3.IntegrityError:
 
@@ -329,8 +302,6 @@ class crawler(object):
 
         doc_id = self._insert_document(url)
 
-        self.webpage_dict[doc_id]=webpage(doc_id,url, '','',None,None)
-
         self._doc_id_cache[url] = doc_id
         return doc_id
 
@@ -350,16 +321,22 @@ class crawler(object):
     def add_link(self, from_doc_id, to_doc_id):
         """Add a link into the database, or increase the number of links between
         two pages in the database."""
-        # TODO
+        try:
+            self.databaseExe.execute("""INSERT into Directs values (?,?,1) """,(from_doc_id,to_doc_id))
+
+
+        except sqlite3.IntegrityError:
+            self.databaseExe.execute("""UPDATE Directs SET times =  times +1 \
+                                    where source = ? and destination =?""",(from_doc_id,to_doc_id))
+        self.conn.commit()
 
     def _visit_title(self, elem):
 
         """Called when visiting the <title> tag."""
         title_text = self._text_of(elem).strip()
-        self.webpage_dict[self._curr_doc_id].webtitle=title_text
 
-        if self.verbose:
-            print "document title=" + repr(title_text)
+        #if self.verbose:
+            #print ("document title=" + repr(title_text))
 
         # TODO update document title for document id self._curr_doc_id
 
@@ -402,8 +379,8 @@ class crawler(object):
                 self._word_id_mapped_to_doc_id[word[0]] = set()
                 self._word_id_mapped_to_doc_id[word[0]].add(self._curr_doc_id)
 
-        if self.verbose:
-            print "    num words=" + str(len(self._curr_words))
+        #if self.verbose:
+           # print ("    num words=" + str(len(self._curr_words)))
 
     def _increase_font_factor(self, factor):
         """Increade/decrease the current font size."""
@@ -456,6 +433,7 @@ class crawler(object):
         stack = [DummyTag(), soup.html]
 
         while tag and tag.next:
+
             tag = tag.next
 
             # html tag
@@ -485,6 +463,10 @@ class crawler(object):
             # text (text, cdata, comments, etc.)
             else:
                 self._add_text(tag)
+
+
+
+
 
     def crawl(self, depth=2, timeout=3):
         """Crawl the web!"""
@@ -518,20 +500,98 @@ class crawler(object):
                 self._curr_words = []
                 self._index_document(soup)
                 self._add_words_to_document()
-                if self.verbose:
-                    print "    url=" + repr(self._curr_url)
+
 
             except Exception as e:
                 if self.verbose:
-                    print e
+                    print(e)
                 pass
             finally:
                 if socket:
                     socket.close()
 
 
+    def fillPageInfo(self,timeout=0.1):
+
+        self.databaseExe.execute("""SELECT url, ID from Webpages where updated = 0;""");
+        rows=self.databaseExe.fetchall()
+        for row in rows:
+
+
+            try:
+                socket = urllib2.urlopen(row[0], timeout=timeout)
+                soup2 = BeautifulSoup(socket.read())
+                title = soup2.title
+
+                if title is None:
+                    title =''
+                else:
+                    title = title.getText()
+
+                description = soup2.p
+                if description is None:
+                    description=''
+                else:
+                    description=description.getText()
+                    if (len(description)>300):
+                        description=description[:300] + "..."
+
+                self.databaseExe.execute("""UPDATE Webpages SET title = ?, description =?, updated=1 WHERE ID = ?; """,
+                                         (title, description,row[1]))
+                self.conn.commit()
+                if self.verbose:
+                    print ("updated info")
+
+
+            except Exception as er:
+                if self.verbose:
+                    print (er)
+                pass
+
+        return
+    def calcRank(self, num_iterations=20,initial_pr=1.0):
+
+        self.databaseExe.execute("""SELECT source, destination, times from Directs;""");
+        links = self.databaseExe.fetchall()
+
+        from collections import defaultdict
+        import numpy as np
+        page_rank = defaultdict(lambda: float(initial_pr))
+        num_outgoing_links = defaultdict(float)
+        incoming_link_sets = defaultdict(set)
+        incoming_links = defaultdict(lambda: np.array([]))
+        damping_factor = 0.85
+
+        # collect the number of outbound links and the set of all incoming documents
+        # for every document
+        for (from_id, to_id, times) in links:
+            num_outgoing_links[int(from_id)] += times
+            incoming_link_sets[to_id].add(int(from_id))
+
+        # convert each set of incoming links into a numpy array
+        for doc_id in incoming_link_sets:
+            incoming_links[doc_id] = np.array([from_doc_id for from_doc_id in incoming_link_sets[doc_id]])
+
+        num_documents = float(len(num_outgoing_links))
+        lead = (1.0 - damping_factor) / num_documents
+        partial_PR = np.vectorize(lambda doc_id: page_rank[doc_id] / num_outgoing_links[doc_id])
+
+        for _ in xrange(num_iterations):
+            for doc_id in num_outgoing_links:
+                tail = 0.0
+                if len(incoming_links[doc_id]):
+                    tail = damping_factor * partial_PR(incoming_links[doc_id]).sum()
+                page_rank[doc_id] = lead + tail
+                self.databaseExe.execute("""UPDATE Webpages SET rank = ? where ID = ?""", (lead + tail,doc_id))
+                self.conn.commit()
+
+
+
+
 if __name__ == "__main__":
 
 
-    a=crawler('urlData.db','urls.txt',verbose=True)
+    a=crawler('Crawler.db','urls.txt',verbose=True)
     a.crawl(depth=2);
+    a.calcRank()
+    a.fillPageInfo(timeout=.5)
