@@ -6,7 +6,7 @@
 
 ## From lab3:
 
-### Instruction on running the backend test program "run_backend_test.py"
+### Running the backend test program "run_backend_test.py"
 In command line, run with `python run_backend_test.py [verbose(0 or1)] [depth]`
 
 for example running `python run_backend_test.py 1 1` will test the crawler using the urls in urls.txt, at maximum depth 1, and the program will print all the database insertion messages.
@@ -18,18 +18,18 @@ You could add your test urls in urls.txt.
 Many rank scores will be 0 since they are at the deepest depth, hence the program will prompt to you whether to still display them, type yes or no in commandline.
 
 
-# If you want to use it in a script
+### If you want to use it in a script
 `from run_backend_test import backend_test`
 
 `test=backend_test("your-db-file", 'your-urls.txt', verbose=your_choice, depth=your_choice2)`
 
 `test.test_all()`
 
-# AWS setup will be uploaded to google docs once it is made available
+### AWS setup will be uploaded to google docs once it is made available
 
-# Please refer to the RESULT.docx for details of the benchmarking
+### Please refer to the RESULT.docx for details of the benchmarking
 
-# Attempt to multithread is done and is not yet complete
+### Attempt to multithread is done and is not yet complete
 
 ## From lab2:
 ### Google authetication API is used in this lab
