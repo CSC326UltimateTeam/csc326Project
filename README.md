@@ -6,7 +6,7 @@
 
 ## From lab3:
 
-# Instruction on running the backend test program "run_backend_test.py"
+### Instruction on running the backend test program "run_backend_test.py"
 In command line, run with `python run_backend_test.py [verbose(0 or1)] [depth]`
 
 for example running `python run_backend_test.py 1 1` will test the crawler using the urls in urls.txt, at maximum depth 1, and the program will print all the database insertion messages.
