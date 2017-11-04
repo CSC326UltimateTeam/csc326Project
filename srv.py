@@ -123,7 +123,7 @@ def index() :
     #dictionary used to record keywordsS and number of appearance
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
-    page = reques.query.get('page')
+    page = request.query.get('page')
     if not inputString:
         return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
     tempString = inputString.lower()

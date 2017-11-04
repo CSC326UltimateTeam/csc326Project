@@ -41,8 +41,8 @@
   </form>
 </div>
 </div>
-  <div class="resultTables">
-  <p style="color:grey; margin-left :10%; margin-top:-1%"> About {{resultNumber}} results </p>
+  <div class="resultTables" style="width: 70%;">
+  <p style="color:grey; margin-left :11%; margin-top: -1%; margin-bottom: 1%"> About {{resultNumber}} results </p>
 <!--
   <div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">
     <p>Your search - <strong>blablabla</strong> - did not match any documents</p>
