@@ -97,10 +97,9 @@
 
 </div>
 <div class="errorContainer">
-  <img class="errorIcon" src="static/images/searchEngineLogo.png" alt="">
+  <a href="/"><img class="errorIcon" src="static/images/searchEngineLogo.png" alt=""></a>
   <img class="brokenRobot" src="static/images/brokenRobot.jpg" alt="">
-  <p class="errorMessage" ><strong style="font-size:30px;">404</strong>. That's an error.  </p>
-  <p class="errorMessage">The requested URL /rustybrick was not found on this server.</p>
+  <p class="errorMessage" ><strong style="font-size:30px;">404</strong>. <span style="color: grey;">That's an error.  </span> <br> <br><span style="font-size:16px; padding-top=-10%;">The requested URL / rustybrick was not found on this server.</span></p>
 </div>
 
 <hr>
