@@ -594,6 +594,6 @@ if __name__ == "__main__":
 
 #start crawling the web
     a=crawler('Crawler.db','urls.txt',verbose=True)
-    a.crawl(depth=3);
+    a.crawl(depth=1);
     a.calcRank()
     a.fillPageInfo(timeout=.5)

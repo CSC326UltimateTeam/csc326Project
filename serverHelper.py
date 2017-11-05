@@ -19,12 +19,12 @@ def searchKeyWord(keyword, wholeString, startingIndex):
         cache[keyword] = result
 
     resultNumber = len(result)
-    print result
+    #print result
     if not result:
         urlHtml = '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
         urlHtml = createUrls(result,startingIndex,resultNumber)
-    print urlHtml
+    #print urlHtml
     return urlHtml, resultNumber
     #for row in data:
          # print row
@@ -44,10 +44,10 @@ def createUrl(title,url,description):
     return urlHtml
 
 def createUrls(data,startingIndex,resultNumber):
-    print 'starting index is' ,startingIndex
+    #print 'starting index is' ,startingIndex
     resHtml = ''
-    print "data is ",data
-    endingIndex = startingIndex+10
+    #print "data is ",data
+    endingIndex = startingIndex+5
     if endingIndex >= resultNumber:
         endingIndex = resultNumber
     for row in data[startingIndex:endingIndex]:
@@ -58,8 +58,8 @@ def createUrls(data,startingIndex,resultNumber):
 
 def createPageNavs(resultNumber,page,keywords):
       navUrl = ''
-      print 'pageNumber is ', page
-      pageNumber = int(math.ceil(resultNumber/10.0))
+      #print 'pageNumber is ', page
+      pageNumber = int(math.ceil(resultNumber/5.0))
       if pageNumber > 1:
           if page != 1:
              navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav" style="margin-left:14px; font-size:12px">Previous</a> '
@@ -77,7 +77,7 @@ def createPageNavs(resultNumber,page,keywords):
               else:
                   navUrl += '</div>'
           else:
-             if page < 4:
+             if page < 5:
                   for pageCreating in range(pageNumber+1)[1:11]:
                          activeString = ''
                          if page == pageCreating:
