@@ -77,7 +77,7 @@ def createPageNavs(resultNumber,page,keywords):
               else:
                   navUrl += '</div>'
           else:
-             if page < 10:
+             if page < 4:
                   for pageCreating in range(pageNumber+1)[1:11]:
                          activeString = ''
                          if page == pageCreating:
