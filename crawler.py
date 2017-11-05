@@ -61,7 +61,7 @@ class crawler(object):
         self._url_queue = []
         self._doc_id_cache = {}
         self._word_id_cache = {}
-       
+
         #these are the dictionaries for get_inverted_index()
         #and get_resolved_inverted_index()
         self._word_id_mapped_to_doc_id = {}
@@ -240,7 +240,7 @@ class crawler(object):
 
 
 
-       #newly added funtion to return the new hash tables 
+       #newly added funtion to return the new hash tables
     def get_inverted_index(self):
 
         return self._word_id_mapped_to_doc_id
@@ -266,8 +266,8 @@ class crawler(object):
         self.conn.commit()
         return word_id
 
-    	''''#when the crawler is going thrugh the words and iding them, also push the words and urls to 
-    	#a dictionary 
+    	''''#when the crawler is going thrugh the words and iding them, also push the words and urls to
+    	#a dictionary
 
         if word in self._word_mapped_to_url:
             self._word_mapped_to_url[word].add(self._curr_url)
@@ -363,11 +363,11 @@ class crawler(object):
         # TODO: knowing self._curr_doc_id and the list of all words and their
         #       font sizes (in self._curr_words), add all the words into the
         #       database for this document
-        
 
-        #in cur_words, each element is the word_id and the font size, 
-        #the font size is not of particular interest in this lab, 
-        #so only word[0] is used to created the dictionary 
+
+        #in cur_words, each element is the word_id and the font size,
+        #the font size is not of particular interest in this lab,
+        #so only word[0] is used to created the dictionary
 
         for word in self._curr_words:
             if word[0] in self._word_id_mapped_to_doc_id:
@@ -592,6 +592,6 @@ if __name__ == "__main__":
 
 
     a=crawler('Crawler.db','urls.txt',verbose=True)
-    a.crawl(depth=2);
+    a.crawl(depth=3);
     a.calcRank()
     a.fillPageInfo(timeout=.5)

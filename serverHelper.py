@@ -11,7 +11,6 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     keyword = keyword.lower()
     keyPair = (keyword,)
     urlHtml = {}
-    startime = datetime.datetime.now()
     if keyword in cache:
         result = cache[keyword]
     else:
@@ -66,15 +65,41 @@ def createPageNavs(resultNumber,page,keywords):
              navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav" style="margin-left:14px; font-size:12px">Previous</a> '
           else:
              navUrl = '<div class="paging-nav" style="margin-left:8.5%">'
-          for pageCreating in range(pageNumber+1)[1:]:
-                 activeString = ''
-                 if page == pageCreating:
-                    activeString = 'page-active'
-                 navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
-                 print navUrl
-          if page !=  pageNumber:
-              navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+          if pageNumber <= 10:
+              for pageCreating in range(pageNumber+1)[1:]:
+                     activeString = ''
+                     if page == pageCreating:
+                        activeString = 'page-active'
+                     navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
+
+              if page !=  pageNumber:
+                  navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+              else:
+                  navUrl += '</div>'
           else:
-              navUrl += '</div>'
+             if page < 10:
+                  for pageCreating in range(pageNumber+1)[1:11]:
+                         activeString = ''
+                         if page == pageCreating:
+                            activeString = 'page-active'
+                         navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
+
+                  if page !=  pageNumber:
+                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                  else:
+                      navUrl += '</div>'
+             else:
+                 for pageCreating in range(pageNumber+1)[page-4:page+5]:
+                        activeString = ''
+                        if page == pageCreating:
+                           activeString = 'page-active'
+                        navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
+
+                 if page !=  pageNumber:
+                     navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                 else:
+                     navUrl += '</div>'
+
+
 
       return navUrl

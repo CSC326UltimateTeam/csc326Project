@@ -78,6 +78,13 @@ width:  11%;
   width: 25%;
 }
 
+.teapot{
+  padding-top: 30px;
+   margin-right:  -800px;
+   margin-left: 220px;
+   width: 30%;
+
+}
 .errorMessage{
   margin-top: -15%;
   margin-left:  -40%;
