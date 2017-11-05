@@ -510,7 +510,7 @@ class crawler(object):
                 if socket:
                     socket.close()
 
-
+#finds the tile, description and all related information of a page
     def fillPageInfo(self,timeout=0.1):
 
         self.databaseExe.execute("""SELECT url, ID from Webpages where updated = 0;""");
@@ -549,6 +549,8 @@ class crawler(object):
                 pass
 
         return
+    
+    #similar to the pagerank algorithm used by the reference function
     def calcRank(self, num_iterations=20,initial_pr=1.0):
 
         self.databaseExe.execute("""SELECT source, destination, times from Directs;""");
@@ -590,7 +592,7 @@ class crawler(object):
 
 if __name__ == "__main__":
 
-
+#start crawling the web
     a=crawler('Crawler.db','urls.txt',verbose=True)
     a.crawl(depth=3);
     a.calcRank()
