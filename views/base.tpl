@@ -7,7 +7,7 @@
     <link href="/static/css/bootstrap.css" rel="stylesheet">
      <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
      <link rel="stylesheet" href="/static/css/MouZhiAStyle.css">
-
+     <link rel="icon"  type="image/png" href="/static/images/searchEngineLogo.png">
   </head>
   <body onload="loadLanguage()">
     <div class="container-narrow">

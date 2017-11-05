@@ -11,6 +11,7 @@ from beaker.middleware import SessionMiddleware
 import serverHelper as sh
 import httplib2
 import os
+import random
 searchHistory = {}
 recentSearchList = []
 lastCode = ""
@@ -246,11 +247,15 @@ def about( ):
 #route for error message
 @error(404)
 def errorHandler(error):
-      return template('error404Page.tpl')
+     return template('error404Page.tpl')
 
 @error(500)
 def errorHandler(error):
     return template('error500Page.tpl')
+
+#@error()
+#def errorHandler(error):
+#     return  template('otherError.tpl')
 
 #run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
 run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)

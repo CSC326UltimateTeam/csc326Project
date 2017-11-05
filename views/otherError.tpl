@@ -99,8 +99,8 @@
 </div>
 <div class="errorContainer">
   <a href="/"><img class="errorIcon" src="static/images/searchEngineLogo.png" alt="" style="margin-top:2%"></a>
-  <img class="teapot" src="static/images/error500.png" alt="">
-  <p class="errorMessage" style="margin-top:-10%" ><strong style="font-size:30px;">500</strong>. <span style="color: grey;">I'm a teapot.  </span> <br> <br><span style="font-size:16px; padding-top=-10%;">Oops. Something went wrong.</span></p>
+  <img class="teapot" src="static/images/otherError.png" alt="">
+  <p class="errorMessage" style="margin-top:-6%" ><strong style="font-size:30px;">Unknown</strong>. <span style="color: grey;">There's an error  </span> <br> <br><span style="font-size:16px; padding-top=-10%;">Live with it.</span></p>
 </div>
 
 <hr>
