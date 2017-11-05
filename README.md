@@ -6,6 +6,10 @@
 
 ## From lab3:
 
+first install some dependencies 
+
+`pip install numpy requests`
+
 ### Running the backend test program "run_backend_test.py"
 In command line, run with `python run_backend_test.py [verbose(0 or1)] [depth]`
 
