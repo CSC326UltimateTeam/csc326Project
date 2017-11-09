@@ -144,7 +144,7 @@ def index() :
         pageStart = 0
         page = 1
     else:
-        pageStart = (page - 1)*10
+        pageStart = (page - 1)*5
     urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString,  pageStart)
     navUrl = sh.createPageNavs(resultNumber,page,inputString)
 

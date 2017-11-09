@@ -17,7 +17,6 @@ def searchKeyWord(keyword, wholeString, startingIndex):
         data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content=?  ORDER BY rank desc '  ,  keyPair)
         result = c.fetchall()
         cache[keyword] = result
-
     resultNumber = len(result)
     #print result
     if not result:
@@ -60,6 +59,7 @@ def createPageNavs(resultNumber,page,keywords):
       navUrl = ''
       #print 'pageNumber is ', page
       pageNumber = int(math.ceil(resultNumber/5.0))
+      print "page number is", pageNumber
       if pageNumber > 1:
           if page != 1:
              navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav" style="margin-left:14px; font-size:12px">Previous</a> '
@@ -77,7 +77,7 @@ def createPageNavs(resultNumber,page,keywords):
               else:
                   navUrl += '</div>'
           else:
-             if page < 5:
+             if page < 4:
                   for pageCreating in range(pageNumber+1)[1:11]:
                          activeString = ''
                          if page == pageCreating:
