@@ -1,16 +1,35 @@
 import sqlite3
 import datetime
 import math
+from itertools import permutations
+import spellingCorrection as sC
+#from autocorrect import spell
 
 conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
 maxUrlPage = 10
 cache = {}
 
+
+def autoCorrect(wholeString):
+    keywords = wholeString.split()
+    newString = ''
+    correctedWords = []
+    for word in keywords:
+        correctedWords.append(sC.correction(word))
+    newString = ' '.join(correctedWords)
+    return newString
+
 def searchKeyWord(keyword, wholeString, startingIndex):
+    correctedString = autoCorrect(wholeString)
+    print 'correctedString is', correctedString
+    spellingMistake = (correctedString != wholeString)
+    print 'spellingMistake is ',spellingMistake
+    urlHtml = ''
+    if  spellingMistake:
+         urlHtml = '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; color: #e1756e ; "> Did you mean: ' + '<a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString + '</a></h1>'
     keyword = keyword.lower()
     keyPair = (keyword,)
-    urlHtml = {}
     if keyword in cache:
         result = cache[keyword]
     else:
@@ -20,9 +39,9 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     resultNumber = len(result)
     #print result
     if not result:
-        urlHtml = '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
-        urlHtml = createUrls(result,startingIndex,resultNumber)
+        urlHtml += createUrls(result,startingIndex,resultNumber)
     #print urlHtml
     return urlHtml, resultNumber
     #for row in data:
@@ -77,7 +96,7 @@ def createPageNavs(resultNumber,page,keywords):
               else:
                   navUrl += '</div>'
           else:
-             if page < 4:
+             if page < 5:
                   for pageCreating in range(pageNumber+1)[1:11]:
                          activeString = ''
                          if page == pageCreating:

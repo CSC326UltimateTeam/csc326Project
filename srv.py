@@ -44,7 +44,7 @@ def home() :
         #google sign in
         flow = flow_from_clientsecrets("client_secret_768721561947-cda1s6rph24pem3t6h4pa3e4016ua9rk.apps.googleusercontent.com.json",
         scope= 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-        redirect_uri="http://ec2-34-233-27-14.compute-1.amazonaws.com/")
+        redirect_uri="http://localhost:8080/")
         uri = flow.step1_get_authorize_url()
         redirect(str(uri))
         ####
@@ -97,7 +97,7 @@ def index() :
         flow = OAuth2WebServerFlow(client_id='768721561947-cda1s6rph24pem3t6h4pa3e4016ua9rk.apps.googleusercontent.com',
                                client_secret='PTU6hiaZ7CdOdthZurcYLVk6',
                                scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-                               redirect_uri='http://ec2-34-233-27-14.compute-1.amazonaws.com/')
+                               redirect_uri='http://localhost:8080/')
         credentials = flow.step2_exchange(code)
         token = credentials.id_token['sub']
         http = httplib2.Http()
@@ -257,4 +257,4 @@ def errorHandler(error):
 #def errorHandler(error):
 #     return  template('otherError.tpl')
 
-run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
+run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)

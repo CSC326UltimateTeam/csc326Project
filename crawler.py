@@ -549,7 +549,7 @@ class crawler(object):
                 pass
 
         return
-    
+
     #similar to the pagerank algorithm used by the reference function
     def calcRank(self, num_iterations=20,initial_pr=1.0):
 
@@ -594,6 +594,6 @@ if __name__ == "__main__":
 
 #start crawling the web
     a=crawler('Crawler.db','urls.txt',verbose=True)
-    a.crawl(depth=1);
+    a.crawl(depth=2);
     a.calcRank()
     a.fillPageInfo(timeout=.5)
