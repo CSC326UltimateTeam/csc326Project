@@ -261,6 +261,10 @@ def mathEquationHandler(inputString):
     tempString = tempString.replace('=','')
     nsp = NumericStringParser()
     try:
-        return nsp.eval(tempString), (tempString+' = ')
+        evalRes = nsp.eval(tempString)
+        tempWords = tempString.split()
+        tempEquation = ''.join(tempWords)
+        finalEquation = ' '.join(tempEquation)
+        return nsp.eval(tempString), (finalEquation+' = ')
     except:
         return None, None
