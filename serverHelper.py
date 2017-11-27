@@ -21,6 +21,10 @@ def autoCorrect(wholeString):
     return newString
 
 def searchKeyWord(keyword, wholeString, startingIndex):
+    keywords = wholeString.lower()
+    keywords = wholeString.split()
+    syntaxedWords = ' OR '.join(keywords)
+    print syntaxedWords
     correctedString = autoCorrect(wholeString)
     print 'correctedString is', correctedString
     spellingMistake = (correctedString != wholeString)
@@ -118,7 +122,26 @@ def createPageNavs(resultNumber,page,keywords):
                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
                  else:
                      navUrl += '</div>'
-
-
-
       return navUrl
+
+
+def getHistoryBarHtml(history):
+      historyBarHtml = ''
+      length = len(history)
+      if length == 0:
+          return '<li style="font-size:19px; text-align:left"> <a>History not Available </a> </li>'
+      if length < 5:
+          for item in history:
+              historyBarHtml += getHistoryBarLi(item)
+      else:
+           i = 0
+           for item in history:
+               if i == 5:
+                   break
+               historyBarHtml += getHistoryBarLi(item)
+               i += 1
+      return historyBarHtml
+
+
+def getHistoryBarLi(item):
+    return '<li style="font-size:19px; text-align:left" ><a href="?keywords=' +item + '">' + item + '</a></li'

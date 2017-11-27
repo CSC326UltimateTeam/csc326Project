@@ -122,6 +122,10 @@ def index() :
         s.save()
 
     #dictionary used to record keywordsS and number of appearance
+    #first sort current history
+    historyLen = len(searchHistory)
+    firstSortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
+    historyBarHtml = sh.getHistoryBarHtml(firstSortedHistory)
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
     pageString = request.query.get('page')
@@ -130,13 +134,13 @@ def index() :
     else:
         page = int(pageString)
     if not inputString:
-        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
+        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml, historyBarHtml = historyBarHtml)
     tempString = inputString.lower()
     #get rid of space
     splitString = tempString.split()
     #if splitString is empty (i.e. input string only consists of space or is empty), redirect route to root
     if not splitString:
-       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml)
+       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml, historyBarHtml = historyBarHtml)
        pass
     #parse query string
     firstKeyWord = inputString.split()[0]
@@ -160,13 +164,18 @@ def index() :
     print dictionary
     print "recent search list:"
     print recentSearchList
+    for row in dictionary:
+          if row in searchHistory:
+              searchHistory[row] += dictionary[row]
+          else:
+              searchHistory[row] = 1
   #store keywords in search history
-    if logInStatus == 'loggedIn':
-        for row in dictionary:
-              if row in searchHistory:
-                  searchHistory[row] += dictionary[row]
-              else:
-                  searchHistory[row] = 1
+    #if logInStatus == 'loggedIn':
+        #for row in dictionary:
+        #      if row in searchHistory:
+        #          searchHistory[row] += dictionary[row]
+        #      else:
+        #          searchHistory[row] = 1
 #get length of history
     historyLen = len(searchHistory)
 #if history length is less than 20, display all result in greatest first order

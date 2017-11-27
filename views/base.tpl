@@ -50,8 +50,15 @@
       <div class="jumbotron">
         <img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">
         <form class="" action="/" method="GET">
-        <input type="text" name="keywords" value=""   class="searchBar">
+          <div class="dropdown">
+    <input type="text" name="keywords" value=""   class="searchBar dropdown-toggl"  data-toggle="dropdown">
+    <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; ">
+    {{ !historyBarHtml}}
+    </ul>
+          </div>
         <input type="submit" id="searchButton" value="Search" class="btn btn-primary searchButton">
+
+        </div>
         </form>
         <!--<button class="btn btn-small btn-info lang" name="button" key="searchButton" onclick="queryHandler">Search</button>-->
         <!--  <a class="btn btn-large btn-success lang" href="addques.php" key="addNewQuestion">Search</a>-->
