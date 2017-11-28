@@ -27,7 +27,7 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     urlHtml = ''
     result,displayEquation = mathEquationHandler(wholeString)
     if result != None:
-        urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.8%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
+        urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
     keywords = wholeString.lower()
     keywords = wholeString.split()
     syntaxedWords = ' OR '.join(keywords)

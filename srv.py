@@ -13,6 +13,7 @@ import httplib2
 import os
 import random
 searchHistory = {}
+fullSearchHistory = {}
 recentSearchList = []
 lastCode = ""
 category = 0
@@ -123,8 +124,8 @@ def index() :
 
     #dictionary used to record keywordsS and number of appearance
     #first sort current history
-    historyLen = len(searchHistory)
-    firstSortedHistory = OrderedDict(sorted(searchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
+    historyLen = len(fullSearchHistory)
+    firstSortedHistory = OrderedDict(sorted(fullSearchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
     historyBarHtml = sh.getHistoryBarHtml(firstSortedHistory)
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
@@ -151,6 +152,10 @@ def index() :
         pageStart = (page - 1)*5
     urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString,  pageStart)
     navUrl = sh.createPageNavs(resultNumber,page,inputString)
+    if inputString in fullSearchHistory:
+        fullSearchHistory[inputString] += 1
+    else:
+        fullSearchHistory[inputString] = 1
 
     for word in splitString:
         if logInStatus == 'loggedIn':
@@ -190,6 +195,7 @@ def index() :
         mostRecentSearch = reversedRecentSearch
     else:
         mostRecentSearch = reversedRecentSearch[:15]
+    return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml , urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
     if s['mode'] == 'Signed-In':
         return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch, navUrl = navUrl )
     else:
