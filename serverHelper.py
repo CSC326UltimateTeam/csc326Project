@@ -30,6 +30,7 @@ def searchKeyWord(keyword, wholeString, startingIndex):
         urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
     keywords = wholeString.lower()
     keywords = wholeString.split()
+    keywordsCombinations = ["%" + "%".join(order) + "%" for order in list(permutations(keywords))]
     syntaxedWords = ' OR '.join(keywords)
     print syntaxedWords
     correctedString = autoCorrect(wholeString)
@@ -40,17 +41,26 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     if  spellingMistake:
          urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; color: #e1756e ; "> Did you mean: ' + '<a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString + '</a></h1>'
     keyword = keyword.lower()
+    keyword = '%'+keyword+'%'
+    print 'keyword is', keyword
     keyPair = (keyword,)
     if keyword in cache:
         result = cache[keyword]
     else:
-        data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content=?  ORDER BY rank desc '  ,  keyPair)
+        col = "content"
+        joiner = ' OR '
+        multiOperation = joiner.join(["{0} LIKE '{1}'".format(col, w) for w in keywordsCombinations])
+        multiSingleOperation =  joiner.join(["{0} LIKE '%{1}%'".format(col, w) for w in keywords])
+        sql = 'SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ multiOperation + ' OR ' + multiSingleOperation + 'ORDER BY rank desc'
+        print sql
+        data = c.execute(sql)
+        #data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE ?  ORDER BY rank desc '  ,  keyPair)
         result = c.fetchall()
         cache[keyword] = result
     resultNumber = len(result)
     #print result
     if not result:
-        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' +  '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
         urlHtml += createUrls(result,startingIndex,resultNumber)
     #print urlHtml

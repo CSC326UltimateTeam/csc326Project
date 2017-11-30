@@ -52,7 +52,7 @@
         <!--<img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">-->
         <form class="" action="/" method="GET">
           <div class="dropdown">
-    <input type="text" name="keywords" value=""   class="searchBar dropdown-toggl"  data-toggle="dropdown">
+    <input type="text" name="keywords" value=""   class="searchBar dropdown-toggl"  data-toggle="dropdown" onkeyup="">
     <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; ">
     {{ !historyBarHtml}}
     </ul>
@@ -95,6 +95,7 @@
 <script src="/static/js/bootstrap-typeahead.js"></script>
 <script src="/static/js/bodymovin.js" type="text/javascript"></script>
 <script src="/static/js/engineAnimation.js"></script>
+<script src="/static/js/searchHandler.js"></script>
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
 <script>

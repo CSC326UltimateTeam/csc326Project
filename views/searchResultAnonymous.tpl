@@ -37,7 +37,7 @@
   </ul>
   <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
   <form class="searchResultSearchBar " action="/" method="GET">
-    <input type="text" name="keywords" value="{{keywords}}">
+    <input type="text" name="keywords" value="{{keywords}}" id="keywords" >
     <input type="submit" id="searchButton"  value="Search" class="searchButton btn btn-primary btnInSearchResultSearch ">
   </form>
 </div>
@@ -91,7 +91,7 @@
   <table style="margin-left: 10%">
 <tr>
   <td>blablabla</td>
-  
+
   <td>blablabla</td>
 </tr>
   </table>
@@ -128,6 +128,8 @@
       <script src="/static/js/bootstrap-typeahead.js"></script>
       <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
       <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
+      <script src="/static/js/bodymovin.js" type="text/javascript"></script>
+      <script src="/static/js/searchHandler.js"></script>
 
   </body>
 </html>
