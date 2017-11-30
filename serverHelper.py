@@ -29,6 +29,7 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     if result != None:
         urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
     keywords = wholeString.lower()
+    lowerKeywords = keywords
     keywords = wholeString.split()
     keywordsCombinations = ["%" + "%".join(order) + "%" for order in list(permutations(keywords))]
     syntaxedWords = ' OR '.join(keywords)
@@ -44,8 +45,8 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     keyword = '%'+keyword+'%'
     print 'keyword is', keyword
     keyPair = (keyword,)
-    if keyword in cache:
-        result = cache[keyword]
+    if lowerKeywords in cache:
+        result = cache[lowerKeywords]
     else:
         col = "content"
         joiner = ' OR '
