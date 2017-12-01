@@ -279,4 +279,4 @@ def errorHandler(error):
 #def errorHandler(error):
 #     return  template('otherError.tpl')
 
-run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)
+run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
