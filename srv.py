@@ -1,5 +1,5 @@
 import os
-os.chdir(path)
+os.chdir('~/csc326Project/')
 from bottle import route, run, template, static_file, request, redirect, error, Bottle
 import operator
 import bottle
