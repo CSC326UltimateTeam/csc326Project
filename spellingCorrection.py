@@ -3,7 +3,7 @@ from collections import Counter
 
 def words(text): return re.findall(r'\w+', text.lower())
 
-WORDS = Counter(words(open('English (International).dic').read()))
+WORDS = Counter(words(open('English.dic').read()))
 
 def P(word, N=sum(WORDS.values())):
     "Probability of `word`."
