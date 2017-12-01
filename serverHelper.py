@@ -8,11 +8,11 @@ from pyparsing import (Literal, CaselessLiteral, Word, Combine, Group, Optional,
                        ZeroOrMore, Forward, nums, alphas, oneOf)
 #from autocorrect import spell
 
+
 conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
 maxUrlPage = 10
 cache = {}
-
 
 def autoCorrect(wholeString):
     keywords = wholeString.split()
@@ -23,15 +23,16 @@ def autoCorrect(wholeString):
     newString = ' '.join(correctedWords)
     return newString
 
-def searchKeyWord(keyword, wholeString, startingIndex):
+def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
+    print "ignoreMistake", ignoreMistake
+    global lastString
     urlHtml = ''
     result,displayEquation = mathEquationHandler(wholeString)
     if result != None:
         urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
     keywords = wholeString.lower()
     lowerKeywords = keywords
-    keywords = wholeString.split()
-    keywordsCombinations = ["%" + "%".join(order) + "%" for order in list(permutations(keywords))]
+    keywords = keywords.split()
     syntaxedWords = ' OR '.join(keywords)
     print syntaxedWords
     correctedString = autoCorrect(wholeString)
@@ -39,20 +40,24 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     spellingMistake = (correctedString != wholeString)
     print 'spellingMistake is ',spellingMistake
 
-    if  spellingMistake:
-         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; color: #e1756e ; "> Did you mean: ' + '<a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString + '</a></h1>'
-    keyword = keyword.lower()
-    keyword = '%'+keyword+'%'
-    print 'keyword is', keyword
-    keyPair = (keyword,)
+    if  spellingMistake and ignoreMistake == 0:
+         keywords = correctedString.lower()
+         lowerKeywords = keywords
+         keywords = keywords.split()
+         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1% "> Showing results for <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8; font-style: italic;">' + correctedString +  '</a></h1> <h1 style="margin-left: 10%; margin-top:1px;"><span style="font-size:16px; font-weight:normal;">Search Instead for <a href="?keywords='  + wholeString + '&ignoreMistake=1" style="color:#1C1BA8;">' + wholeString + '</a></span></h1>'
+
+    if spellingMistake and ignoreMistake == 1:
+        urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1%; color: #df6257; "> Did you mean: <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString +  '</a></h1>'
+
     if lowerKeywords in cache:
         result = cache[lowerKeywords]
     else:
+        keywordsCombinations = ["%" + "%".join(order) + "%" for order in list(permutations(keywords))]
         col = "content"
         joiner = ' OR '
         multiOperation = joiner.join(["{0} LIKE '{1}'".format(col, w) for w in keywordsCombinations])
         multiSingleOperation =  joiner.join(["{0} LIKE '%{1}%'".format(col, w) for w in keywords])
-        sql = 'SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ multiOperation + ' OR ' + multiSingleOperation + 'ORDER BY rank desc'
+        sql = 'SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ multiOperation + ' OR ' + multiSingleOperation + 'ORDER BY rank desc'
         print sql
         data = c.execute(sql)
         #data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE ?  ORDER BY rank desc '  ,  keyPair)
@@ -61,7 +66,7 @@ def searchKeyWord(keyword, wholeString, startingIndex):
     resultNumber = len(result)
     #print result
     if not result:
-        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' +  '<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
         urlHtml += createUrls(result,startingIndex,resultNumber)
     #print urlHtml

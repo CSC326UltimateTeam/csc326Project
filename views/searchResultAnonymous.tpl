@@ -129,6 +129,18 @@
       <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
       <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
       <script src="/static/js/bodymovin.js" type="text/javascript"></script>
+      <script type="text/javascript">
+      var animation = bodymovin.loadAnimation({
+        container: document.getElementById('emojiAnimation'), // Required
+        path: 'static/js/emojiAnimation.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "Emoji Animation", // Name for future reference. Optional.
+      })
+
+
+      </script>
       <script src="/static/js/searchHandler.js"></script>
 
   </body>

@@ -48,7 +48,7 @@
         <h3 class="muted lang" key="productName">MouZhiA</h3>
       </div>
       <div class="jumbotron">
-        <div id="engineLogo" style="width:50% ;margin-left:25%" >    </div>
+        <div id="engineLogo" style="width:40% ;margin-left:30%; padding-top:3%" >    </div>
         <!--<img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">-->
         <form class="" action="/" method="GET">
           <div class="dropdown">

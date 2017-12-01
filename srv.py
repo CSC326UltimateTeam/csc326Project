@@ -19,6 +19,7 @@ lastCode = ""
 category = 0
 lastRouteTrack = ""
 app = Bottle()
+ignoreMistake = 0
 
 session_opts = {
     'session.type': 'file',
@@ -58,7 +59,7 @@ def index() :
     ####
 
     global lastCode
-
+    global ignoreMistake
 
     #check whether logged in
     s = bottle.request.environ.get('beaker.session')
@@ -130,10 +131,16 @@ def index() :
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
     pageString = request.query.get('page')
+    tempIgnoreMistake = request.query.get('ignoreMistake')
     if not pageString:
         page = 1
     else:
         page = int(pageString)
+    if not tempIgnoreMistake and not pageString:
+        ignoreMistake = 0
+    if tempIgnoreMistake and not pageString:
+        ignoreMistake = 1
+    print "ignoreMistake", ignoreMistake
     if not inputString:
         return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml, historyBarHtml = historyBarHtml)
     tempString = inputString.lower()
@@ -150,7 +157,7 @@ def index() :
         page = 1
     else:
         pageStart = (page - 1)*5
-    urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString,  pageStart)
+    urlHtml, resultNumber = sh.searchKeyWord(firstKeyWord, inputString,  pageStart,ignoreMistake)
     navUrl = sh.createPageNavs(resultNumber,page,inputString)
     if inputString in fullSearchHistory:
         fullSearchHistory[inputString] += 1
