@@ -6,5 +6,4 @@ os.system('sudo pip install oauth2client')
 os.system('sudo pip install --upgrade google-api-python-client')
 os.system('sudo pip install beaker')
 os.system('sudo pip install pyparsing')
-os.system('sudo nohup python ~/csc326Project/srv.py &')
 
