@@ -1,3 +1,5 @@
+import os
+os.chdir(path)
 from bottle import route, run, template, static_file, request, redirect, error, Bottle
 import operator
 import bottle
@@ -10,7 +12,6 @@ from googleapiclient.discovery import build
 from beaker.middleware import SessionMiddleware
 import serverHelper as sh
 import httplib2
-import os
 import random
 searchHistory = {}
 fullSearchHistory = {}
