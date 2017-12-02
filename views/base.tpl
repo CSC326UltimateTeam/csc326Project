@@ -99,6 +99,32 @@
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
 <script>
+ $(document).ready(function(){
+
+      $('.searchBar').keyup(function(){
+           var query = $(this).val();
+           if(query != '')
+           {
+                $.ajax({
+                     url:"/suggestion",
+                     method:"POST",
+                     data:{query:query},
+                     success:function(data)
+                     {
+                          $('.dropdown ul').empty()
+                          $('.dropdown ul').append(data)
+                     }
+                });
+           }
+           else{
+                $('.dropdown ul').empty()
+                $('.dropdown ul').append('<li style="font-size:19px; text-align:left" ><a href="/imagenet"> Search with image </a></li>')
+
+           }
+      });
+ });
+ </script>
+<script>
 // When the user clicks on div, open the popup
 function myFunction() {
     var popup = document.getElementById("myPopup");
