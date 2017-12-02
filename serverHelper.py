@@ -131,7 +131,7 @@ def wordsearch(lower_keywords):
             c.execute("""SELECT DISTINCT title,url,description FROM Webpages where ID=?""", (id, ))
             for ele in c.fetchall():
                 result.append(ele)
-                print ele[0],' ', val[0],' ', val[1],' ', val[2]
+
         return result
 
 
