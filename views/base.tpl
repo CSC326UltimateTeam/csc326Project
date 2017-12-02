@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MouZhiA</title>
 <!-- Load bootstrap and mouzhia style -->
     <link href="/static/css/bootstrap.css" rel="stylesheet">
@@ -10,11 +11,11 @@
      <link rel="icon"  type="image/png" href="/static/images/searchEngineLogo.png">
   </head>
   <body onload="loadLanguage()">
+    <div class="container-fluid">
     <div class="container-narrow">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
            <li><a href="/about" class="lang" key="about" >About</a></li>
-
            <li class="dropdown">
               <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
               <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; min-height: 30px; margin-left:-120px; text-align:center;font-size:13px;">
@@ -69,6 +70,7 @@
 
     </div>
 <hr>
+<div class="container-fluid">
 <div class="footer">
   <p>&copy;
     <span class="lang" key="copyRight">2017 CSC326UltimateTeam</span>
@@ -80,6 +82,7 @@
     </select>
   </span>
   </p>
+</div>
 </div>
 <!-- load all javascript from here -->
 <script src="/static/js/jquery.js"></script>

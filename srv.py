@@ -215,6 +215,7 @@ def index() :
     pageString = request.query.get('page')
     tempIgnoreMistake = request.query.get('ignoreMistake')
     historyBarHtml = '<label for="imagenet-upload"> <li style="font-size:19px; text-align:left;margin-left:3%" >Search with Image </li></label>'
+    resultHistoryBarHtml = '<label for="imagenet-upload"> <li style="font-size:17px; text-align:left;margin-left:3%" >Search with Image </li></label>'
     if not pageString:
         page = 1
     else:
@@ -296,7 +297,7 @@ def index() :
                     keywords = inputString, history = sortedHistory, accountText = accountName,
                     LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage,
                     changePhotoHtml = changePhotoHtml , urlHtml = urlHtml,
-                    resultNumber = resultNumber, navUrl = navUrl)
+                    resultNumber = resultNumber, navUrl = navUrl,historyBarHtml=resultHistoryBarHtml)
     if s['mode'] == 'Signed-In':
         return template('searchResultLoggedIn.tpl', dictionary = dictionary,
                         keywords = inputString, history = sortedHistory, accountText = accountName,
@@ -306,7 +307,7 @@ def index() :
         return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString,
                         history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml,
                         userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml ,
-                        urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
+                        urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl, historyBarHtml=resultHistoryBarHtml)
 
 @route('/signOut')
 def signOut( ):

@@ -12,12 +12,15 @@
   </head>
   <body onload="loadLanguage();">
 <div class="container-narrow">
-<div class="masthead">
+<div class="masthead" style="height:13%" >
   <ul class="nav nav-pills pull-right">
-     <li><a href="/about" class="lang" key="about">About</a></li>
+     <li><a href="/about" class="lang" key="about" >About</a></li>
      <li class="dropdown">
         <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
-      <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; margin-left:-120px; text-align:center;font-size:13px;">
+        <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; min-height: 30px; margin-left:-120px; text-align:center;font-size:13px;">
+
+        <br>
+
         <div class="image-upload">
         <label for="file-input">
         <img class="profilePhoto rounded" src={{userImage}} alt="">
@@ -28,22 +31,45 @@
          </form>
 
           </div>
-        <br>
+
              {{!userInfoHtml}}
              {{!LogInOffHtml}}
             <!--li><a href="/account" class="lang" key="account"> Log In With Google </a></li>-->
         </ul>
      </li>
+
+
+     <!-- drop down feature -->
+
+
   </ul>
-  <h3 > <a href="/" class="muted nav lang" key="productName">MouZhiA</a></h3>
-  <form class="searchResultSearchBar " action="/" method="GET">
-    <input type="text" name="keywords" value="{{keywords}}" id="keywords" >
-    <input type="submit" id="searchButton"  value="Search" class="searchButton btn btn-primary btnInSearchResultSearch ">
+
+  <h3 style="margin-top:2%; margin-left:-1%" > <a href="/" class="muted nav lang" key="productName" >MouZhiA</a></h3>
+   <span class="dropdownSearchBar">
+  <form class="searchResultSearchBar " action="/" method="GET" style="width:70%; margin-left:-2%">
+    <input type="text" name="keywords" value="{{keywords}}"  class="dropdown-toggl searchBar" id="keywords" data-toggle="dropdown" style="width:18%; font-size:22px" >
+    <ul  class="dropdown-menu" style="margin-top:-3.4%; text-align:left; width:220px; font-size:13px; margin-left:18%">
+      {{ !historyBarHtml}}
+    </ul>
+</span>
+      <input type="submit" id="searchButton"  value="Search" class="searchButton btn btn-primary btnInSearchResultSearch "  style="margin-top:-1%; margin-left:1%">
+
+
   </form>
-</div>
+  <form class="imagenet" name="imagenetForm" action="/imagenet" method="POST" style="display:none" enctype="multipart/form-data">
+    <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="javascript:this.form.submit();" accept="image/*" >
+  </form>
+
+    </div>
+
+
+
+
+
+
 </div>
   <div class="resultTables" >
-  <p style="color:grey; margin-left :10.2%; margin-top: -1%; margin-bottom: 1%"> About {{resultNumber}} results </p>
+  <p style="color:grey; margin-left :10.2%; margin-top: %; margin-bottom: 1%"> About {{resultNumber}} results </p>
 <!--
   <div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">
     <p>Your search - <strong>blablabla</strong> - did not match any documents</p>
@@ -142,6 +168,31 @@
 
       </script>
       <script src="/static/js/searchHandler.js"></script>
+      <script>
+       $(document).ready(function(){
 
+            $('.searchBar').keyup(function(){
+                 var query = $(this).val();
+                 if(query != '')
+                 {
+                      $.ajax({
+                           url:"/suggestion",
+                           method:"POST",
+                           data:{query:query},
+                           success:function(data)
+                           {
+                                $('.dropdownSearchBar ul').empty()
+                                $('.dropdownSearchBar ul').append(data)
+                           }
+                      });
+                 }
+                 else{
+                      $('.dropdownSearchBar ul').empty()
+                      $('.dropdownSearchBar ul').append('<label for="imagenet-upload"> <li style="font-size:17px; text-align:left;margin-left:3%" >Search with Image </li></label>')
+
+                 }
+            });
+       });
+       </script>
   </body>
 </html>
