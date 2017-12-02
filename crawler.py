@@ -189,7 +189,6 @@ class crawler(object):
                                                              content text NOT NULL,\
                                                              inURL text not NULL,\
                                                              times int, \
-                                                             avg_position real,\
                                                              PRIMARY KEY(content,inURL)\
                                                             );""")
 
@@ -255,19 +254,18 @@ class crawler(object):
         return self._word_mapped_to_url
 
 
-    def word_id(self, word,position):
+    def word_id(self, word):
 
         word_id= self._insert_word(word)
 
         try:
-            self.databaseExe.execute( """INSERT into WordExists values (?, ?, 1., ? );""" ,(word, self._curr_url, position))
+            self.databaseExe.execute( """INSERT into WordExists values (?, ?, 1.);""" ,(word, self._curr_url))
 
         except sqlite3.IntegrityError:
 
             self.databaseExe.execute( """UPDATE WordExists\
-                                      SET times=times+1, \
-                                      avg_position = (avg_position*times + ?)/(times+1)
-                                      where content=? and inURL=?;""",(position, word,self._curr_url))
+                                      SET times=times+1\
+                                      where content=? and inURL=?;""",(word,self._curr_url))
 
         return word_id
 
@@ -319,12 +317,8 @@ class crawler(object):
 
     def _visit_description(self, elem):
         text= self._text_of(elem).strip()
-        if len(text)==0:
-            self.description_text=''
-        elif len(text) >300:
-            self.description_text = text[:300] + "..."
-        else:
-            self.description_text = text + "..."
+        cut = 300 if len(text) >300 else len(text)
+        self.description_text = text[:cut] + "..."
         #self.databaseExe.execute("""UPDATE Webpages SET description= ?""", (description_text,))
 
     def _visit_a(self, elem):
@@ -385,12 +379,12 @@ class crawler(object):
         """Add some text to the document. This records word ids and word font sizes
         into the self._curr_words list for later processing."""
         words = WORD_SEPARATORS.split(elem.string.lower())
-        for id, word in enumerate(words):
+        for word in words:
             word = word.strip()
             if word in self._ignored_words:
                 continue
 
-            self._curr_words.append((self.word_id(word, id+1), self._font_size))
+            self._curr_words.append((self.word_id(word), self._font_size))
 
     def _text_of(self, elem):
         """Get the text inside some element without any tags."""
