@@ -162,7 +162,7 @@ def getHistoryBarHtml(history):
       historyBarHtml = ''
       length = len(history)
       if length == 0:
-          return '<li style="font-size:19px; text-align:left"> <a>No suggestion </a> </li>'
+          return '<li style="text-align:left"> <a>No suggestion </a> </li>'
       if length < 5:
           for item in history:
 
@@ -178,7 +178,7 @@ def getHistoryBarHtml(history):
 
 
 def getHistoryBarLi(item):
-    return '<li style="font-size:19px; text-align:left" ><a href="?keywords=' +item + '">' + item + '</a></li>'
+    return '<li style="text-align:left" ><a href="?keywords=' +item + '">' + item + '</a></li>'
 
 
 class NumericStringParser(object):
