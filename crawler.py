@@ -78,6 +78,8 @@ class crawler(object):
         def visit_title(*args, **kargs):
             self._visit_title(*args, **kargs)
             self._increase_font_factor(7)(*args, **kargs)
+        def visit_description(*args, **kargs):
+            self._visit_description(*args, **kargs)
 
         # increase the font size when we enter these tags
         self._enter['b'] = self._increase_font_factor(2)
@@ -90,6 +92,7 @@ class crawler(object):
         self._enter['h4'] = self._increase_font_factor(4)
         self._enter['h5'] = self._increase_font_factor(3)
         self._enter['title'] = visit_title
+        self._enter['p'] = visit_description
 
         # decrease the font size when we exit these tags
         self._exit['b'] = self._increase_font_factor(-2)
@@ -154,34 +157,6 @@ class crawler(object):
 
 
 
-
-
-    # TODO remove me in real version
-    def _insert_document(self, url):
-        """A function that pretends to insert a url into a document db table
-        and then returns that newly inserted document's id."""
-
-        try:
-
-            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?,0.00000001, '', '', '', 0,0);"""\
-                                     , (self._next_doc_id, url))
-
-            inserted_id = self._next_doc_id
-            self._next_doc_id +=1
-            self.conn.commit()
-            if self.verbose:
-                print("\nInsertion: %s"%url)
-            return inserted_id
-
-        except sqlite3.IntegrityError:
-
-            self.databaseExe.execute("""SELECT ID FROM Webpages WHERE url = ?;""" , (url,))
-            ret = self.databaseExe.fetchone()
-            if ret is not None:
-                return ret[0]
-
-
-
     def createSchema (self):
 
         self.databaseExe.execute("""CREATE TABLE if not EXISTS Webpages(\
@@ -220,6 +195,35 @@ class crawler(object):
         self.conn.commit()
 
 
+    def _insert_document(self, url):
+        """A function that pretends to insert a url into a document db table
+        and then returns that newly inserted document's id."""
+        '''
+        try:
+
+            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?,0, '', '', '', 0,0);"""\
+                                     , (self._next_doc_id, url))
+
+            inserted_id = self._next_doc_id
+            self._next_doc_id +=1
+
+            if self.verbose:
+                print("\nInsertion: %s"%url)
+            return inserted_id
+        
+        except sqlite3.IntegrityError:
+        '''
+        self.databaseExe.execute("""SELECT ID FROM Webpages WHERE url = ?;""" , (url,))
+        ret = self.databaseExe.fetchone()
+        if ret is not None:
+            return ret[0]
+        else:
+
+            inserted_id = self._next_doc_id
+            self._next_doc_id += 1
+            return inserted_id
+
+
     def _insert_word(self, word):
         """A function that  insterts a word into the lexicon db table
         and then returns that newly inserted word's id."""
@@ -227,7 +231,7 @@ class crawler(object):
             self.databaseExe.execute ("""INSERT into Words values (?, ?);""",(self._next_word_id, str(word)))
             ret = self._next_word_id
             self._next_word_id+=1
-            self.conn.commit()
+
             return ret
 
         except sqlite3.IntegrityError:
@@ -263,33 +267,8 @@ class crawler(object):
                                       SET times=times+1\
                                       where content=? and inURL=?;""",(word,self._curr_url))
 
-        self.conn.commit()
         return word_id
 
-    	''''#when the crawler is going thrugh the words and iding them, also push the words and urls to
-    	#a dictionary
-
-        if word in self._word_mapped_to_url:
-            self._word_mapped_to_url[word].add(self._curr_url)
-        else:
-            self._word_mapped_to_url[word]=set()
-            self._word_mapped_to_url[word].add(self._curr_url)
-
-        """Get the word id of some specific word."""
-        if word in self._word_id_cache:
-            return self._word_id_cache[word]
-
-        # TODO: 1) add the word to the lexicon, if that fails, then the
-        #          word is in the lexicon
-        #       2) query the lexicon for the id assigned to this word,
-        #          store it in the word id cache, and return the id.
-
-
-
-        word_id = self._insert_word(word)
-        self._word_id_cache[word] = word_id
-        return word_id
-        '''
 
     def document_id(self, url):
         """Get the document id for some url."""
@@ -328,17 +307,18 @@ class crawler(object):
         except sqlite3.IntegrityError:
             self.databaseExe.execute("""UPDATE Directs SET times =  times +1 \
                                     where source = ? and destination =?""",(from_doc_id,to_doc_id))
-        self.conn.commit()
+
 
     def _visit_title(self, elem):
 
         """Called when visiting the <title> tag."""
-        title_text = self._text_of(elem).strip()
+        self.title_text = self._text_of(elem).strip()
+        #self.databaseExe.execute("""UPDATE Webpages SET title= ?""", (title_text,))
 
-        #if self.verbose:
-            #print ("document title=" + repr(title_text))
+    def _visit_description(self, elem):
 
-        # TODO update document title for document id self._curr_doc_id
+        self.description_text = self._text_of(elem).strip()
+        #self.databaseExe.execute("""UPDATE Webpages SET description= ?""", (description_text,))
 
     def _visit_a(self, elem):
         """Called when visiting <a> tags."""
@@ -463,14 +443,21 @@ class crawler(object):
             # text (text, cdata, comments, etc.)
             else:
                 self._add_text(tag)
+        try:
+            if self.title_text=='EECG Student Guide':
+                return
+            self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?,1, ?, ?, '', 0,0);""" \
+                                     , (self._curr_doc_id, self._curr_url,self.title_text,self.description_text))
 
+            print "insertion: ", self._curr_url
 
+        except sqlite3.IntegrityError:
+            pass
 
-
-
-    def crawl(self, depth=2, timeout=3):
+    def crawl(self, depth=2, timeout=1):
         """Crawl the web!"""
         seen = set()
+
 
         while len(self._url_queue):
 
@@ -500,7 +487,7 @@ class crawler(object):
                 self._curr_words = []
                 self._index_document(soup)
                 self._add_words_to_document()
-
+                self.conn.commit()
 
             except Exception as e:
                 if self.verbose:
@@ -510,45 +497,7 @@ class crawler(object):
                 if socket:
                     socket.close()
 
-#finds the tile, description and all related information of a page
-    def fillPageInfo(self,timeout=0.1):
 
-        self.databaseExe.execute("""SELECT url, ID from Webpages where updated = 0;""");
-        rows=self.databaseExe.fetchall()
-        for row in rows:
-
-
-            try:
-                socket = urllib2.urlopen(row[0], timeout=timeout)
-                soup2 = BeautifulSoup(socket.read())
-                title = soup2.title
-
-                if title is None:
-                    title =''
-                else:
-                    title = title.getText()
-
-                description = soup2.p
-                if description is None:
-                    description=''
-                else:
-                    description=description.getText()
-                    if (len(description)>300):
-                        description=description[:300] + "..."
-
-                self.databaseExe.execute("""UPDATE Webpages SET title = ?, description =?, updated=1 WHERE ID = ?; """,
-                                         (title, description,row[1]))
-                self.conn.commit()
-                if self.verbose:
-                    print ("updated info")
-
-
-            except Exception as er:
-                if self.verbose:
-                    print (er)
-                pass
-
-        return
 
     #similar to the pagerank algorithm used by the reference function
     def calcRank(self, num_iterations=20,initial_pr=1.0):
@@ -596,4 +545,4 @@ if __name__ == "__main__":
     a=crawler('Crawler.db','urls.txt',verbose=True)
     a.crawl(depth=2);
     a.calcRank()
-    a.fillPageInfo(timeout=.5)
+
