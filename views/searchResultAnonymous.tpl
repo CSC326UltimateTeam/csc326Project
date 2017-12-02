@@ -16,7 +16,7 @@
   <ul class="nav nav-pills pull-right">
      <li><a href="/about" class="lang" key="about" >About</a></li>
      <li class="dropdown">
-        <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{!accountText}} <b class="caret"></b></a>
+        <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
         <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; min-height: 30px; margin-left:-120px; text-align:center;font-size:13px;">
 
         <br>
@@ -69,7 +69,7 @@
 
 </div>
   <div class="resultTables" >
-  <p style="color:grey; margin-left :10.2%; margin-top: %; margin-bottom: 1%"> <span class="lang" key="Aboutresult">About</span> {{resultNumber}} <span class="lang" key="aboutResult">results</span> </p>
+  <p style="color:grey; margin-left :10.2%; margin-top: %; margin-bottom: 1%"> About {{resultNumber}} results </p>
 <!--
   <div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">
     <p>Your search - <strong>blablabla</strong> - did not match any documents</p>
