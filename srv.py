@@ -100,9 +100,17 @@ def guess_from_setence(query_words):
     return [' '.join(query_words_mod)] + [' '.join(list_words_in_searches[sug[0]]) for sug in max_prev]
 
 
-@route('/imagenet', method='GET')
+@route('/imagenet', method='POST')
 def image_net():
-    return "to be released"
+   upload = request.files.get('imageSearch')
+   name, ext = os.path.splitext(upload.filename)
+   save_path = "static/tmp"
+   if not os.path.exists(save_path):
+       os.makedirs(save_path)
+   file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
+   upload.save(file_path, overwrite = True)
+   print 'uploaded file at ', file_path
+   redirect('/')
 
 #this lab has implemented bootstrap api (i.e. bootstrap css and bottstrap js) and jquery
 
@@ -206,7 +214,7 @@ def index() :
     inputString = request.query.get('keywords')
     pageString = request.query.get('page')
     tempIgnoreMistake = request.query.get('ignoreMistake')
-    historyBarHtml = '<li style="font-size:19px; text-align:left" ><a href="/imagenet"> Search with image </a></li>'
+    historyBarHtml = '<label for="imagenet-upload"> <li style="font-size:19px; text-align:left;margin-left:3%" >Search with Image </li></label>'
     if not pageString:
         page = 1
     else:

@@ -58,8 +58,10 @@
     </ul>
           </div>
         <input type="submit" id="searchButton" value="Search" class="btn btn-primary searchButton">
-
         </div>
+        </form>
+        <form class="imagenet" name="imagenetForm" action="/imagenet" method="POST" style="display:none" enctype="multipart/form-data">
+          <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="javascript:this.form.submit();" accept="image/*" >
         </form>
         <!--<button class="btn btn-small btn-info lang" name="button" key="searchButton" onclick="queryHandler">Search</button>-->
         <!--  <a class="btn btn-large btn-success lang" href="addques.php" key="addNewQuestion">Search</a>-->
@@ -118,7 +120,7 @@
            }
            else{
                 $('.dropdown ul').empty()
-                $('.dropdown ul').append('<li style="font-size:19px; text-align:left" ><a href="/imagenet"> Search with image </a></li>')
+                $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size:19px; text-align:left;margin-left:3%" >Search with Image </li></label>')
 
            }
       });
