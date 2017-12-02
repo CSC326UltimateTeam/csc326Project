@@ -47,7 +47,7 @@
   <h3 style="margin-top:2%; margin-left:-1%" > <a href="/" class="muted nav lang" key="productName" >MouZhiA</a></h3>
    <span class="dropdownSearchBar">
   <form class="searchResultSearchBar " action="/" method="GET" style="width:70%; margin-left:-2%">
-    <input type="text" name="keywords" value="{{keywords}}"  class="dropdown-toggl searchBar" id="keywords" data-toggle="dropdown" style="width:18%; font-size:22px" >
+    <input type="text" name="keywords" value="{{keywords}}"  class="dropdown-toggl searchBar" id="keywords" data-toggle="dropdown" style="width:22%; font-size:17px" >
     <ul  class="dropdown-menu" style="margin-top:-3.4%; text-align:left; width:220px; font-size:13px; margin-left:18%">
       {{ !historyBarHtml}}
     </ul>
