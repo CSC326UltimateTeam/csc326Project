@@ -91,7 +91,7 @@
     <ul class="nav nav-pills pull-right">
        <li class="active"><a href="/about" class="lang" key="about">About</a></li>
        <li class="dropdown">
-          <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
+          <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{!accountText}} <b class="caret"></b></a>
           <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; margin-left:-120px; text-align:center;font-size:13px;">
             <div class="image-upload">
             <label for="file-input">
@@ -116,11 +116,11 @@
 </div>
 <div class="contact-main">
       <blockquote class="pull-right lang" name="demonstration">
-        Constantly strive for perfection.<br>
-      --CSC326UltimateTeam
+        <span class="lang" key="slogan">Constantly strive for perfection.</span><br>
+        <span class="lang" key="teamName">  --CSC326UltimateTeam</span>
       </blockquote>
 
-<a  href="mailto:feirantonyfigo.hu@gmail.com"><button class="btn btn-large btn-block btn-primary lang" type="button" key="email">email us</button></a>
+<a  href="mailto:feirantonyfigo.hu@gmail.com"><button class="btn btn-large btn-block btn-primary lang" type="button" key="email">Email Us</button></a>
 </div>
 
 

@@ -150,14 +150,14 @@ def index() :
     logInStatus =  s.get('logInStatus',0)
     LogInOffHtml= ''
     changePhotoHtml = ''
-    userInfoHtml = '<div class="userInfo"><li style="font-size: 20px; font-weight: bold;"> Hi Stranger!</li></div>'
+    userInfoHtml = '<div class="userInfo"><li style="font-size: 20px; font-weight: bold;" class="lang" key="hiStranger"> Hi Stranger!</li></div>'
     userImage = "static/images/anonymous.png"
     #s['']
 
     #if not logged in
 
     if logInStatus != 'loggedIn':
-        accountName = 'Sign In'
+        accountName = '<span class="lang" key="signIn">Sign In</span>'
         mode = 'Anonymous'
         s['mode'] = mode
         LogInOffHtml = '<li class="divider"></li><li><a href="/account" class="lang btn-default btn btn-default" key="account"> Log In With Google </a></li>'
@@ -355,7 +355,7 @@ def about( ):
     userImage = "static/images/anonymous.png"
     logInStatus =  s.get('logInStatus',0)
     if logInStatus != 'loggedIn':
-        accountName = 'Sign In'
+        accountName = '<span class="lang" key="signIn">Sign In</span>'
         s['mode'] = 'Anonymous'
         LogInOffHtml = '<li class="divider"></li><li><a href="/account" class="lang btn btn-default" key="account"> Log In With Google </a></li>'
         s.save()

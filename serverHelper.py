@@ -44,10 +44,10 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
          keywords = correctedString.lower()
          lowerKeywords = keywords
          keywords = keywords.split()
-         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1% "> Showing results for <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8; font-style: italic;">' + correctedString +  '</a></h1> <h1 style="margin-left: 10%; margin-top:1px;"><span style="font-size:16px; font-weight:normal;">Search Instead for <a href="?keywords='  + wholeString + '&ignoreMistake=1" style="color:#1C1BA8;">' + wholeString + '</a></span></h1>'
+         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1% "> <span class="lang" key="showingResults">Showing results for</span> <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8; font-style: italic;">' + correctedString +  '</a></h1> <h1 style="margin-left: 10%; margin-top:1px;"><span style="font-size:16px; font-weight:normal;"><span class="lang" key="searchInstead">Search Instead for</span> <a href="?keywords='  + wholeString + '&ignoreMistake=1" style="color:#1C1BA8;">' + wholeString + '</a></span></h1>'
 
     if spellingMistake and ignoreMistake == 1:
-        urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1%; color: #df6257; "> Did you mean: <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString +  '</a></h1>'
+        urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1%; color: #df6257; "> <span class="lang" key="didMean">Did you mean</span>: <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString +  '</a></h1>'
 
     if lowerKeywords in cache:
         result = cache[lowerKeywords]
@@ -69,7 +69,7 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
     resultNumber = len(result)
     #print result
     if not result:
-        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p><span class="lang" key="yourSearch">Your search</span>  <strong>' +wholeString+ '</strong> <span class="lang" key="notMatching">did not match any documents</span></p><br>' + '<p class="lang" key="suggestionTitle">Suggestions:</p><li class="lang" key="suggestionOne">Make sure that all words are spelled correcly</li><li class="lang" key="suggestionTwo">Try different keywords</li><li class="lang" key="suggestionThree">Try more general keywords</li><li class="lang" key="suggestionFour">Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
         urlHtml += createUrls(result,startingIndex,resultNumber)
     #print urlHtml
@@ -118,7 +118,7 @@ def createPageNavs(resultNumber,page,keywords):
       print "page number is", pageNumber
       if pageNumber > 1:
           if page != 1:
-             navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav" style="margin-left:14px; font-size:12px">Previous</a> '
+             navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="previous">Previous</a> '
           else:
              navUrl = '<div class="paging-nav" style="margin-left:8.5%">'
           if pageNumber <= 10:
@@ -129,7 +129,7 @@ def createPageNavs(resultNumber,page,keywords):
                      navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
               if page !=  pageNumber:
-                  navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                  navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
               else:
                   navUrl += '</div>'
           else:
@@ -141,7 +141,7 @@ def createPageNavs(resultNumber,page,keywords):
                          navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
                   if page !=  pageNumber:
-                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
                   else:
                       navUrl += '</div>'
              else:
@@ -152,7 +152,7 @@ def createPageNavs(resultNumber,page,keywords):
                         navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
                  if page !=  pageNumber:
-                     navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                     navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
                  else:
                      navUrl += '</div>'
       return navUrl
