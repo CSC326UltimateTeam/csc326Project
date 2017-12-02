@@ -16,7 +16,7 @@
   <ul class="nav nav-pills pull-right">
      <li><a href="/about" class="lang" key="about">About</a></li>
      <li class="dropdown">
-        <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{accountText}} <b class="caret"></b></a>
+        <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{!accountText}} <b class="caret"></b></a>
         <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; margin-left:-120px; text-align:center;font-size:13px;">
           <div class="image-upload">
           <label for="file-input">

@@ -8,12 +8,7 @@ from pyparsing import (Literal, CaselessLiteral, Word, Combine, Group, Optional,
                        ZeroOrMore, Forward, nums, alphas, oneOf)
 #from autocorrect import spell
 
-ignored_words = set([
-            '', 'the', 'of', 'at', 'on', 'in', 'is', 'it',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-            'u', 'v', 'w', 'x', 'y', 'z', 'and', 'or',
-        ])
+
 conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
 maxUrlPage = 10
@@ -32,107 +27,61 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
     print "ignoreMistake", ignoreMistake
     global lastString
     urlHtml = ''
-    resultNumber=0
-
     result,displayEquation = mathEquationHandler(wholeString)
     if result != None:
         urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
-
-    correctedString = []
-    for word in wholeString.split():
-        if (word in ignored_words):
-            correctedString.append(word)
-
-        else:
-            correctedString.append(autoCorrect(word))
-    correctedString = ' '.join(correctedString)
-
-    print 'correctedString is ', correctedString
+    keywords = wholeString.lower()
+    lowerKeywords = keywords
+    keywords = keywords.split()
+    syntaxedWords = ' OR '.join(keywords)
+    print syntaxedWords
+    correctedString = autoCorrect(wholeString)
+    print 'correctedString is', correctedString
     spellingMistake = (correctedString != wholeString)
     print 'spellingMistake is ',spellingMistake
 
-    lowerKeywords = correctedString.lower()
-
     if  spellingMistake and ignoreMistake == 0:
-
-         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1% "> Showing results for <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8; font-style: italic;">' + correctedString +  '</a></h1> <h1 style="margin-left: 10%; margin-top:1px;"><span style="font-size:16px; font-weight:normal;">Search Instead for <a href="?keywords='  + wholeString + '&ignoreMistake=1" style="color:#1C1BA8;">' + wholeString + '</a></span></h1>'
+         keywords = correctedString.lower()
+         lowerKeywords = keywords
+         keywords = keywords.split()
+         urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1% "> <span class="lang" key="showingResults">Showing results for</span> <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8; font-style: italic;">' + correctedString +  '</a></h1> <h1 style="margin-left: 10%; margin-top:1px;"><span style="font-size:16px; font-weight:normal;"><span class="lang" key="searchInstead">Search Instead for</span> <a href="?keywords='  + wholeString + '&ignoreMistake=1" style="color:#1C1BA8;">' + wholeString + '</a></span></h1>'
 
     if spellingMistake and ignoreMistake == 1:
-        urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1%; color: #df6257; "> Did you mean: <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString +  '</a></h1>'
+        urlHtml += '<h1 style="margin-left: 10%; margin-top: 1% ;font-size: 20px; margin-bottom:-1%; color: #df6257; "> <span class="lang" key="didMean">Did you mean</span>: <a href="?keywords='  + correctedString + ' " style="color:#1C1BA8;">' + correctedString +  '</a></h1>'
 
     if lowerKeywords in cache:
         result = cache[lowerKeywords]
     else:
-
-        result = wordsearch(lowerKeywords)
-
-    #print result
-    if not result:
-        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p>Your search  <strong>' +wholeString+ '</strong> did not match any documents</p><br>' + '<p>Suggestions:</p><li>Make sure that all words are spelled correcly</li><li>Try different keywords</li><li>Try more general keywords</li><li>Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
-    else:
+        keywordsCombinations = ["%" + "%".join(order) + "%" for order in list(permutations(keywords))]
+        col = "content"
+        joiner = ' OR '
+        multiOperation = joiner.join(["{0} LIKE '{1}'".format(col, w) for w in keywordsCombinations])
+        multiSingleOperation =  joiner.join(["{0} LIKE '%{1}%'".format(col, w) for w in keywords])
+        sql = 'SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ \
+                multiOperation + ' OR ' + multiSingleOperation  + ' ORDER BY rank DESC'
+        print sql
+        data = c.execute(sql)
+        #data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE ?  ORDER BY rank desc '  ,  keyPair)
+        result = c.fetchall()
         modifiedRes = removeDuplicate(result)
         result = modifiedRes
-        cache[lowerKeywords] = result
-        resultNumber = len(result)
+        cache[keyword] = result
+    resultNumber = len(result)
+    #print result
+    if not result:
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p><span class="lang" key="yourSearch">Your search</span>  <strong>' +wholeString+ '</strong> <span class="lang" key="notMatching">did not match any documents</span></p><br>' + '<p class="lang" key="suggestionTitle">Suggestions:</p><li class="lang" key="suggestionOne">Make sure that all words are spelled correcly</li><li class="lang" key="suggestionTwo">Try different keywords</li><li class="lang" key="suggestionThree">Try more general keywords</li><li class="lang" key="suggestionFour">Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+    else:
         urlHtml += createUrls(result,startingIndex,resultNumber)
+    #print urlHtml
     return urlHtml, resultNumber
+    #for row in data:
+         # print row
 
 def removeDuplicate(list):
     #a list of tuples: (title,url,description)
     #if title and description match then only show one re
     seen = set()
     return [(a,b,c) for (a,b,c) in list if not ((a,c) in seen or seen.add((a,c)))]
-
-#given a list of keywords, use multiple queries and the related ranks to findout the
-#best way to sort thses pages
-def wordsearch(lower_keywords):
-    words = lower_keywords.split()
-    #single word search
-    if (len(words)<=1):
-        c.execute("""SELECT DISTINCT title,url,description \
-                    FROM Webpages join WordExists on url = inURL \
-                    WHERE content = ? ORDER BY rank*(1+0.1*times) DESC""", (words[0],))
-        return c.fetchall()
-    else:
-        url_ID_dict ={}
-        for word in words:
-
-            #first get the links that contain the words
-            c.execute("""SELECT ID, times, avg_position, rank \
-                        FROM Webpages join WordExists on url = inURL \
-                        WHERE content = ? """, (word,))
-
-            for row in c.fetchall():
-
-                id, times, avg_position, rank = row
-
-                if id not in url_ID_dict:
-                    #found a new url, we store its rank, teh number of hits of this word, and
-                    #the position normal, which is 0 because it is only one word
-                    position_normal=avg_position * times
-                    #rank, total appearance, positio normal for relevance, last time position, last_time appearance
-                    url_ID_dict[id]= (rank, times, position_normal, avg_position,times )
-                else:
-                    #this url is already the candidate, need to compute the hitrate
-                    #and the new position normal
-                    rank, preve_times, preve_normal, last_word_position, last_word_appearance = url_ID_dict[id]
-                    new_times= times+preve_times
-                    new_normal = preve_normal + \
-                                 abs(last_word_position-avg_position) * max((last_word_appearance,times))
-                    #update info
-                    url_ID_dict[id] = (rank, new_times, new_normal, avg_position,times)
-
-       #now we have all the information to compare which url should go first
-        sortfunction =lambda (k,v):(v[0]+1)* (v[1]**2/v[2])
-
-        result=[]
-        for id,val in sorted(url_ID_dict.iteritems(), key=sortfunction, reverse=True):
-
-            c.execute("""SELECT DISTINCT title,url,description FROM Webpages where ID=?""", (id, ))
-            for ele in c.fetchall():
-                result.append(ele)
-
-        return result
 
 
 
@@ -169,7 +118,7 @@ def createPageNavs(resultNumber,page,keywords):
       print "page number is", pageNumber
       if pageNumber > 1:
           if page != 1:
-             navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav" style="margin-left:14px; font-size:12px">Previous</a> '
+             navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="previous">Previous</a> '
           else:
              navUrl = '<div class="paging-nav" style="margin-left:8.5%">'
           if pageNumber <= 10:
@@ -180,7 +129,7 @@ def createPageNavs(resultNumber,page,keywords):
                      navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
               if page !=  pageNumber:
-                  navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                  navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
               else:
                   navUrl += '</div>'
           else:
@@ -192,7 +141,7 @@ def createPageNavs(resultNumber,page,keywords):
                          navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
                   if page !=  pageNumber:
-                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                      navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
                   else:
                       navUrl += '</div>'
              else:
@@ -203,7 +152,7 @@ def createPageNavs(resultNumber,page,keywords):
                         navUrl +=  '<a href="?keywords=' +keywords +  '&page=' + str(pageCreating) + '" class="pagenav  ' + activeString +  '" style="margin-left:14px" >' +str(pageCreating)  + '</a>'
 
                  if page !=  pageNumber:
-                     navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav" style="margin-left:14px; font-size:12px">Next</a></div>'
+                     navUrl += '<a href="?keywords='  + keywords + '&page=' + str(page+1) + '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="next">Next</a></div>'
                  else:
                      navUrl += '</div>'
       return navUrl
