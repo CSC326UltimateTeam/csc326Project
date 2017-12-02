@@ -316,8 +316,9 @@ class crawler(object):
         #self.databaseExe.execute("""UPDATE Webpages SET title= ?""", (title_text,))
 
     def _visit_description(self, elem):
-
-        self.description_text = self._text_of(elem).strip()
+        text= self._text_of(elem).strip()
+        cut = 300 if len(text) >300 else len(text)
+        self.description_text = text[:cut] + "..."
         #self.databaseExe.execute("""UPDATE Webpages SET description= ?""", (description_text,))
 
     def _visit_a(self, elem):
@@ -449,7 +450,9 @@ class crawler(object):
             self.databaseExe.execute("""INSERT INTO Webpages VALUES ( ?, ?,1, ?, ?, '', 0,0);""" \
                                      , (self._curr_doc_id, self._curr_url,self.title_text,self.description_text))
 
-            print "insertion: ", self._curr_url
+            print "insertion: ", self._curr_url, "title: ", self.title_text
+            self.title_text=''
+            self.description_text=''
 
         except sqlite3.IntegrityError:
             pass
