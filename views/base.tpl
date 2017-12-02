@@ -54,7 +54,7 @@
         <form class="" action="/" method="GET">
           <div class="dropdown">
     <input type="text" name="keywords" value=""   class="searchBar dropdown-toggl"  data-toggle="dropdown" onkeyup="">
-    <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; ">
+    <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; font-size:19px; ">
     {{ !historyBarHtml}}
     </ul>
           </div>
@@ -123,7 +123,7 @@
            }
            else{
                 $('.dropdown ul').empty()
-                $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size:19px; text-align:left;margin-left:3%" >Search with Image </li></label>')
+                $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size: 19px;text-align:left;margin-left:3%" >Search with Image </li></label>')
 
            }
       });
