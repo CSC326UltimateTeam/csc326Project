@@ -1,9 +1,18 @@
 import re
 from collections import Counter
+import sqlite3
 
-def words(text): return re.findall(r'\w+', text.lower())
+conn = sqlite3.connect('Crawler.db')
+c = conn.cursor()
+c.execute("""SELECT distinct content from Words""")
 
-WORDS = Counter(words(open('English.dic').read()))
+WORDS = Counter([ str(i[0]) for i in c.fetchall()])
+
+def words(text):
+
+    return re.findall(r'\w+', text.lower())
+
+
 
 def P(word, N=sum(WORDS.values())):
     "Probability of `word`."
