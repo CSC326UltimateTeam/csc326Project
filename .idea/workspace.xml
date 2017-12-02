@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="585a03ed-7ab7-437c-ad24-2a2a567b98c4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/English.dic" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RESULT (3).docx" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/big.txt" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/csc326Project.iml" afterPath="$PROJECT_DIR$/.idea/csc326Project.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Crawler.db" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/aws_instance.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/base.tpl" afterPath="$PROJECT_DIR$/views/base.tpl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crawler.py" afterPath="$PROJECT_DIR$/crawler.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/serverHelper.py" afterPath="$PROJECT_DIR$/serverHelper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/srv.py" afterPath="$PROJECT_DIR$/srv.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +22,8 @@
       <file leaf-file-name="crawler.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="299" column="16" lean-forward="false" selection-start-line="299" selection-start-column="8" selection-end-line="299" selection-end-column="16" />
+            <state relative-caret-position="243">
+              <caret line="392" column="60" lean-forward="false" selection-start-line="392" selection-start-column="60" selection-end-line="392" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -33,38 +32,42 @@
       <file leaf-file-name="srv.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/srv.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="94" column="59" lean-forward="false" selection-start-line="94" selection-start-column="59" selection-end-line="94" selection-end-column="59" />
+            <state relative-caret-position="140">
+              <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="44" />
+              <folding>
+                <element signature="e#845#1094#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="spellingCorrection.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spellingCorrection.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="278">
+              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bottle.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/bottle.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="1728" column="0" lean-forward="false" selection-start-line="1728" selection-start-column="0" selection-end-line="1728" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/urls.txt">
+      <file leaf-file-name="server_initiate.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server_initiate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="48" lean-forward="false" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="socket.py" pinned="false" current-in-tab="false">
-        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
+            <state relative-caret-position="140">
+              <caret line="58" column="28" lean-forward="false" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -73,7 +76,7 @@
       <file leaf-file-name="simple_server.py" pinned="false" current-in-tab="false">
         <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/wsgiref/simple_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
+            <state relative-caret-position="-137">
               <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
               <folding />
             </state>
@@ -90,24 +93,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.tpl" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/base.tpl">
+      <file leaf-file-name="serverHelper.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/serverHelper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="120" column="136" lean-forward="false" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="136" />
-              <folding />
+            <state relative-caret-position="-408">
+              <caret line="125" column="53" lean-forward="false" selection-start-line="125" selection-start-column="53" selection-end-line="125" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="serverHelper.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/serverHelper.py">
+      <file leaf-file-name="socket.py" pinned="false" current-in-tab="false">
+        <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="157">
+              <caret line="306" column="0" lean-forward="false" selection-start-line="306" selection-start-column="0" selection-end-line="306" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,36 +126,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mostrecentsea</find>
-      <find>get</find>
-      <find>historyLen</find>
-      <find>testing</find>
-      <find>did you me</find>
-      <find>did you mean</find>
-      <find>post</find>
-      <find>getHistoryBarHtml</find>
-      <find>mostrecent</find>
-      <find>gethis</find>
-      <find>dropdown</find>
-      <find>searchBar</find>
-      <find>description</find>
-      <find>visit_title</find>
-      <find>conn.commit</find>
-      <find>print</find>
-      <find>doc_id</find>
-      <find>visit_A</find>
-      <find>seen</find>
-      <find>index_do</find>
-      <find>insert</find>
-      <find>bar</find>
-      <find>title</find>
-      <find>Webpages</find>
-      <find>webpages</find>
-      <find>timeout</find>
-      <find>add_li</find>
-      <find>add_link</find>
       <find>DESC</find>
-      <find>SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE '%eecg%' OR content LIKE '%eecg%'OR</find>
+      <find>bla</find>
+      <find>add_link</find>
+      <find>vis</find>
+      <find>visit_</find>
+      <find>&gt;'</find>
+      <find>searches</find>
+      <find>b</find>
+      <find>searc</find>
+      <find>searcd</find>
+      <find>self</find>
+      <find>jan</find>
+      <find>blah</find>
+      <find>webpages</find>
+      <find>words</find>
+      <find>...</find>
+      <find>guess</find>
+      <find>search</find>
+      <find>fetch</find>
+      <find>fetcha</find>
+      <find>wordex</find>
+      <find>jianwen</find>
+      <find>word_exis</find>
+      <find>_insert_word</find>
+      <find>va</find>
+      <find>vaugh</find>
+      <find>avg</find>
+      <find>vau</find>
+      <find>jo</find>
+      <find>jona</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -166,9 +169,10 @@
         <option value="$PROJECT_DIR$/run_backend_test.py" />
         <option value="$PROJECT_DIR$/spellingCorrection.py" />
         <option value="$PROJECT_DIR$/views/base.tpl" />
-        <option value="$PROJECT_DIR$/srv.py" />
         <option value="$PROJECT_DIR$/urls.txt" />
         <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/server_initiate.py" />
+        <option value="$PROJECT_DIR$/srv.py" />
         <option value="$PROJECT_DIR$/crawler.py" />
         <option value="$PROJECT_DIR$/serverHelper.py" />
       </list>
@@ -255,7 +259,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.crawler">
+  <component name="RunManager" selected="Python.srv">
     <configuration default="false" name="crawler" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -468,7 +472,21 @@
       <option name="project" value="LOCAL" />
       <updated>1512202649703</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="New Version, with auto completion, correction and suggestion">
+      <created>1512202780030</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1512202780030</updated>
+    </task>
+    <task id="LOCAL-00006" summary="modified insertion, title probelm, cornercase">
+      <created>1512244064393</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1512244064393</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -479,16 +497,16 @@
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3359894" sideWeight="0.421875" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.490625" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3359894" sideWeight="0.578125" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31474105" sideWeight="0.49375" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3359894" sideWeight="0.4546875" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.48125" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3359894" sideWeight="0.5453125" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934928" sideWeight="0.496875" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31474105" sideWeight="0.490625" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20451528" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44488713" sideWeight="0.4625" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44488713" sideWeight="0.44375" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -515,25 +533,27 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New Version" />
-    <option name="LAST_COMMIT_MESSAGE" value="New Version" />
+    <MESSAGE value="New Version, with auto completion, correction and suggestion" />
+    <MESSAGE value="modified insertion, title probelm, cornercase" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified insertion, title probelm, cornercase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crawler.py</url>
-          <line>504</line>
+          <line>513</line>
           <option name="timeStamp" value="80" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crawler.py</url>
-          <line>535</line>
+          <line>544</line>
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crawler.py</url>
-          <line>479</line>
-          <option name="timeStamp" value="83" />
+          <url>file://$PROJECT_DIR$/serverHelper.py</url>
+          <line>122</line>
+          <option name="timeStamp" value="98" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -546,7 +566,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="87" />
+      <option name="time" value="99" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -555,14 +575,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23310">
-          <caret line="1590" column="0" lean-forward="false" selection-start-line="1590" selection-start-column="0" selection-end-line="1590" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/asf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -593,7 +605,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3735">
           <caret line="262" column="11" lean-forward="false" selection-start-line="262" selection-start-column="11" selection-end-line="262" selection-end-column="11" />
-          <folding />
+          <folding>
+            <element signature="e#845#1094#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -636,7 +650,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#845#1094#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -758,14 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/about.tpl">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2044">
@@ -814,30 +822,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/searchResultAnonymous.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="133" column="31" lean-forward="false" selection-start-line="133" selection-start-column="31" selection-end-line="133" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server_initiate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="112" column="11" lean-forward="false" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spellingCorrection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/beaker/middleware.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -858,30 +842,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="122">
           <caret line="237" column="0" lean-forward="false" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/bottle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="863" column="0" lean-forward="false" selection-start-line="863" selection-start-column="0" selection-end-line="863" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="227" column="0" lean-forward="false" selection-start-line="227" selection-start-column="0" selection-end-line="227" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/base.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="120" column="136" lean-forward="false" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="136" />
           <folding />
         </state>
       </provider>
@@ -918,34 +878,102 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/srv.py">
+    <entry file="file://$PROJECT_DIR$/aws_instance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="94" column="59" lean-forward="false" selection-start-line="94" selection-start-column="59" selection-end-line="94" selection-end-column="59" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crawler.py">
+    <entry file="file://$PROJECT_DIR$/server_initiate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
-          <caret line="299" column="16" lean-forward="false" selection-start-line="299" selection-start-column="8" selection-end-line="299" selection-end-column="16" />
+          <caret line="58" column="28" lean-forward="false" selection-start-line="58" selection-start-column="28" selection-end-line="58" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/base.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="125" column="164" lean-forward="false" selection-start-line="125" selection-start-column="162" selection-end-line="125" selection-end-column="164" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/searchResultAnonymous.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-566">
+          <caret line="115" column="56" lean-forward="false" selection-start-line="115" selection-start-column="56" selection-end-line="115" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/wsgiref/simple_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
+        <state relative-caret-position="-137">
           <caret line="130" column="0" lean-forward="false" selection-start-line="130" selection-start-column="0" selection-end-line="130" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Python/2.7/lib/python/site-packages/bottle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="1728" column="0" lean-forward="false" selection-start-line="1728" selection-start-column="0" selection-end-line="1728" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spellingCorrection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/srv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="27" column="44" lean-forward="false" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="44" />
+          <folding>
+            <element signature="e#845#1094#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crawler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="392" column="60" lean-forward="false" selection-start-line="392" selection-start-column="60" selection-end-line="392" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="306" column="0" lean-forward="false" selection-start-line="306" selection-start-column="0" selection-end-line="306" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/serverHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+        <state relative-caret-position="-408">
+          <caret line="125" column="53" lean-forward="false" selection-start-line="125" selection-start-column="53" selection-end-line="125" selection-end-column="53" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

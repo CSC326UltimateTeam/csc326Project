@@ -26,6 +26,14 @@ conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
 c.execute("""SELECT distinct content from Words""")
 WORDS = Counter([ str(i[0]) for i in c.fetchall()])
+
+ignored_words = set([
+            '', 'the', 'of', 'at', 'on', 'in', 'is', 'it',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z', 'and', 'or',
+        ])
+
 '''End of globals'''
 
 
@@ -61,7 +69,10 @@ def guess_from_word(word):
         first_word = min(match_list)
     #otherwise find the closest possible one
     else:
-        first_word = sh.autoCorrect(word)
+        if word not in ignored_words:
+            first_word = sh.autoCorrect(word)
+        else:
+            first_word=word
     #this word will be our first suggestion
     sugg = [first_word]
     #then we find the searches that relate to this query
@@ -77,7 +88,12 @@ def guess_from_word(word):
 
 def guess_from_setence(query_words):
 
-    query_words_mod = [sh.autoCorrect(word) for word in query_words]
+    query_words_mod =[]
+    for word in query_words:
+        if word in ignored_words:
+            query_words_mod.append(word)
+        else:
+            query_words_mod.append(sh.autoCorrect(word))
 
     list_words_in_searches = [ list(search.split()) for search in fullSearchHistory]
 
