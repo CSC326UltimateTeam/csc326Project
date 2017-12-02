@@ -46,7 +46,9 @@ var arrLang = {
 		'suggestionOne': 'Make sure that all words are spelled correcly',
 		'suggestionTwo': 'Try different keywords',
 		'suggestionThree': 'Try more general keywords',
-		'suggestionFour': 'Try fewer keywords'
+		'suggestionFour': 'Try fewer keywords',
+		'Aboutresult' : 'About',
+		'aboutResult': 'results'
 	},
 	'zh': {
 		'about': '关于',
@@ -72,7 +74,9 @@ var arrLang = {
 				'suggestionOne': '请确认所有搜索词条拼写正确',
 				'suggestionTwo': '实践是检验真理的唯一标准。试试其他的搜索词条吧',
 				'suggestionThree': '停止标新立异，尝试搜索更加常见的词条',
-				'suggestionFour': '求求你别累死我了，请减少搜索的词条的长度'
+				'suggestionFour': '求求你别累死我了，请减少搜索的词条的长度',
+				'Aboutresult': '大约有',
+				'aboutResult': '个搜索结果'
 	}
 };
 //function to apply language

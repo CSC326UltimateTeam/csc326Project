@@ -69,7 +69,7 @@
 
 </div>
   <div class="resultTables" >
-  <p style="color:grey; margin-left :10.2%; margin-top: %; margin-bottom: 1%"> About {{resultNumber}} results </p>
+  <p style="color:grey; margin-left :10.2%; margin-top: %; margin-bottom: 1%"> <span class="lang" key="Aboutresult">About</span> {{resultNumber}} <span class="lang" key="aboutResult">results</span> </p>
 <!--
   <div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">
     <p>Your search - <strong>blablabla</strong> - did not match any documents</p>
