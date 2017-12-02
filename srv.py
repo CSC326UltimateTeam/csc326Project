@@ -7,12 +7,13 @@ import sqlite3
 from collections import OrderedDict
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.client import flow_from_clientsecrets
-from googleapiclient.errors import HttpError
+from collections import Counter
 from googleapiclient.discovery import build
 from beaker.middleware import SessionMiddleware
 import serverHelper as sh
 import httplib2
-import random
+
+'''globals'''
 searchHistory = {}
 fullSearchHistory = {}
 recentSearchList = []
@@ -21,6 +22,12 @@ category = 0
 lastRouteTrack = ""
 app = Bottle()
 ignoreMistake = 0
+conn = sqlite3.connect('Crawler.db')
+c = conn.cursor()
+c.execute("""SELECT distinct content from Words""")
+WORDS = Counter([ str(i[0]) for i in c.fetchall()])
+'''End of globals'''
+
 
 session_opts = {
     'session.type': 'file',
@@ -29,6 +36,73 @@ session_opts = {
     'session.auto': True
 }
 app = SessionMiddleware(bottle.app(), session_opts)
+
+@route('/suggestion', method = 'POST')
+def send_search_suggestion():
+
+    userinput=request.forms.get("query")
+    query_words = userinput.split(" ")
+    if len(query_words)==1:
+        list_suggestions=guess_from_word(query_words[0])
+
+    else:
+        list_suggestions=guess_from_setence(query_words)
+
+    formatted_suggestions = sh.getHistoryBarHtml (list_suggestions)
+
+    return formatted_suggestions
+
+def guess_from_word(word):
+
+    #find the words that match this input command
+    match_list = [match for match in WORDS if word in match[:len(word)]]
+    #if there are multiple matches, very often the case
+    if len(match_list)>0:
+        first_word = min(match_list)
+    #otherwise find the closest possible one
+    else:
+        first_word = sh.autoCorrect(word)
+    #this word will be our first suggestion
+    sugg = [first_word]
+    #then we find the searches that relate to this query
+    prev_similar = {search: freq for search, freq in fullSearchHistory.items() if first_word in search}
+    #select the top five
+    sug_len = 5 if len(prev_similar)>5 else len(prev_similar)
+
+    max_prev =  sorted(prev_similar.iteritems(), key=operator.itemgetter(1), reverse=True)[:sug_len]
+    #return them all
+    sugg += [sug[0] for sug in max_prev]
+
+    return sugg
+
+def guess_from_setence(query_words):
+
+    query_words_mod = [sh.autoCorrect(word) for word in query_words]
+
+    list_words_in_searches = [ list(search.split()) for search in fullSearchHistory]
+
+    search_hit={}
+    for id, search_words in enumerate(list_words_in_searches):
+        hit=0
+        for word in search_words:
+            for user_word in query_words_mod:
+
+                if user_word==word:
+                    hit+=1
+        if (hit>0):
+            search_hit[id] = hit
+
+    sug_len = 5 if len(search_hit) > 5 else len(search_hit)
+
+    max_prev = sorted(search_hit.iteritems(), key=operator.itemgetter(1), reverse=True)[:sug_len]
+    print "max prev"
+    print max_prev
+    return [' '.join(query_words_mod)] + [' '.join(list_words_in_searches[sug[0]]) for sug in max_prev]
+
+
+@route('/imagenet', method='GET')
+def image_net():
+    return "to be released"
 
 #this lab has implemented bootstrap api (i.e. bootstrap css and bottstrap js) and jquery
 
@@ -128,11 +202,11 @@ def index() :
     #first sort current history
     historyLen = len(fullSearchHistory)
     firstSortedHistory = OrderedDict(sorted(fullSearchHistory.iteritems(), key=operator.itemgetter(1), reverse=True)[:historyLen])
-    historyBarHtml = sh.getHistoryBarHtml(firstSortedHistory)
     dictionary = OrderedDict()
     inputString = request.query.get('keywords')
     pageString = request.query.get('page')
     tempIgnoreMistake = request.query.get('ignoreMistake')
+    historyBarHtml = '<li style="font-size:19px; text-align:left" ><a href="/imagenet"> Search with image </a></li>'
     if not pageString:
         page = 1
     else:
@@ -143,14 +217,21 @@ def index() :
         ignoreMistake = 1
     print "ignoreMistake", ignoreMistake
     if not inputString:
-        return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml, historyBarHtml = historyBarHtml)
+        return template('index.tpl', accountText = accountName,
+                        LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml,
+                        userImage = userImage, changePhotoHtml = changePhotoHtml,
+                        historyBarHtml = historyBarHtml)
+
     tempString = inputString.lower()
     #get rid of space
     splitString = tempString.split()
     #if splitString is empty (i.e. input string only consists of space or is empty), redirect route to root
     if not splitString:
-       return template('index.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml, historyBarHtml = historyBarHtml)
-       pass
+       return template('index.tpl', accountText = accountName,
+                       LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml,
+                       userImage = userImage, changePhotoHtml = changePhotoHtml,
+                       historyBarHtml = historyBarHtml)
+
     #parse query string
     firstKeyWord = inputString.split()[0]
     if not page or page == 1:
@@ -203,11 +284,21 @@ def index() :
         mostRecentSearch = reversedRecentSearch
     else:
         mostRecentSearch = reversedRecentSearch[:15]
-    return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml , urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
+    return template('searchResultAnonymous.tpl', dictionary = dictionary,
+                    keywords = inputString, history = sortedHistory, accountText = accountName,
+                    LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage,
+                    changePhotoHtml = changePhotoHtml , urlHtml = urlHtml,
+                    resultNumber = resultNumber, navUrl = navUrl)
     if s['mode'] == 'Signed-In':
-        return template('searchResultLoggedIn.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage , changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch, navUrl = navUrl )
+        return template('searchResultLoggedIn.tpl', dictionary = dictionary,
+                        keywords = inputString, history = sortedHistory, accountText = accountName,
+                        LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage ,
+                        changePhotoHtml = changePhotoHtml, mostRecentSearch = mostRecentSearch, navUrl = navUrl )
     else:
-        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString, history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml , urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
+        return template('searchResultAnonymous.tpl', dictionary = dictionary, keywords = inputString,
+                        history = sortedHistory, accountText = accountName, LogInOffHtml = LogInOffHtml,
+                        userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml = changePhotoHtml ,
+                        urlHtml = urlHtml, resultNumber = resultNumber, navUrl = navUrl)
 
 @route('/signOut')
 def signOut( ):
@@ -280,4 +371,4 @@ def errorHandler(error):
 #def errorHandler(error):
 #     return  template('otherError.tpl')
 
-run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
+run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)
