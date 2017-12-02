@@ -57,7 +57,8 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
         joiner = ' OR '
         multiOperation = joiner.join(["{0} LIKE '{1}'".format(col, w) for w in keywordsCombinations])
         multiSingleOperation =  joiner.join(["{0} LIKE '%{1}%'".format(col, w) for w in keywords])
-        sql = 'SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ multiOperation + ' OR ' + multiSingleOperation + 'ORDER BY rank desc'
+        sql = 'SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ \
+                multiOperation + ' OR ' + multiSingleOperation  + ' ORDER BY rank DESC'
         print sql
         data = c.execute(sql)
         #data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE ?  ORDER BY rank desc '  ,  keyPair)
@@ -152,22 +153,23 @@ def getHistoryBarHtml(history):
       historyBarHtml = ''
       length = len(history)
       if length == 0:
-          return '<li style="font-size:19px; text-align:left"> <a>History not Available </a> </li>'
+          return '<li style="font-size:19px; text-align:left"> <a>No suggestion </a> </li>'
       if length < 5:
           for item in history:
-              historyBarHtml += getHistoryBarLi(item)
+
+              historyBarHtml += getHistoryBarLi(str(item))
       else:
            i = 0
            for item in history:
                if i == 5:
                    break
-               historyBarHtml += getHistoryBarLi(item)
+               historyBarHtml += str(getHistoryBarLi(str(item)))
                i += 1
       return historyBarHtml
 
 
 def getHistoryBarLi(item):
-    return '<li style="font-size:19px; text-align:left" ><a href="?keywords=' +item + '">' + item + '</a></li'
+    return '<li style="font-size:19px; text-align:left" ><a href="?keywords=' +item + '">' + item + '</a></li>'
 
 
 class NumericStringParser(object):
