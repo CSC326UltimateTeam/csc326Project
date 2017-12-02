@@ -57,11 +57,13 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
         joiner = ' OR '
         multiOperation = joiner.join(["{0} LIKE '{1}'".format(col, w) for w in keywordsCombinations])
         multiSingleOperation =  joiner.join(["{0} LIKE '%{1}%'".format(col, w) for w in keywords])
-        sql = 'SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE' + ' '+ multiOperation + ' OR ' + multiSingleOperation + 'ORDER BY rank desc'
+        sql = """SELECT DISTINCT title,url,description FROM Webpages join WordExists on url = inURL WHERE """ + multiOperation + """ OR """ + multiSingleOperation + """ORDER BY rank desc"""
         print sql
         data = c.execute(sql)
         #data = c.execute('SELECT title,url,description FROM Webpages join WordExists on url = inURL WHERE content LIKE ?  ORDER BY rank desc '  ,  keyPair)
         result = c.fetchall()
+        modifiedRes = removeDuplicate(result)
+        result = modifiedRes
         cache[keyword] = result
     resultNumber = len(result)
     #print result
@@ -73,6 +75,13 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
     return urlHtml, resultNumber
     #for row in data:
          # print row
+
+def removeDuplicate(list):
+    #a list of tuples: (title,url,description)
+    #if title and description match then only show one re
+    seen = set()
+    return [(a,b,c) for (a,b,c) in list if not ((a,c) in seen or seen.add((a,c)))]
+
 
 
 def createUrl(title,url,description):

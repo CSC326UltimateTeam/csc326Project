@@ -217,6 +217,9 @@ def signOut( ):
     redirect('/')
 
 
+
+
+
 #route for profilePhoto
 @route('/changeProfilePhoto', method='POST')
 def changeProfilePhoto( ):
