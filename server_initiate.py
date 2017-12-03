@@ -86,7 +86,7 @@ def deployment_aws():
             time.sleep(2)
             continue
 
-    print("Installing tools for the system, this takes about < 1 min")
+    print("\nInstalling tools for the system, this takes about < 1 min")
     time.sleep(5)
     stdin, stdout, stderr = client.exec_command("sudo apt-get install git -y")
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
