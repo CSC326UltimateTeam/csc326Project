@@ -12,6 +12,7 @@ from googleapiclient.discovery import build
 from beaker.middleware import SessionMiddleware
 import serverHelper as sh
 import httplib2
+from image_recognition import *
 
 '''globals'''
 searchHistory = {}
@@ -26,8 +27,17 @@ conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
 c.execute("""SELECT distinct content from Words""")
 WORDS = Counter([ str(i[0]) for i in c.fetchall()])
+
+
+ignored_words = set([
+            '', 'the', 'of', 'at', 'on', 'in', 'is', 'it',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z', 'and', 'or',
+        ])
 '''End of globals'''
 
+image_model_init()
 
 session_opts = {
     'session.type': 'file',
@@ -81,9 +91,40 @@ def guess_from_word(word):
 
     return sugg
 
+def guess_from_word(word):
+
+    #find the words that match this input command
+    match_list = [match for match in WORDS if word in match[:len(word)]]
+    #if there are multiple matches, very often the case
+    if len(match_list)>0:
+        first_word = min(match_list)
+    #otherwise find the closest possible one
+    else:
+        if word not in ignored_words:
+            first_word = sh.autoCorrect(word)
+        else:
+            first_word=word
+    #this word will be our first suggestion
+    sugg = [first_word]
+    #then we find the searches that relate to this query
+    prev_similar = {search: freq for search, freq in fullSearchHistory.items() if first_word in search}
+    #select the top five
+    sug_len = 5 if len(prev_similar)>5 else len(prev_similar)
+
+    max_prev =  sorted(prev_similar.iteritems(), key=operator.itemgetter(1), reverse=True)[:sug_len]
+    #return them all
+    sugg += [sug[0] for sug in max_prev]
+
+    return sugg
+
 def guess_from_setence(query_words):
 
-    query_words_mod = [sh.autoCorrect(word) for word in query_words]
+    query_words_mod =[]
+    for word in query_words:
+        if word in ignored_words:
+            query_words_mod.append(word)
+        else:
+            query_words_mod.append(sh.autoCorrect(word))
 
     list_words_in_searches = [ list(search.split()) for search in fullSearchHistory]
 
@@ -106,14 +147,20 @@ def guess_from_setence(query_words):
 
 @route('/imagenet', method='POST')
 def image_net():
-   upload = request.files.get('imageSearch')
-   name, ext = os.path.splitext(upload.filename)
-   save_path = "static/tmp"
-   if not os.path.exists(save_path):
+    upload = request.files.get('imageSearch')
+    name, ext = os.path.splitext(upload.filename)
+    save_path = "/tmp/imagenet/"
+    if not os.path.exists(save_path):
        os.makedirs(save_path)
-   file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
-   upload.save(file_path, overwrite = True)
-   redirect('/')
+    file_path = "{path}{file}".format(path=save_path, file=upload.filename)
+    upload.save(file_path, overwrite = True)
+    print 'uploaded file at ', file_path
+
+    redirect('/?keywords= {}'.format(run_search(upload.filename)[0]))
+
+
+
+
 
 #this lab has implemented bootstrap api (i.e. bootstrap css and bottstrap js) and jquery
 
