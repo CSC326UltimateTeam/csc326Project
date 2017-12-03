@@ -37,6 +37,13 @@ session_opts = {
 }
 app = SessionMiddleware(bottle.app(), session_opts)
 
+@route('/screenshot', method = 'POST')
+def screenshotWebPage():
+    print "screenshot route"
+    url = request.forms.get("url")
+    imagepath = sh.webpageScreenshot(url)
+    return imagepath
+
 @route('/suggestion', method = 'POST')
 def send_search_suggestion():
 

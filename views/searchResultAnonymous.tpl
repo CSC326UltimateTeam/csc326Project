@@ -97,6 +97,32 @@
   </div>
 -->
 {{!urlHtml}}
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title lang" id="exampleModalLabel" key="preview">Preview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary lang" data-dismiss="modal" key="closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
   </div>
 
 <!--
@@ -192,7 +218,31 @@
 
                  }
             });
+
+           $('.screenshotBtn').click(function(){
+             $('#modalImage').attr('src','')
+             console.log("screenShot");
+            url = $(this).attr('key')
+            if(url != ''){
+            $.ajax({
+              url: "/screenshot",
+              method:"POST",
+              data: {url:url},
+              success:function(data){
+              $('#myModal').modal('show');
+              $('#modalImage').attr('src','/static/images/screenshot/webpage.png')
+              }
+            });
+            }
+           });
+
+
        });
+       </script>
+       <script type="text/javascript">
+         function linkTools() {
+         console.log("clicked");
+         }
        </script>
   </body>
 </html>

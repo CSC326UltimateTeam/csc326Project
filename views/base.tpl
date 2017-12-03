@@ -53,7 +53,7 @@
         <!--<img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">-->
         <form class="" action="/" method="GET">
           <div class="dropdown">
-    <input type="text" name="keywords" value=""   class="searchBar dropdown-toggl"  data-toggle="dropdown" onkeyup="">
+    <input type="text" name="keywords" value=""   class="searchBar dropdown-toggle"  data-toggle="dropdown" onkeyup="">
     <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; font-size:19px; ">
     {{ !historyBarHtml}}
     </ul>

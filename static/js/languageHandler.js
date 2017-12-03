@@ -48,7 +48,9 @@ var arrLang = {
 		'suggestionThree': 'Try more general keywords',
 		'suggestionFour': 'Try fewer keywords',
 		'Aboutresult' : 'About',
-		'aboutResult': 'results'
+		'aboutResult': 'results',
+		'preview': 'Preview',
+		'closeBtn' : 'Close'
 	},
 	'zh': {
 		'about': '关于',
@@ -76,7 +78,9 @@ var arrLang = {
 				'suggestionThree': '停止标新立异，尝试搜索更加常见的词条',
 				'suggestionFour': '求求你别累死我了，请减少搜索的词条的长度',
 				'Aboutresult': '大约有',
-				'aboutResult': '个搜索结果'
+				'aboutResult': '个搜索结果',
+				'preview': '冇知快照',
+				'closeBtn' : '关闭'
 	}
 };
 //function to apply language

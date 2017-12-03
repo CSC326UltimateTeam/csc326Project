@@ -2,12 +2,17 @@ import sqlite3
 import datetime
 import math
 import operator
+import os
 from itertools import permutations
 import spellingCorrection as sC
 from pyparsing import (Literal, CaselessLiteral, Word, Combine, Group, Optional,
                        ZeroOrMore, Forward, nums, alphas, oneOf)
-#from autocorrect import spell
+from depot.manager import DepotManager
+from selenium import webdriver
 
+depot = DepotManager.get()
+driver = webdriver.PhantomJS()
+driver.set_window_size(1024, 768) # set the window size that you need
 
 conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
@@ -19,6 +24,14 @@ ignored_words = set([
             'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
             'u', 'v', 'w', 'x', 'y', 'z', 'and', 'or',
         ])
+
+def webpageScreenshot(url):
+    driver.get(url)
+    currentPath = os.getcwd()
+    path = currentPath + '/static/images/screenshot/webpage.png'
+    print driver.save_screenshot(path)
+    print "screenshot saved"
+    return '/images/screenshot/webpage.png'
 
 
 def autoCorrect(wholeString):
@@ -37,10 +50,10 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
     resultNumber=0
 
     result,displayEquation = mathEquationHandler(wholeString)
-    
+
     if result != None:
         urlHtml += '<h1 style = "margin-left: 10%; margin-top: 0.5%; font-size: 20px">' + displayEquation + str(result) + '</h1>'
-    
+
     correctedString = []
     for word in wholeString.split():
         if (word in ignored_words):
@@ -139,6 +152,7 @@ def wordsearch(lower_keywords):
 
 
 def createUrl(title,url,description):
+    originalUrl = url
     if not title:
         title = url.replace("http://","")
         title = title.replace("https://","")
@@ -148,8 +162,15 @@ def createUrl(title,url,description):
         description = "No Description Available"
     if len(url) > 90:
         url = url[:91]+'...'
-    urlHtml =  '<div class="" style="margin-left:10%; margin-top:1.5%">' + '<p><a href=" ' + url +' " style="color: #1C1BA8; font-size: 18px;">'+title+'</a></p>' +'<p style="margin-top:-0.8%;font-size:12px; color:green;">'+url+'</p>'+'<p style="margin-top:-1%; font-size:13px; width:45%">'+description+'</p><p></p> </div>'
+
+    urlHtml =  '<div  style="margin-left:10%; margin-top:1.5%">' + '<p><a href=" ' + originalUrl +' " style="color: #1C1BA8; font-size: 18px;">'+title+'</a></p>' +'<p style="margin-top:-0.8%;font-size:12px; color:green;">&nbsp;&nbsp;'+url+'<div class="dropdown" style="font-size:10px; margin-top:-2.4%;margin-left:-0.5%"><span class="dropdown-toggle"  data-toggle="dropdown" onclick="linkTools()" style="color:green;">&#9668;</span>'+createLinkToolHtml(originalUrl)+'</p> <p style="margin-top:-1%; font-size:13px; width:45%">'+description+'</p><p></p> </div>'
     return urlHtml
+
+def createLinkToolHtml(url):
+    toolHtml = '<ul  class="dropdown-menu dropdown-menu-right" style="text-align:center; min-width:10px; margin-left:-6%; margin-top:-0.5%"> <li style="font-size:11px" class="screenshotBtn" key=' + url +'><a class="lang" key="preview">Preview</a></li></ul></div>'
+    return toolHtml
+
+
 
 def createUrls(data,startingIndex,resultNumber):
     #print 'starting index is' ,startingIndex
