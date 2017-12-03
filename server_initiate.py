@@ -41,7 +41,7 @@ def deployment_aws():
     #create a sucurity group called csc326-group5, as specified in the handout
     connection.delete_security_group('csc326group5')
     csc_security_group= connection.create_security_group(name ='csc326group5', description='used for csc326 lab')
-    
+
     #authorize some access of this group, so we could ssh and browes the instance later on
     csc_security_group.authorize(ip_protocol='ICMP', from_port=-1, to_port=-1, cidr_ip='0.0.0.0/0')
     csc_security_group.authorize(ip_protocol='TCP', from_port=22, to_port=22, cidr_ip='0.0.0.0/0')
@@ -68,7 +68,7 @@ def deployment_aws():
         time.sleep(2)
         running_instance.update()
     print("\nDone!")
-    time.sleep(1)
+
     print("setting up server on instance, this may take a while...")
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -83,6 +83,7 @@ def deployment_aws():
             continue
 
     print("Installing tools for the system")
+    time.sleep(5)
     stdin, stdout, stderr = client.exec_command("sudo apt-get install git -y")
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
     if exit_status == 0:
@@ -127,3 +128,4 @@ def deployment_aws():
 if __name__ == '__main__':
 
     deployment_aws()
+
