@@ -112,7 +112,9 @@ def deployment_aws():
     transport = client.get_transport()
     channel = transport.open_session()
     channel.exec_command('sudo python ~/csc326Project/srv.py > /dev/null 2>&1 &')
-
+    time.sleep(10)
+    print("it may take longer for the server to boot at the first time\nif you do not see it running right away, wait for a couple of minutes")
+    time.sleep(5)
     print("\nServer is successfully running")
     print "instance ID: ", running_instance.id
     print "ip:          ", running_instance.ip_address
