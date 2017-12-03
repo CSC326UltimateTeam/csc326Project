@@ -138,19 +138,6 @@
 
   </div>-->
 
-<div class="relatedSearch">
-  <h1 style="font-size:20px; margin-left: 10%">Searches related to</h1>
-  <table style="margin-left: 10%">
-<tr>
-  <td>blablabla</td>
-
-  <td>blablabla</td>
-</tr>
-  </table>
-
-</div>
-
-
   {{!navUrl}}
 
      <hr>

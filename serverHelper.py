@@ -12,7 +12,7 @@ from selenium import webdriver
 
 depot = DepotManager.get()
 driver = webdriver.PhantomJS()
-driver.set_window_size(1024, 768) # set the window size that you need
+driver.set_window_size(400, 320) # set the window size that you need
 
 conn = sqlite3.connect('Crawler.db')
 c = conn.cursor()
@@ -29,8 +29,7 @@ def webpageScreenshot(url):
     driver.get(url)
     currentPath = os.getcwd()
     path = currentPath + '/static/images/screenshot/webpage.png'
-    print driver.save_screenshot(path)
-    print "screenshot saved"
+    driver.save_screenshot(path)
     return '/images/screenshot/webpage.png'
 
 
@@ -44,7 +43,6 @@ def autoCorrect(wholeString):
     return newString
 
 def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
-    print "ignoreMistake", ignoreMistake
     global lastString
     urlHtml = ''
     resultNumber=0
@@ -63,9 +61,9 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
             correctedString.append(autoCorrect(word))
     correctedString = ' '.join(correctedString)
 
-    print 'correctedString is ', correctedString
+
     spellingMistake = (correctedString != wholeString)
-    print 'spellingMistake is ',spellingMistake
+
 
     lowerKeywords = correctedString.lower()
 
@@ -189,7 +187,7 @@ def createPageNavs(resultNumber,page,keywords):
       navUrl = ''
       #print 'pageNumber is ', page
       pageNumber = int(math.ceil(resultNumber/5.0))
-      print "page number is", pageNumber
+
       if pageNumber > 1:
           if page != 1:
              navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="previous">Previous</a> '

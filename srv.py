@@ -39,7 +39,6 @@ app = SessionMiddleware(bottle.app(), session_opts)
 
 @route('/screenshot', method = 'POST')
 def screenshotWebPage():
-    print "screenshot route"
     url = request.forms.get("url")
     imagepath = sh.webpageScreenshot(url)
     return imagepath
@@ -102,8 +101,6 @@ def guess_from_setence(query_words):
     sug_len = 5 if len(search_hit) > 5 else len(search_hit)
 
     max_prev = sorted(search_hit.iteritems(), key=operator.itemgetter(1), reverse=True)[:sug_len]
-    print "max prev"
-    print max_prev
     return [' '.join(query_words_mod)] + [' '.join(list_words_in_searches[sug[0]]) for sug in max_prev]
 
 
@@ -116,7 +113,6 @@ def image_net():
        os.makedirs(save_path)
    file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
    upload.save(file_path, overwrite = True)
-   print 'uploaded file at ', file_path
    redirect('/')
 
 #this lab has implemented bootstrap api (i.e. bootstrap css and bottstrap js) and jquery
@@ -174,8 +170,6 @@ def index() :
         accountName = user_document['name']
         accountEmail = user_document['email']
         userImage = user_document['picture']
-        print "user document photo is "
-        print user_document['picture']
         changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
         userInfoHtml = '<li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li>'
         LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
@@ -184,8 +178,6 @@ def index() :
     code = request.query.get('code', '')
     if code and code != lastCode:
         lastCode = code
-        print "now print code:"
-        print code
         flow = OAuth2WebServerFlow(client_id='768721561947-cda1s6rph24pem3t6h4pa3e4016ua9rk.apps.googleusercontent.com',
                                client_secret='PTU6hiaZ7CdOdthZurcYLVk6',
                                scope='https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
@@ -197,7 +189,6 @@ def index() :
         # Get user email
         users_service = build('oauth2', 'v2', http=http)
         user_document = users_service.userinfo().get().execute()
-        print user_document
         #user_email = user_document['email']
         #print user_emailss
         accountName = user_document['name']
@@ -231,7 +222,6 @@ def index() :
         ignoreMistake = 0
     if tempIgnoreMistake and not pageString:
         ignoreMistake = 1
-    print "ignoreMistake", ignoreMistake
     if not inputString:
         return template('index.tpl', accountText = accountName,
                         LogInOffHtml = LogInOffHtml, userInfoHtml = userInfoHtml,
@@ -271,9 +261,6 @@ def index() :
         else:
         #if word doesn't exist in dictionary, set one as its appearance
             dictionary[word] = 1
-    print dictionary
-    print "recent search list:"
-    print recentSearchList
     for row in dictionary:
           if row in searchHistory:
               searchHistory[row] += dictionary[row]
@@ -337,15 +324,11 @@ def changeProfilePhoto( ):
     save_path = "static/tmp"
     if not os.path.exists(save_path):
         os.makedirs(save_path)
-    print upload.filename
     file_path = "{path}/{file}".format(path=save_path, file=upload.filename)
     upload.save(file_path, overwrite = True)
-    print "path is "
-    print file_path
     s = bottle.request.environ.get('beaker.session')
     user_document = s['userDocument']
     user_document["picture"] = file_path
-    print "picture after change phto"
     s.save()
     redirect('/')
 
@@ -390,4 +373,4 @@ def errorHandler(error):
 #def errorHandler(error):
 #     return  template('otherError.tpl')
 
-run(host='localhost', port = 8080,  debug=True, reloader=True, app=app)
+run(host='0.0.0.0', port = 80,  debug=True, reloader=True, app=app)
