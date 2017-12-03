@@ -54,7 +54,7 @@ def deployment_aws():
     #create the instance with the parameters we set up, and some addtional options
     aws_instance = connection.run_instances('ami-8caa1ce4', min_count=1, max_count=1,
                   key_name='group5_permission', security_groups=['csc326group5'],
-                  addressing_type=None, instance_type='t1.micro', placement=None,
+                  addressing_type=None, instance_type='t2.micro', placement=None,
                   kernel_id=None, ramdisk_id=None, monitoring_enabled=True, subnet_id=None,
                   block_device_map=None, disable_api_termination=False, instance_initiated_shutdown_behavior=None,
                   private_ip_address=None, placement_group=None, client_token=None, security_group_ids=[csc_security_group.id],
@@ -92,8 +92,8 @@ def deployment_aws():
 
 
     print("Downloading project files...")
-    #stdin, stdout, stderr = client.exec_command("git clone https://github.com/CSC326UltimateTeam/csc326Project.git")
-    os.system('scp -i permissions/group5_permission.pem ../csc326Project ubuntu@{}:~/'.format(running_instance.ip_address))
+    stdin, stdout, stderr = client.exec_command("git clone https://github.com/CSC326UltimateTeam/csc326Project.git")
+    #os.system('scp -i permissions/group5_permission.pem ../csc326Project ubuntu@{}:~/'.format(running_instance.ip_address))
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
     if exit_status == 0:
         print("Done!\n")
@@ -112,7 +112,9 @@ def deployment_aws():
     transport = client.get_transport()
     channel = transport.open_session()
     channel.exec_command('sudo python ~/csc326Project/srv.py > /dev/null 2>&1 &')
-
+    time.sleep(10)
+    print("it may take longer for the server to boot at the first time\nif you do not see it running right away, wait for a couple of minutes")
+    time.sleep(5)
     print("\nServer is successfully running")
     print "instance ID: ", running_instance.id
     print "ip:          ", running_instance.ip_address
