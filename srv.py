@@ -1,4 +1,5 @@
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 from bottle import route, run, template, static_file, request, redirect, error, Bottle
 import operator
