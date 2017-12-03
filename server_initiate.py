@@ -92,8 +92,8 @@ def deployment_aws():
 
 
     print("Downloading project files...")
-    #stdin, stdout, stderr = client.exec_command("git clone https://github.com/CSC326UltimateTeam/csc326Project.git")
-    os.system('scp -i permissions/group5_permission.pem ../csc326Project ubuntu@{}:~/'.format(running_instance.ip_address))
+    stdin, stdout, stderr = client.exec_command("git clone https://github.com/CSC326UltimateTeam/csc326Project.git")
+    #os.system('scp -i permissions/group5_permission.pem ../csc326Project ubuntu@{}:~/'.format(running_instance.ip_address))
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
     if exit_status == 0:
         print("Done!\n")
