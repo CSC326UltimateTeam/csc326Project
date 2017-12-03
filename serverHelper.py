@@ -10,6 +10,9 @@ from pyparsing import (Literal, CaselessLiteral, Word, Combine, Group, Optional,
 from depot.manager import DepotManager
 from selenium import webdriver
 
+numberOfScreenshots = 0
+lastScreenShotPath = ''
+
 depot = DepotManager.get()
 driver = webdriver.PhantomJS()
 driver.set_window_size(400, 320) # set the window size that you need
@@ -26,11 +29,20 @@ ignored_words = set([
         ])
 
 def webpageScreenshot(url):
+    global numberOfScreenshots
+    global lastScreenShotPath
     driver.get(url)
     currentPath = os.getcwd()
-    path = currentPath + '/static/images/screenshot/webpage.png'
+    numberOfScreenshots += 1
+    filename = 'webpage'+str(numberOfScreenshots)+'.png'
+    relativePath = '/static/images/screenshot/' +filename
+    path = currentPath + relativePath
     driver.save_screenshot(path)
-    return '/images/screenshot/webpage.png'
+    print "pathname", path
+    if lastScreenShotPath != '':
+        os.remove(lastScreenShotPath)
+    lastScreenShotPath = path
+    return relativePath
 
 
 def autoCorrect(wholeString):
@@ -80,7 +92,7 @@ def searchKeyWord(keyword, wholeString, startingIndex,ignoreMistake):
         result = wordsearch(lowerKeywords)
     #print result
     if not result:
-        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p><span class="lang" key="yourSearch">Your search</span>  <strong>' +wholeString+ '</strong> <span class="lang" key="notMatching">did not match any documents</span></p><br>' + '<p class="lang" key="suggestionTitle">Suggestions:</p><li class="lang" key="suggestionOne">Make sure that all words are spelled correcly</li><li class="lang" key="suggestionTwo">Try different keywords</li><li class="lang" key="suggestionThree">Try more general keywords</li><li class="lang" key="suggestionFour">Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
+        urlHtml += '<div class="" style="margin-left: 13%; margin-top: 5%; font-size:16px;">' + '<p><span class="lang" key="yourSearch">Your search</span>  <strong>' +wholeString+ '</strong> <span class="lang" key="notMatching">did not match any documents</span></p><br>' + '<p class="lang" key="suggestionTitle">Suggestions:</p><li class="lang" key="suggestionOne">Make sure that all words are spelled correcly</li><li class="lang" key="suggestionTwo">Try different keywords</li><li class="lang" key="suggestionThree">Try more general keywords</li><li class="lang" key="suggestionFour">Try fewer keywords</li>' + '<div style="margin-left:25%; width:75%; margin-top:-20%; margin-bottom:-9%; postion:relative; z-index:100;" id="emojiAnimation"></div>'  #'<img style="margin-left:45%; width:20%; margin-top:-15%"  src="static/images/noResult.png" alt="">'
     else:
         modifiedRes = removeDuplicate(result)
         result = modifiedRes
@@ -161,7 +173,7 @@ def createUrl(title,url,description):
     if len(url) > 90:
         url = url[:91]+'...'
 
-    urlHtml =  '<div  style="margin-left:10%; margin-top:1.5%">' + '<p><a href=" ' + originalUrl +' " style="color: #1C1BA8; font-size: 18px;">'+title+'</a></p>' +'<p style="margin-top:-0.8%;font-size:12px; color:green;">&nbsp;&nbsp;'+url+'<div class="dropdown" style="font-size:10px; margin-top:-2.4%;margin-left:-0.5%"><span class="dropdown-toggle"  data-toggle="dropdown" onclick="linkTools()" style="color:green;">&#9668;</span>'+createLinkToolHtml(originalUrl)+'</p> <p style="margin-top:-1%; font-size:13px; width:45%">'+description+'</p><p></p> </div>'
+    urlHtml =  '<div  style="margin-left:10%; margin-top:1.5%">' + '<p><a href=" ' + originalUrl +' " style="color: #1C1BA8; font-size: 18px;">'+title+'</a></p>' +'<p style="margin-top:-0.8%;font-size:12px; color:green;">&nbsp;&nbsp;'+url+'<div class="dropdown" style="font-size:10px; margin-top:-2.4%;margin-left:-0.5%;position:relative; z-index:100;"><span class="dropdown-toggle"  data-toggle="dropdown" onclick="linkTools()" style="color:green; position:relative;z-index:200;">&#9668;</span>'+createLinkToolHtml(originalUrl)+'</p> <p style="margin-top:-1%; font-size:13px; width:45%">'+description+'</p><p></p> </div>'
     return urlHtml
 
 def createLinkToolHtml(url):
@@ -190,7 +202,7 @@ def createPageNavs(resultNumber,page,keywords):
 
       if pageNumber > 1:
           if page != 1:
-             navUrl = ' <div class="paging-nav" style="margin-left:8.5% ; margin-top:3%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="previous">Previous</a> '
+             navUrl = ' <div class="paging-nav" style="margin-left:8.5%"> <a href="?keywords='  +keywords +  '&page='  + str(page-1) +  '" class="pagenav lang" style="margin-left:14px; font-size:12px" key="previous">Previous</a> '
           else:
              navUrl = '<div class="paging-nav" style="margin-left:8.5%">'
           if pageNumber <= 10:

@@ -51,7 +51,11 @@ var arrLang = {
 		'aboutResult': 'results',
 		'preview': 'Preview',
 		'closeBtn' : 'Close',
-		'signOut' : 'Sign Out'
+		'signOut' : 'Sign Out',
+		'teapot': "I'm a teapot.",
+		 'wentWrong': 'Oops. Something went wrong.',
+		 'loadingText': 'A N A L Y Z I N G',
+		 'searchImage': 'Search with Image'
 	},
 	'zh': {
 		'about': '关于',
@@ -82,7 +86,11 @@ var arrLang = {
 				'aboutResult': '个搜索结果',
 				'preview': '冇知快照',
 				'closeBtn' : '关闭',
-				'signOut' : '退出'
+				'signOut' : '退出',
+				'teapot': '我是一个杯具',
+			 'wentWrong': 'oh我的上帝啊！本引擎不支持中文搜索',
+			 'loadingText': '分 析 中',
+			 'searchImage': '使用图片搜索'
 	}
 };
 //function to apply language

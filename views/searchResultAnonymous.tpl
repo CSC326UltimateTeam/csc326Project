@@ -4,6 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Expires" CONTENT="0">
+   <meta http-equiv="Cache-Control" CONTENT="no-cache">
+   <meta http-equiv="Pragma" CONTENT="no-cache">
     <title>MouZhiA Result</title>
     <link href="/static/css/bootstrap.css" rel="stylesheet">
      <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
@@ -47,8 +50,8 @@
   <h3 style="margin-top:2%; margin-left:-1%" > <a href="/" class="muted nav lang" key="productName" >MouZhiA</a></h3>
    <span class="dropdownSearchBar">
   <form class="searchResultSearchBar " action="/" method="GET" style="width:70%; margin-left:-2%">
-    <input type="text" name="keywords" value="{{keywords}}"  class="dropdown-toggl searchBar" id="keywords" data-toggle="dropdown" style="width:22%; font-size:17px" >
-    <ul  class="dropdown-menu" style="margin-top:-3.4%; text-align:left; width:220px; font-size:13px; margin-left:18%; font-size:13px">
+    <input type="text" name="keywords" value="{{keywords}}"  class="dropdown-toggl searchBar" id="keywords" data-toggle="dropdown" style="width:22%; font-size:17px; position: relative;" >
+    <ul  class="dropdown-menu" style="top: 65px;  right: 0;text-align:left; width:220px; font-size:13px; margin-left:18%; font-size:13px; position: absolute; font-family:'Courier New', Courier, monospace;">
       {{ !historyBarHtml}}
     </ul>
 </span>
@@ -57,17 +60,28 @@
 
   </form>
   <form class="imagenet" name="imagenetForm" action="/imagenet" method="POST" style="display:none" enctype="multipart/form-data">
-    <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="javascript:this.form.submit();" accept="image/*" >
+    <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="dim(); this.form.submit();" accept="image/*" >
   </form>
 
     </div>
 
-
-
-
-
-
 </div>
+
+<div class="center" style=" position: fixed;
+    /* center the element */
+    right: 0;
+    left: 0;
+    top:-100px;
+    margin-right: auto;
+    margin-left: auto;
+    /* give it dimensions */
+    min-height: 10em;
+    width: 80%; display :none ;   z-index: 100;" id="loadingAnimation"></div>
+
+
+
+
+
   <div class="resultTables" >
   <p style="color:grey; margin-left :10.2%; margin-top:1%; margin-bottom: 1%"> <span class="lang" key="Aboutresult">About</span> {{resultNumber}} <span class="lang" key="aboutResult">results</span> </p>
 <!--
@@ -181,6 +195,15 @@
         name: "Emoji Animation", // Name for future reference. Optional.
       })
 
+      var loadingAnimation = bodymovin.loadAnimation({
+        container: document.getElementById('loadingAnimation'), // Required
+        path: 'static/js/loadingResult.json', // Required
+        renderer: 'svg', // Required
+        loop: true, // Optional
+        autoplay: true, // Optional
+        name: "loadingAnimation", // Name for future reference. Optional.
+      });
+
 
       </script>
       <script src="/static/js/searchHandler.js"></script>
@@ -204,12 +227,17 @@
                  }
                  else{
                       $('.dropdownSearchBar ul').empty()
-                      $('.dropdownSearchBar ul').append('<label for="imagenet-upload"> <li style="font-size:13px; text-align:left;margin-left:3%" >Search with Image </li></label>')
+                      if(language == 'en'){
+                        $('.dropdownSearchBar ul').append('<label for="imagenet-upload"> <li style="font-size:13px; text-align:left;margin-left:4%" class="lang" key="searchImage" >Search with Image </li></label>')
+                      }else{
+                        $('.dropdownSearchBar ul').append('<label for="imagenet-upload"> <li style="font-size:13px; text-align:left;margin-left:4%" class="lang" key="searchImage" >使用图片搜索 </li></label>')
+                      }
 
                  }
             });
 
            $('.screenshotBtn').click(function(){
+             $('#loadingAnimation').show()
              $('#modalImage').attr('src','')
              console.log("screenShot");
             url = $(this).attr('key')
@@ -219,15 +247,24 @@
               method:"POST",
               data: {url:url},
               success:function(data){
+              $('#loadingAnimation').hide()
+              $('#modalImage').attr('src',data)
               $('#myModal').modal('show');
-              $('#modalImage').attr('src','/static/images/screenshot/webpage.png')
+
               }
             });
             }
            });
 
 
-       });
+        });
+
+        function dim()
+        {
+          document.getElementById("loadingAnimation").style.display = "";
+        }
+
+
        </script>
        <script type="text/javascript">
          function linkTools() {

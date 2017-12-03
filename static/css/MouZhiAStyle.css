@@ -45,6 +45,7 @@
   background:#fff;
   width:100%;
   top:0;
+  z-index: 1000;
 }
 
 .muted{
@@ -111,6 +112,8 @@ width:  11%;
 .footer {
   padding-left: 10%;
   padding-right: 10%;
+  position: relative;
+  z-index: 1000;
 }
 span.langsetting {
   float: right;

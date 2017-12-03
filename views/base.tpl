@@ -11,6 +11,7 @@
      <link rel="icon"  type="image/png" href="/static/images/searchEngineLogo.png">
   </head>
   <body onload="loadLanguage()">
+      <div id="dimmer" style="background:#000; opacity:0.5; position:fixed;   top:0; left:0; width:100%; height:100%; display:none; z-index:9999;"></div>
     <div class="container-fluid">
     <div class="container-narrow">
       <div class="masthead">
@@ -48,21 +49,26 @@
 
         <h3 class="muted lang" key="productName">MouZhiA</h3>
       </div>
+
       <div class="jumbotron">
-        <div id="engineLogo" style="width:40% ;margin-left:30%; padding-top:3%" >    </div>
+<div id="engineLogo" style="width:40% ;margin-left:30%; padding-top:3%; "  >    </div>
+<div id="loadingAnimation" style="width:80% ;margin-left:10%; margin-bottom:-23%; display:none; margin-top:-18%"  >    </div>
+<p id="analyzing" class="lang" key="loadingText" style="font-size:30px; text-align:center; color: #999999; font-weight:bold;display:none">A N A L Y Z I N G</p>
+
         <!--<img class="engineIcon" src="static/images/searchEngineLogo.png" alt="">-->
-        <form class="" action="/" method="GET">
+        <form class="" action="/" method="GET" id="searchForm" style="display:true">
           <div class="dropdown">
     <input type="text" name="keywords" value=""   class="searchBar dropdown-toggle"  data-toggle="dropdown" onkeyup="">
-    <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; font-size:19px; ">
+    <ul  class="dropdown-menu" style="margin-left: 32%; width:36%; margin-top: -0.7%; font-size:19px;  font-family:'Courier New', Courier, monospace;">
     {{ !historyBarHtml}}
+
     </ul>
           </div>
         <input type="submit" id="searchButton" value="Search" class="btn btn-primary searchButton">
         </div>
         </form>
         <form class="imagenet" name="imagenetForm" action="/imagenet" method="POST" style="display:none" enctype="multipart/form-data">
-          <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="javascript:this.form.submit();" accept="image/*" >
+          <input id="imagenet-upload"  name="imageSearch" type="file" style="display:none" onchange="dim(); this.form.submit();" accept="image/*" >
         </form>
         <!--<button class="btn btn-small btn-info lang" name="button" key="searchButton" onclick="queryHandler">Search</button>-->
         <!--  <a class="btn btn-large btn-success lang" href="addques.php" key="addNewQuestion">Search</a>-->
@@ -104,6 +110,16 @@
 <script type="text/javascript" src="/static/js/languageHandler.js"?v=1></script>
 <script type="text/javascript" src="/static/js/cookieHandler.js"></script>
 <script>
+var loadingAnimation = bodymovin.loadAnimation({
+  container: document.getElementById('loadingAnimation'), // Required
+  path: 'static/js/loadingResult.json', // Required
+  renderer: 'svg', // Required
+  loop: true, // Optional
+  autoplay: false, // Optional
+  name: "loadingAnimation", // Name for future reference. Optional.
+});
+
+loadingAnimation.play();
  $(document).ready(function(){
 
       $('.searchBar').keyup(function(){
@@ -123,7 +139,12 @@
            }
            else{
                 $('.dropdown ul').empty()
-                $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size: 19px;text-align:left;margin-left:3%" >Search with Image </li></label>')
+                if(language == 'en'){
+                  $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size: 19px;text-align:left;margin-left:4%" class="lang" key="searchImage"">Search with Image </li></label>')
+                }else{
+                  $('.dropdown ul').append('<label for="imagenet-upload"> <li style="font-size: 19px;text-align:left;margin-left:4%" class="lang" key="searchImage"">使用图片搜索 </li></label>')
+                }
+
 
            }
       });
@@ -135,6 +156,17 @@ function myFunction() {
     var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
 }
+
+function dim()
+{
+  console.log("dim");
+  animation.stop();
+  animation.destroy();
+  document.getElementById("loadingAnimation").style.display = "";
+  document.getElementById("searchForm").style.display = "none";
+  document.getElementById("analyzing").style.display = "";
+}
+
 </script>
   </body>
 </html>

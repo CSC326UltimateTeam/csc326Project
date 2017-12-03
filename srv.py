@@ -260,8 +260,8 @@ def index() :
     inputString = request.query.get('keywords')
     pageString = request.query.get('page')
     tempIgnoreMistake = request.query.get('ignoreMistake')
-    historyBarHtml = '<label for="imagenet-upload"> <li style="font-size: 19px; text-align:left;margin-left:3%" >Search with Image </li></label>'
-    resultHistoryBarHtml = '<label for="imagenet-upload"> <li style="font-size:13px; text-align:left;margin-left:3%" >Search with Image </li></label>'
+    historyBarHtml = '<label for="imagenet-upload"> <li style="font-size: 19px; text-align:left;margin-left:4%" class="lang" key="searchImage">Search with Image </li></label>'
+    resultHistoryBarHtml = '<label for="imagenet-upload"> <li style="font-size:13px; text-align:left;margin-left:4%" class="lang" key="searchImage">Search with Image </li></label>'
     if not pageString:
         page = 1
     else:
