@@ -40,8 +40,11 @@ def deployment_aws():
 
 
     #create a sucurity group called csc326-group5, as specified in the handout
-    connection.delete_security_group('csc326group5')
-    csc_security_group= connection.create_security_group(name ='csc326group5', description='used for csc326 lab')
+    try:
+        csc_security_group= connection.create_security_group(name ='csc326group5', description='used for csc326 lab')
+    except Exception:
+        pass
+    
 
     #authorize some access of this group, so we could ssh and browes the instance later on
     csc_security_group.authorize(ip_protocol='ICMP', from_port=-1, to_port=-1, cidr_ip='0.0.0.0/0')
