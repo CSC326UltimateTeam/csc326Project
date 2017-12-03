@@ -29,7 +29,7 @@ def terminate_aws():
     instanceID = raw_input("instance id to shut down>>")
 
     for instance in connection.get_only_instances():
-        if instance.id==instance.id:
+        if instance.id==instanceID:
 
             if instance.state_code!=48: #not terminated
                 try:
