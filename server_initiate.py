@@ -37,13 +37,12 @@ def deployment_aws():
     #save this permission under the permissions derectory, not committed
     ssh_key_pair.save("permissions")
     print("\ncreated a permission file for your instance, saved in the 'permissions' directory")
-
-
-    #create a sucurity group called csc326-group5, as specified in the handout
     try:
-        csc_security_group= connection.create_security_group(name ='csc326group5', description='used for csc326 lab')
+        connection.delete_security_group('csc326group5')
     except Exception:
         pass
+    csc_security_group= connection.create_security_group(name ='csc326group5', description='used for csc326 lab')
+
     
 
     #authorize some access of this group, so we could ssh and browes the instance later on
