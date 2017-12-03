@@ -2,6 +2,7 @@ def deployment_aws():
 
     import os
     import time
+    import sys
     print("Installing dependencies...")
     os.system("python -m pip install boto")
     os.system("python -m pip install paramiko")
@@ -65,6 +66,7 @@ def deployment_aws():
     running_instance=aws_instance.instances[0]
     while running_instance.state_code!=16:
         print ". ",
+        sys.stdout.flush()
         time.sleep(2)
         running_instance.update()
     print("\nDone!")
@@ -79,10 +81,12 @@ def deployment_aws():
                            key_filename='permissions/group5_permission.pem')
             break
         except Exception as er:
-            time.sleep(5)
+            print ". ",
+            sys.stdout.flush()
+            time.sleep(2)
             continue
 
-    print("Installing tools for the system")
+    print("Installing tools for the system, this takes about < 1 min")
     time.sleep(5)
     stdin, stdout, stderr = client.exec_command("sudo apt-get install git -y")
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
@@ -92,7 +96,7 @@ def deployment_aws():
         print("Error", exit_status)
 
 
-    print("Downloading project files...")
+    print("Downloading project files, this takes about < 1 min")
     stdin, stdout, stderr = client.exec_command("git clone https://github.com/CSC326UltimateTeam/csc326Project.git")
     #os.system('scp -i permissions/group5_permission.pem ../csc326Project ubuntu@{}:~/'.format(running_instance.ip_address))
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
@@ -101,7 +105,7 @@ def deployment_aws():
     else:
         print("Error", exit_status)
 
-    print("Installing dependencies")
+    print("Installing dependencies, this takes about 5 mins, please be patient")
     stdin, stdout, stderr = client.exec_command("sudo python ~/csc326Project/setup.py")
     exit_status = stdout.channel.recv_exit_status()  # Blocking call
     if exit_status == 0:
@@ -109,7 +113,7 @@ def deployment_aws():
     else:
         print("Error", exit_status)
 
-    print("initializing server")
+    print("initializing server, this takes about < 1 min")
     transport = client.get_transport()
     channel = transport.open_session()
     channel.exec_command('sudo python ~/csc326Project/srv.py > /dev/null 2>&1 &')
