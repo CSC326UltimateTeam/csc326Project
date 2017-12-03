@@ -1,6 +1,7 @@
 def terminate_aws():
     import os
     import time
+    import sys
     print("Installing dependencies...")
     os.system("python -m pip install boto")
     import boto.ec2
@@ -36,7 +37,8 @@ def terminate_aws():
                     instance.terminate()
                     print "terminating ",
                     while instance.state_code!=48:
-                        print".",
+                        print ". ",
+                        sys.stdout.flush()
                         time.sleep(2)
                         instance.update()
                     print("\ninstance {} successfully terminated".format(instanceID))
