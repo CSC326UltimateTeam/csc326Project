@@ -220,7 +220,7 @@ def index() :
         userImage = user_document['picture']
         changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
         userInfoHtml = '<li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li>'
-        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="signOut" > Sign Out </a></li>'
 
   #process google login in
     code = request.query.get('code', '')
@@ -248,7 +248,7 @@ def index() :
         s['userDocument'] = user_document
         userImage = user_document['picture']
         changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
-        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="signOut" > Sign Out </a></li>'
         userInfoHtml = '<li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li>'
         s.save()
 
@@ -402,7 +402,7 @@ def about( ):
         accountName = user_document['name']
         accountEmail = user_document['email']
         userInfoHtml = '<div class="userInfo"><li style="font-size: 20px; font-weight: bold;">' + accountName + '</li>' + '<li>' + accountEmail + '</li> <li class="divider"></li></div>'
-        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="account" > Sign Out </a></li>'
+        LogInOffHtml = '<li><a href="/signOut" class="lang btn btn-default" key="signOut" > Sign Out </a></li>'
         changePhotoHtml = '<input id="file-input"  name="profilePhoto" type="file" style="display:none" onchange="javascript:this.form.submit()" accept="image/*" >'
         userImage = user_document['picture']
     return template('about.tpl', accountText = accountName, LogInOffHtml = LogInOffHtml , userInfoHtml = userInfoHtml, userImage = userImage, changePhotoHtml=changePhotoHtml)

@@ -16,9 +16,9 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
            <li><a href="/about" class="lang" key="about" >About</a></li>
-           <li class="dropdown">
+           <li>
               <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">{{!accountText}} <b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding-left: 5px; padding-right:5px; min-width: 200px; min-height: 30px; margin-left:-120px; text-align:center;font-size:13px;">
+              <ul class="dropdown-menu" style="margin-top:-2%;min-width: 200px; margin-left:80%; min-height: 30px; text-align:center;font-size:13px;">
 
               <br>
 

@@ -10,4 +10,3 @@ os.system('sudo pip install filedepot')
 os.system('sudo pip install selenium')
 os.system('sudo apt-get install phantomjs -y')
 os.system('ssudo pip install tensorflow --no-cache-dir')
-

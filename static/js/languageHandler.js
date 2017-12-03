@@ -50,7 +50,8 @@ var arrLang = {
 		'Aboutresult' : 'About',
 		'aboutResult': 'results',
 		'preview': 'Preview',
-		'closeBtn' : 'Close'
+		'closeBtn' : 'Close',
+		'signOut' : 'Sign Out'
 	},
 	'zh': {
 		'about': '关于',
@@ -80,7 +81,8 @@ var arrLang = {
 				'Aboutresult': '大约有',
 				'aboutResult': '个搜索结果',
 				'preview': '冇知快照',
-				'closeBtn' : '关闭'
+				'closeBtn' : '关闭',
+				'signOut' : '退出'
 	}
 };
 //function to apply language
