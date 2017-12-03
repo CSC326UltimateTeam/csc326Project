@@ -54,7 +54,7 @@ def deployment_aws():
     #create the instance with the parameters we set up, and some addtional options
     aws_instance = connection.run_instances('ami-8caa1ce4', min_count=1, max_count=1,
                   key_name='group5_permission', security_groups=['csc326group5'],
-                  addressing_type=None, instance_type='t1.micro', placement=None,
+                  addressing_type=None, instance_type='t2.micro', placement=None,
                   kernel_id=None, ramdisk_id=None, monitoring_enabled=True, subnet_id=None,
                   block_device_map=None, disable_api_termination=False, instance_initiated_shutdown_behavior=None,
                   private_ip_address=None, placement_group=None, client_token=None, security_group_ids=[csc_security_group.id],
